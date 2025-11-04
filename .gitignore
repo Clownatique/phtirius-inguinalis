@@ -1,0 +1,48 @@
+config-db.toml
+# Byte-compiled files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+lib/
+lib64/
+*.egg-info/
+.dist-info/
+
+# Test and coverage reports
+.coverage
+nosetests.xml
+coverage.xml
+*.cover
+*.log
+*.pot
+*.py[cod]
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pytest
+pytest_cache/
+
+# IDE and Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# Other files
+*.DS_Store
+*.pkl
+*.html
+*.svg
+*.ipynb
+

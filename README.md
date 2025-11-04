@@ -55,15 +55,15 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 #### créer une nouvelle équipe
 
-- [ ] vue`templates/equipe/creer.html`
+- [ ] vue`templates/equipe/creation.html`
 - [ ] modèle
-- [ ] controlleur`controleurs/equipe/creer.py`
+- [ ] controlleur`controleurs/equipe/creation.py`
 
 #### lister les équipes 
 
-- [ ] vue`templates/equipe/liste.html`
+- [ ] vue`templates/equipe/lister.html`
 - [ ] modèle
-- [ ] controlleur`controleurs/equipe/liste.py`
+- [ ] controlleur`controleurs/equipe/lister.py`
 
 ### partie normale
 
@@ -71,17 +71,17 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 forms pour créer une instance partie
 
-- [ ] vue`templates/partie_simple/creer.html`
+- [ ] vue`templates/partie_simple/creation.html`
 - [ ] modèle
-- [ ] controlleur`controleurs/partie/creer.py`
+- [ ] controlleur`controleurs/partie/creation.py`
 
 #### pendant la partie
 
 La joueuse dont c’est le tour choisit un morpion de son équipe et une case libre où le placer ;
 
-- [ ] vue`templates/partie_simple/tour.html`
+- [ ] vue`templates/partie_simple/jouer.html`
 - [ ] modèle
-- [ ] controlleur`controleurs/partie/tour.py`
+- [ ] controlleur`controleurs/partie/jouer.py`
 
 En somme, c une création d'action dans la base.
 après avoir inséré l'action, vérifié si la partie est réussie. Si elle est

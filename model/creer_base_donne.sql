@@ -1,0 +1,61 @@
+DROP SCHEMA IF EXISTS morpion CASCADE;
+CREATE SCHEMA IF NOT EXISTS morpion;
+SET SEARCH_PATH TO morpion;
+
+CREATE TABLE MORPION (
+    idMORPION INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(255) NOT NULL,
+    pv INT NOT NULL,
+    mana INT NOT NULL,
+    reussite DECIMAL(5, 2) NOT NULL
+);
+
+CREATE TABLE EQUIPE (
+    idEQUIPE INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(255) NOT NULL,
+    nombre_morpion INT DEFAULT 0
+);
+
+CREATE TABLE PARTIE (
+    idPARTIE INT PRIMARY KEY AUTO_INCREMENT,
+    nom1 VARCHAR(255) NOT NULL,
+    nom2 VARCHAR(255) NOT NULL,
+    date DATETIME NOT NULL,
+    date_fin DATETIME,
+    taille_grille INT NOT NULL,
+    max_tours INT NOT NULL,
+    equipe_gagnante INT,
+    FOREIGN KEY (equipe_gagnante) REFERENCES EQUIPE(idEQUIPE)
+);
+
+CREATE TABLE INSCRITE (
+    idINSCRITE INT PRIMARY KEY AUTO_INCREMENT,
+    idPARTIE INT NOT NULL,
+    FOREIGN KEY (idPARTIE) REFERENCES PARTIE(idPARTIE)
+);
+
+CREATE TABLE JOURNAL (
+    idJOURNAL INT PRIMARY KEY AUTO_INCREMENT,
+    date_heure DATETIME NOT NULL,
+    idPARTIE INT NOT NULL,
+    action VARCHAR(255) NOT NULL,
+    FOREIGN KEY (idPARTIE) REFERENCES PARTIE(idPARTIE)
+);
+
+INSERT INTO MORPION (nom, pv, mana, reussite) VALUES
+('t1.png', 100, 50, 75),
+('t2.png', 90, 60, 80),
+('t3.png', 80, 70, 85),
+('t4.png', 70, 40, 65),
+('t5.png', 60, 30, 70),
+('t6.png', 50, 20, 65),
+('t7.png', 40, 10, 60),
+('t8.png', 30, 40, 50),
+('t9.png', 20, 30, 45),
+('t10.png', 100, 50, 75),
+('t11.png', 90, 60, 80),
+('t12.png', 80, 70, 85),
+('t13.png', 70, 40, 65),
+('t14.png', 60, 30, 70),
+('t15.png', 50, 20, 65),
+('t16.png', 40, 10, 60);
