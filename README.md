@@ -50,15 +50,15 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 #### créer une nouvelle équipe
 
-- [] vue 
-- [] modèle
-- [] controlleur 
+- [ ] vue 
+- [ ] modèle
+- [ ] controlleur 
 
 #### lister les équipes 
 
-- [] vue 
-- [] modèle
-- [] controlleur 
+- [ ] vue 
+- [ ] modèle
+- [ ] controlleur 
 
 ### partie normale
 
@@ -66,17 +66,17 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 forms pour créer une instance partie
 
-- [] vue 
-- [] modèle
-- [] controlleur 
+- [ ] vue 
+- [ ] modèle
+- [ ] controlleur 
 
 #### pendant la partie
 
 La joueuse dont c’est le tour choisit un morpion de son équipe et une case libre où le placer ;
 
-- [] vue 
-- [] modèle
-- [] controlleur
+- [ ] vue 
+- [ ] modèle
+- [ ] controlleur
 
 En somme, c une création d'action dans la base.
 après avoir inséré l'action, vérifié si la partie est réussie. Si elle est
@@ -86,9 +86,9 @@ réussie, il suffit d'afficher la page de poste partie
 
 Je pensais à une bête variation de la page "pendant la partie"
 (victoire, grille pleine, nombre de tours atteint).
-- [] vue 
-- [] modèle
-- [] controlleur
+- [ ] vue 
+- [ ] modèle
+- [ ] controlleur
 
 ### partie avancée
 
