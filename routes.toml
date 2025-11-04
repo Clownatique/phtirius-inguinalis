@@ -6,4 +6,23 @@
 [[routes]]
 url = ""
 controleur = "controleurs/accueil.py"
-template = "templates/accueil/accueil.html"
+template = "templates/partie_simple/accueil.html"
+[[routes]]
+url = "partie-simple"
+controleur = "controleurs/partie_simple/tour.html"
+template = "templates/partie_simple/jouer.py"
+[[routes]]
+url = "partie-simple/creer/"
+controleur = "controleurs/partie_simple/creer.html" # peut être utiliser deux fois le même
+template = "templates/partie_simple/jouer.py"
+[[routes]]
+url = "equipe"
+controleur = "controleurs/equipe/lister.py"
+template = "templates/equipe/liste.html"
+[[routes]]
+url = "equipe/creer"
+controleur = "controleurs/equipe/creer.py"
+template = "templates/equipe/creer.html"
+
+
+

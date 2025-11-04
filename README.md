@@ -25,7 +25,7 @@ après avoir codé:
 git add .
 git commit -m 'message' 
 ```
-pour les messages:
+format des messages
 nom de la sous/fonctionnalité codé, en précisant si il s'agit du modèle, de la vue ou du contrôlleur
 
 # phtirius-inguinalis
@@ -38,9 +38,14 @@ nom de la sous/fonctionnalité codé, en précisant si il s'agit du modèle, de 
 
 ### accueil et statistiques
 
-- [ ] Top-3 des équipes avec le plus de victoires 
-- [ ] Partie la plus rapide et celle la plus longue 
-- [ ] Nombre moyen de lignes de journalisation, pour chaque couple (mois, année).
+-  Top-3 des équipes avec le plus de victoires``
+-  Partie la plus rapide et celle la plus longue``
+-  Nombre moyen de lignes de journalisation, pour chaque couple (mois,`année).`
+
+- [ ] vue templates/accueil/accueil.html + {{ block statistiques.html`}}`
+- [ ] modèle``
+- [ ] controlleur`controleurs/accueil/accueil.py`
+
 
 le controleur accueil ne gère pour l'instant pas grand chose
 il utilise un système de bloque pour scinder les statistiques en deux
@@ -50,15 +55,15 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 #### créer une nouvelle équipe
 
-- [ ] vue 
+- [ ] vue`templates/equipe/creer.html`
 - [ ] modèle
-- [ ] controlleur 
+- [ ] controlleur`controleurs/equipe/creer.py`
 
 #### lister les équipes 
 
-- [ ] vue 
+- [ ] vue`templates/equipe/liste.html`
 - [ ] modèle
-- [ ] controlleur 
+- [ ] controlleur`controleurs/equipe/liste.py`
 
 ### partie normale
 
@@ -66,29 +71,30 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 forms pour créer une instance partie
 
-- [ ] vue 
+- [ ] vue`templates/partie_simple/creer.html`
 - [ ] modèle
-- [ ] controlleur 
+- [ ] controlleur`controleurs/partie/creer.py`
 
 #### pendant la partie
 
 La joueuse dont c’est le tour choisit un morpion de son équipe et une case libre où le placer ;
 
-- [ ] vue 
+- [ ] vue`templates/partie_simple/tour.html`
 - [ ] modèle
-- [ ] controlleur
+- [ ] controlleur`controleurs/partie/tour.py`
 
 En somme, c une création d'action dans la base.
 après avoir inséré l'action, vérifié si la partie est réussie. Si elle est
 réussie, il suffit d'afficher la page de poste partie
+donc c un form + une insertion + verification de si le coup n'est pas illégal
 
 #### post partie
 
 Je pensais à une bête variation de la page "pendant la partie"
 (victoire, grille pleine, nombre de tours atteint).
-- [ ] vue 
+- [ ] vue`templates/partie/resultat.html`
 - [ ] modèle
-- [ ] controlleur
+- [ ] controleur`templates/partie_simple/resultat.py`
 
 ### partie avancée
 
