@@ -7,10 +7,3 @@
 url = ""
 controleur = "controleurs/accueil.py"
 template = "templates/accueil/accueil.html"
-
-[[routes]]
-url=""
-controleur = "controleurs/accueilstatistiques.py"
-template = "templates/accueil/statistiques.html"
-
-

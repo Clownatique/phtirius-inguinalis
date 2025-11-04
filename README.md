@@ -1,18 +1,43 @@
-# Instructions pour coder
+# Instructions pour un espace de travail
+
+à faire avant de clone le repo (car il manque le serveur !)
 
 ```bash
 curl https://perso.liris.cnrs.fr/fabien.duchateau/ens/BDW/tp/bdw-server.zip --output bdw.zip
+mkdir nom_espace
+python -m venv espace
+source espace/bin/activate
+cd websites
+git clone git@github.com:Clownatique/phtirius-inguinalis.git
+cd phtirius-inguinalis
 ```
 
+à faire avant de coder: 
+
+```bash
+#on suppose donc être dans phtirius-inguinalis
+git pull
+```
+
+après avoir codé:
+
+```bash
+git add .
+git commit -m 'message' 
+```
+pour les messages:
+nom de la sous/fonctionnalité codé, en précisant si il s'agit du modèle, de la vue ou du contrôlleur
+
 # phtirius-inguinalis
+
 
 
 ## Fonctionnalité 1 : accueil et statistiques
 Concevez la page d’accueil de votre site. Personnalisez-la comme vous le souhaitez (e.g., objectifs du site, tutoriel).
 
-Nombre d’instances pour 3 tables de votre choix ;
-- [ ] Top-3 des équipes avec le plus de victoires ;
-- [ ] Partie la plus rapide et celle la plus longue ;
+Nombre d’instances pour 3 tables de votre choix 
+- [ ] Top-3 des équipes avec le plus de victoires 
+- [ ] Partie la plus rapide et celle la plus longue 
 - [ ] Nombre moyen de lignes de journalisation, pour chaque couple (mois, année).
 
 le controleur accueil ne gère pour l'instant pas grand chose
