@@ -1,0 +1,9 @@
+MORPION: image, _nom, pv, mana, reussite
+POSSEDER, 68 MORPION, 11 EQUIPE
+EQUIPE: _nom
+
+JOUER, 0N EQUIPE, 22 PARTIE
+
+PARTIE: idP, nom1, nom2, date, date_fin, taille_grille, max_tours, equipe_gagnate
+INSCRITE, 11 PARTIE, 0N JOURNAL: date
+JOURNAL: date_heure, _idP, action
