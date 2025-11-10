@@ -1,9 +1,11 @@
-MORPION: image, _nom, pv, mana, reussite
-POSSEDER, 68 MORPION, 11 EQUIPE
-EQUIPE: _nom
+INSCRITE, 1n PARTIE, _11 JOURNAL
+PARTIE : idP, date_debut, date_fin, id_equipe_gagnante, taille_grille, nb_max_tours, date_config
+:
 
-JOUER, 0N EQUIPE, 22 PARTIE
+JOURNAL : num_action,_idP, date_action, texte_action
+JOUER, 0n EQUIPE, 22 PARTIE : nom1, couleur1, nom2, couleur2
+MORPION : idM, nomM, image, pv, attaque, mana, reussite
 
-PARTIE: idP, nom1, nom2, date, date_fin, taille_grille, max_tours, equipe_gagnate
-INSCRITE, 11 PARTIE, 0N JOURNAL: date
-JOURNAL: date_heure, _idP, action
+:
+EQUIPE : nom, _couleur, date_creation
+POSSEDER, 0n MORPION, 68 EQUIPE
