@@ -32,7 +32,7 @@ nom de la sous/fonctionnalité codé, en précisant si il s'agit du modèle, de 
 
 ## entité association 
 
-![Diagramme entité association de la base de donné](rendu/schema-ea.svg)
+![Diagramme entité association de la base de donné](https://www.mocodo.net/?mcd=eNpFkMFugzAMhu95Cj-AD4PDNPVWbRyYVmDQniMXUhQJnBaSqo9fFzJ2Sfz_lvN_Tl40n3V-zBAShmpfH3MpdZLAd3mqi_2PWj3Yge0qhI680Z05Bx_ri2WUlja3YK9G99QzsTcInuwwiDG9LgQ-65Ee2rswzXG0dXyxvdopFbMkhMOoqfXWMer_wOiAN49NvYayGuGNIfs95ZVgpylstOzGBKF1YTBhkkp0uulUHcq6ystiWeuwdOW0I_WCer0jkPd0CyJGYkKYTJhn640S2jVtjZCvik_-7TQZWuiqsmmyrwgY0xDePyKsegLfFnc5)
 
 ## fonctionnalités
 
