@@ -1,0 +1,7 @@
+PARTIE(_idP_, date\_debut, date\_fin, #nom, #couleur, _#nom1_, _#couleur1_,_#nom2_,_#couleur2_) 
+JOURNAL(_idJ_,#_idP_, dateJ,texteJ) 
+JOUER(_#idP_, _nom_, _couleur_) 
+POSSEDER(#nom, #couleur, _#idM_,ATK,PV,MANA,REU) 
+MORPION(_idM_, nomM,imageM,PV,ATK,MANA,REU) 
+EQUIPE(_nom_,_couleur_,date\_creation) 
+INSCRITE(#idP, #idJ)
