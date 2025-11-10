@@ -36,7 +36,7 @@ nom de la sous/fonctionnalité codé, en précisant si il s'agit du modèle, de 
 
 ## fonctionnalités
 
-### accueil et statistiques
+### accueil et statistiques (nestor)
 
 -  Top-3 des équipes avec le plus de victoires``
 -  Partie la plus rapide et celle la plus longue``
@@ -53,13 +53,13 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 - [ ] faire le script pour remplir la bdd avec les morpions (avec les images)
 
-#### créer une nouvelle équipe
+#### créer une nouvelle équipe (nestor)
 
 - [ ] vue`templates/equipe/creation.html`
 - [ ] modèle
 - [ ] controlleur`controleurs/equipe/creation.py`
 
-#### lister les équipes 
+#### lister les équipes (flora)
 
 - [ ] vue`templates/equipe/lister.html`
 - [ ] modèle
@@ -67,7 +67,7 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 ### partie normale
 
-#### pré partie
+#### pré partie (flora)
 
 forms pour créer une instance partie
 

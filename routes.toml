@@ -13,8 +13,8 @@ controleur = "controleurs/partie_simple/jouer.py"
 template = "templates/partie_simple/jouer.html"
 [[routes]]
 url = "partie-simple/creer"
-controleur = "controleurs/partie_simple/creation.py" # peut être utiliser deux fois le même
-template = "templates/partie_simple/creation.html"
+controleur = "controleurs/partie_simple/creer.py" # peut être utiliser deux fois le même
+template = "templates/partie_simple/creer.html"
 [[routes]]
 url = "equipe"
 controleur = "controleurs/equipe/lister.py"
