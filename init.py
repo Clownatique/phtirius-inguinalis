@@ -18,5 +18,5 @@ try:
 except Exception as e:
     print(f"Erreur lors de la lecture du fichier: {e}")
 print(config)
-connexion = get_connexion(config['POSTGRESQL_SERVER'],config['POSTGRESQL_USER'],config['POSTGRESQL_PASSWORD'],config['POSTGRESQL_DATABASE'],'schema')
+connexion = get_connexion(config['POSTGRESQL_SERVER'],config['POSTGRESQL_USER'],config['POSTGRESQL_PASSWORD'],config['POSTGRESQL_DATABASE'],'morpion')
 SESSION['CONNEXION'] = connexion
