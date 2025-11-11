@@ -42,13 +42,13 @@ il est dispo ici [schema\_relationnel](rendu/schema_relationnel.md)
 
 ### accueil et statistiques (nestor)
 
--  Top-3 des équipes avec le plus de victoires``
--  Partie la plus rapide et celle la plus longue``
--  Nombre moyen de lignes de journalisation, pour chaque couple (mois,`année).`
+-  Top-3 des équipes avec le plus de victoires
+-  Partie la plus rapide et celle la plus longue
+-  Nombre moyen de lignes de journalisation, pour chaque couple (mois,année).
 
-- [ ] vue templates/accueil/accueil.html + {{ block statistiques.html`}}`
-- [ ] modèle``
-- [ ] controlleur`controleurs/accueil/accueil.py`
+- [ ] vue `templates/accueil/accueil.html + {{ block statistiques.html}}`
+- [ ] modèle
+- [ ] controlleur `controleurs/accueil/accueil.py`
 
 
 le controleur accueil ne gère pour l'instant pas grand chose
@@ -59,13 +59,13 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 #### créer une nouvelle équipe (nestor)
 
-- [ ] vue`templates/equipe/creation.html`
+- [ ] vue `templates/equipe/creation.html`
 - [ ] modèle
-- [ ] controlleur`controleurs/equipe/creation.py`
+- [ ] controlleur `controleurs/equipe/creation.py`
 
 #### lister les équipes (flora)
 
-- [ ] vue`templates/equipe/lister.html`
+- [ ] vue `templates/equipe/lister.html`
 - [ ] modèle
 - [ ] controlleur`controleurs/equipe/lister.py`
 
@@ -75,17 +75,22 @@ il utilise un système de bloque pour scinder les statistiques en deux
 
 forms pour créer une instance partie
 
-- [ ] vue`templates/partie_simple/creation.html`
+- [ ] vue `templates/partie_simple/creation.html`
 - [ ] modèle
-- [ ] controlleur`controleurs/partie/creation.py`
+- [ ] controlleur `controleurs/partie/creation.py`
 
 #### pendant la partie
 
 La joueuse dont c’est le tour choisit un morpion de son équipe et une case libre où le placer ;
 
-- [ ] vue`templates/partie_simple/jouer.html`
+es noms et prénoms du binôme ;
+– un résumé des fonctionnalités implémentées (e.g., sous forme de liste ou tableau) ;
+– le diagramme entité/association ;
+– des captures d’écran annotées de votre site.
+
+- [ ] vue `templates/partie_simple/jouer.html`
 - [ ] modèle
-- [ ] controlleur`controleurs/partie/jouer.py`
+- [ ] controlleur `controleurs/partie/jouer.py`
 
 En somme, c une création d'action dans la base.
 après avoir inséré l'action, vérifié si la partie est réussie. Si elle est
@@ -96,25 +101,21 @@ donc c un form + une insertion + verification de si le coup n'est pas illégal
 
 Je pensais à une bête variation de la page "pendant la partie"
 (victoire, grille pleine, nombre de tours atteint).
-- [ ] vue`templates/partie/resultat.html`
+
+- [ ] vue `templates/partie/resultat.html`
 - [ ] modèle
-- [ ] controleur`templates/partie_simple/resultat.py`
+- [ ] controleur `templates/partie_simple/resultat.py`
 
 ### partie avancée
 
-Il faut donc réutiliser le même schéma 
+Il faudrait réutiliser les mêmes pages pour éviter la redondance
+j'ai oublié de rajouter l'action `poser` dans le schéma ci dessous
+
+![schéma des actions possible pour un tour](schema_tour.jpg)
 
 ### Préparation des livrables
-- [ ] Une archive de votre site web, en zip ou rar (colonne archive_projet), qui contient a-minima :
-– le répertoire de votre site (code complet, commenté et indenté, respectant l’arborescence de la section
-2 et incluant votre fichier de configuration config.toml) ;
-– les fichiers de conception de la BD, i.e., le diagramme entité/association (format png ou pdf), le
-schéma relationnel sous forme textuelle (format txt, pdf, html, ou markdown) et le script SQL
-exécutable de création de votre base de données avec des instances en nombre suffisant (format txt
-ou sql).
-- [ ] Une affiche en pdf, de 1 page maximum (colonne affiche_projet). notamment pour harmoniser
-Sur cette affiche (au style graphique libre), vous mettrez :
-– les noms et prénoms du binôme ;
-– un résumé des fonctionnalités implémentées (e.g., sous forme de liste ou tableau) ;
-– le diagramme entité/association ;
-– des captures d’écran annotées de votre site.
+
+ce qui concerne le livrable se trouve dans [ce dossier](rendu/README.md)
+
+
+

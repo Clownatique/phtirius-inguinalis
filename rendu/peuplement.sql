@@ -1,2 +1,16 @@
-INSERT INTO morpion () VALUES(1, 'miel de Provence', 'lavande', 'IGP', 2005);
-
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t1.png', 5, 5, 3, 2);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t2.png', 4, 4, 5, 2);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t3.png', 6, 3, 4, 2);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t4.png', 3, 6, 4, 2);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t5.png', 2, 3, 5, 5);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t6.png', 7, 4, 2, 2);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t7.png', 3, 5, 5, 2);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t8.png', 4, 2, 6, 3);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t9.png', 2, 2, 5, 6);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t10.png', 5, 5, 5, 0);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t11.png', 6, 6, 0, 3);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t12.png', 0, 7, 5, 3);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t13.png', 3, 7, 5, 0);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t14.png', 8, 2, 5, 0);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t15.png', 7, 0, 8, 0);
+INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t16.png', 5, 5, 5, 0);
