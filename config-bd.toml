@@ -1,5 +1,0 @@
-POSTGRESQL_SERVER = "bd-pedago.univ-lyon1.fr"
-POSTGRESQL_USER = "p2414150"  # à remplacer par votre numéro étudiant
-POSTGRESQL_PASSWORD = "Bootie#Deeply_34"  # à remplacer par le mot de passe fourni dans Tomuss (pas votre mot de passe UCBL !)
-POSTGRESQL_DATABASE = "p2414150"  # à remplacer par votre numéro étudiant
-POSTGRESQL_SCHEMA = "public"  # à remplacer par le nom du schéma contenant vos tables (public, tp1, series, ...)
