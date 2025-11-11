@@ -1,3 +1,4 @@
+#config de la bd
 config-db.toml
 # Byte-compiled files
 __pycache__/
