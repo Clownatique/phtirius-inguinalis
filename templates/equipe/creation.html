@@ -1,0 +1,36 @@
+<form method="post" action="">
+  <!--couleur-->
+  <fieldset>
+    <legend>Choisissez la couleur de votre équipe</legend>
+    <label for="couleur"></label>
+    <input type="couleur" name="couleur" id="couleur" required></input>
+    <br />
+  </fieldset>
+  <!--nom-->
+  <fieldset>
+    <legend>Choisissez le nom de votre équipe</legend>
+    <label for="nom"></label>
+    <input type="nom" name="nom" id="nom" required></input>
+  </fieldset>
+  <br />
+
+  <fieldset>
+    <legend>Choisissez vos morpions</legend>
+      <select size=7 multiple>
+        {% for morpion in REQUEST_VARS["liste_morpion"] %}
+          <option value="{{morpion[0]}}"
+                  style="background-image:url(/static/img/img-morpions/{{morpion[0]}}">
+            <!--mettre l'idM dans value-->
+            <!--Donc le rajouter dans contrôleur-->
+            <p>
+              PV={{morpion[1]}}
+              ATK={{morpion[2]}}
+              MANA={{morpion[3]}}
+              REU={{morpion[4]}}
+            </p>
+          </option>
+        {% endfor %}
+      </select>
+  </fieldset>
+  <button type="submit">Créer l'équipe</button>
+</form>
