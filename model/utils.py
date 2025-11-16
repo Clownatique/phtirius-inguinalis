@@ -19,4 +19,3 @@ def requete_simple(connexion):
         except psycopg.Error as e:
             print(f"Error : {e}")
             return None
-

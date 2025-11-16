@@ -14,7 +14,7 @@ SET SEARCH_PATH TO morpion;
 
 CREATE TABLE MORPION (
     PRIMARY KEY (nomM),
-    nom VARCHAR(255) NOT NULL,
+    nomM VARCHAR(255) NOT NULL,
     pv INT NOT NULL,
     mana INT NOT NULL,
     reussite DECIMAL(5, 2) NOT NULL
