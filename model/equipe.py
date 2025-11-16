@@ -1,5 +1,15 @@
-from utils import insert_requete
-from utils import select_requete
+# from .utils import insert_requete
+# from .utils import select_requete
+import psycopg
+
+def liste_equipes(connexion) -> dict:
+    with connexion.cursor() as cursor:
+        try:
+            cursor.execute('SELECT * FROM equipe')
+            result = cursor.fetchall()
+            return result
+        except psycopg.Error as e:
+            return e
 
 def liste_morpion(connexion) -> dict:
     with connexion.cursor() as cursor:
@@ -16,7 +26,7 @@ def insertion_equipe(connexion) -> dict:
     ""
     with connexion.cursor() as cursor:
         try:
-            cursor.execute(f"""INSERT INTO equipe values ({POST["nom"]},{POST[]},{})""") 
+            cursor.execute(f"""INSERT INTO equipe values({POST["nom"]},{POST["couleur"]})""") 
             # évidemment grosse faille spatio temporelle de l'espace j'ai
             # jamais vu ça
         except psycopg.Error as e:
@@ -25,7 +35,8 @@ def insertion_equipe(connexion) -> dict:
 def insertion_posseder(connexion, equipe_dict) -> int:
     with connexion.cursor() as cursor:
         try:
-            cursor.execute(f"""INSERT INTO posseder values ({POST["nom"]},{POST[]},{})""") 
+            cursor.execute(f"""INSERT INTO posseder values
+                           ({POST["nom"]},{POST["couleur"]},{POST["idM"]})""") 
             # évidemment grosse faille spatio temporelle de l'espace j'ai
             # jamais vu ça
         except psycopg.Error as e:
