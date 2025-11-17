@@ -1,7 +1,7 @@
-from bdw import get_db_connector
+from psycopg import sql
 
 def get_liste_equipes():
-  connexion = get_db_connector()
+  connexion = 
   cur = connexion.cursor()
   
   #on récupère le nom de l'équipe, sa couleur et sa date de création (trié par nom alphabétique ?) :
@@ -42,5 +42,6 @@ def get_liste_equipes():
   return liste_equipes
     
   
+
 
 
