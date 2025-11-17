@@ -13,7 +13,14 @@ def get_liste_equipes():
   
   equipes_data = cur.fetchall(); #récupère les résultat sous forme d'une liste de tuples
   liste_equipes = []
-  for (nom, couleur, date_crea) in equipes_data : 
+
+
+  #on parcours toutes les équipes
+  for equipe in equipes_data : 
+    nom = equipe[0]
+    couleur = equipe[1]
+    date_crea = equipe[2]
+    
     #on récupère tous les morpions pour cette équipe
     cur.execute("""
                 SELECT m.nomM
@@ -21,11 +28,19 @@ def get_liste_equipes():
                 WHERE p.nomE = %s AND p.couleurE = %s
                 ORDER BY m.nomM;
                 """, (nom, couleur))
-    
-    morpions = [ligne[0] for ligne in cur.fetchall()]
-    liste_equipes.append({"info": f"Equipe : {nom} - Couleur : {couleur} - Créée le {date_crea}",
-                          "morpions": morpions})
+    result = cur.fetchall()
+
+    morpions = [] # Créer une liste vide pour stocker les noms des morpions
+    for ligne in result : 
+      morpions.append(ligne[0])  # ligne[0] contient le nom du morpion
+    # Créer un dictionnaire pour l'équipe
+    equipe_dict = {}
+    equipe_dict["info"] = "Equipe : " + nom + " - Couleur : " + couleur + " - Créée le " + str(date_crea)
+    equipe_dict["morpions"] = morpions
+    liste_equipes.append(equipe_dict)
+
   return liste_equipes
     
   
+
 
