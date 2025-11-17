@@ -1,5 +1,17 @@
 {% if REQUEST_VARS['tentative_creation_equipe'] == True%}
   <p>Nous traitons votre demande</p>
+  {% if REQUEST_VARS['err_couleur_format'] %}
+
+  {% endif %}
+  {% if REQUEST_VARS['err_nombre_morpion'] %}
+
+  {% endif %}
+  {% if REQUEST_VARS['err_couleur_indisponible'] %}
+
+  {% endif %}
+  {% if REQUEST_VARS['err_nom_indisponible'] %}
+
+  {% endif %}
 {% endif %}
 
 <form method="post" action="">

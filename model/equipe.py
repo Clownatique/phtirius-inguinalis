@@ -2,6 +2,16 @@
 # from .utils import select_requete
 import psycopg
 
+def noms_pris() -> list:
+    with connexion.cursor() as cursor:
+        try:
+            cursor.execute('SELECT * FROM equipe')
+            result = cursor.fetchall()
+            return result
+        except psycopg.Error as e:
+            return e
+
+
 def liste_equipes(connexion) -> dict:
     with connexion.cursor() as cursor:
         try:
@@ -20,6 +30,16 @@ def liste_morpion_une_equipe(connexion,nom,couleur):
             print(requete)
             cursor.execute(requete)
             return cursor.fetchall()
+        except psycopg.Error as e:
+            return e
+
+def couleur_prises(connexion, couleur:str) -> bool:
+     with connexion.cursor() as cursor:
+        try:
+            requete = f'''SELECT couleur FROM equipe'''
+            print(requete)
+            result = cursor.execute(requete)
+            return result
         except psycopg.Error as e:
             return e
 
