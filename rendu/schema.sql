@@ -12,8 +12,7 @@ CREATE TABLE Equipe(
 );
 
 CREATE TABLE Morpion(
-    PRIMARY KEY (idM),
-    idM INTEGER NOT NULL,
+    idM SERIAL PRIMARY KEY,
     nomM VARCHAR(30),
     image VARCHAR(90),
     PV  INTEGER,
@@ -28,7 +27,7 @@ CREATE TABLE Posseder(
     FOREIGN KEY (nomE, couleurE) REFERENCES Equipe(nomE, couleurE),
     idM INTEGER NOT NULL, -- clé étrangère
     nomE VARCHAR(16) NOT NULL, -- clé étrangère
-    couleurE VARCHAR(6) NOT NULL -- clé étrangère
+    couleurE VARCHAR(6) NOT NULL, -- clé étrangère
     PV  INTEGER,
     ATK INTEGER,
     MANA INTEGER,
@@ -54,14 +53,14 @@ CREATE TABLE Journal(
 );
 
 CREATE TABLE Jouer(
-    PRIMARY KEY (idP, nomE, couleurE),
+    PRIMARY KEY (idP),
     FOREIGN KEY(idP) REFERENCES Partie(idP),
     FOREIGN KEY(nomE1, couleurE1) REFERENCES Equipe(nomE, couleurE),
     FOREIGN KEY(nomE2, couleurE2) REFERENCES Equipe(nomE, couleurE),
     idP INTEGER NOT NULL,
     couleurE1 VARCHAR(6), -- deux clés étrangères*
     nomE1 VARCHAR(16), 
-    couleurE2 VARCHAR(6):
+    couleurE2 VARCHAR(6),
     nomE2 VARCHAR(16)
 );
 
@@ -69,9 +68,9 @@ CREATE TABLE Jouer(
 --- INSERTION FICTIVE DE DONNEES DANS LES TABLES
 
 -- EQUIPES
-INSERT INTO Equipe VALUES
-('Tigers', 1, '2024-12-01'),
-('Dragons', 2, '2025-01-12');
+INSERT INTO Equipe (nome,couleure,date_creation) VALUES
+('Tigers', 'ececec', '2024-12-01'),
+('Dragons', 'dadada', '2025-01-12');
 
 -- MORPIONS
 INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t1.png', 5, 5, 3, 2);
@@ -91,19 +90,14 @@ INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t14.png', 8, 2, 5, 0);
 INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t15.png', 7, 0, 8, 0);
 INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t16.png', 5, 5, 5, 0);
 -- POSSEDER
-INSERT INTO Posseder VALUES
-(1, 'Tigers', 1),
-(2, 'Tigers', 1),
-(3, 'Dragons', 2);
+INSERT INTO Posseder (idm, nome, couleure) VALUES
+(1, 'Tigers', 'ececec'),
+(2, 'Tigers', 'ececec'),
+(3, 'Dragons', 'dadada');
 
 -- PARTIE
 INSERT INTO Partie VALUES
 (100, '2025-02-10', NULL, 20, 3);
-
--- JOUER (deux équipes dans la partie)
-INSERT INTO Jouer VALUES
-(100, 'Tigers', 1),
-(100, 'Dragons', 2);
 
 -- JOURNAL
 INSERT INTO Journal VALUES

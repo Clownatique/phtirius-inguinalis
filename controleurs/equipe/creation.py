@@ -17,55 +17,60 @@ def verif_nombre_morpion(equipe_dict:dict) -> int:
      # plus de 8 : positif
      # moins de 6 : négativ
     """
+    if 'morpion' not in equipe_dict:
+        return 6
     nombre_morpion = len(equipe_dict['morpion'])
     return max(0, min(nombre_morpion - 8, 6 - nombre_morpion))
+
+def couleur_est_pris(equipe_dict:dict) -> list: # de tuples
+    couleur_voulu = equipe_dict['couleur']
+    liste_coul_prises = []
+    for i in couleur_prises(connexion):
+        liste_coul_prises.append(i[0])
+    return couleur_voulu in liste_coul_prises
+
 
 def verif_nom_pris(equipe_dict:dict) -> bool :
     """
     Vérifie la disponibilité du nom d'équipe soumis
     Renvoie vrai si pris, faux si pas pris
     """
-    nom_pris = noms_pris()
-    couleur = equipe_dict['couleur']
-    return couleur in nom_pris
-    
+    liste_coul_prises = [ i[0] for i in noms_pris(connexion) ]
+    print("jul")
+    print(equipe_dict['nom'] in liste_coul_prises)
+    return equipe_dict['nom'] in liste_coul_prises
+
 def couleur_format(equipe_dict:dict) -> bool:
-    couleur = equipe_dict['couleur']
-    regex = r'^#[0-9a-fA-F]{6}$'
+    couleur = equipe_dict['couleur'][0]
+    regex = r'[0-9a-fA-F]{6}$'
     return bool(re.match(regex, couleur)) # j'ai utilisé de l'ia ici
 
 if POST != {}: # Si l'utilisateur a rentré le formulaire
-    print('la lumiere fut')
-    # pour afficher l'encart avec le message de réussite de l'envoie du form
     REQUEST_VARS['tentative_creation_equipe'] = True
+    # pour réafficher dans le form
     REQUEST_VARS['couleurE'] = POST['couleur'][0]
     REQUEST_VARS['nomE'] = POST['nom'][0] 
     # appel aux fonctions de vérif
-
-    dispo_couleur = couleur_prises(SESSION['CONNEXION'],POST)
+    dispo_couleur = couleur_est_pris(POST)
     dispo_nom = verif_nom_pris(POST)
     nombre_morpion = verif_nombre_morpion(POST)
     couleur_format = couleur_format(POST)
     # déf des messages d'erreur côté utilisateur
+    REQUEST_VARS['err_couleur_format'] = not(couleur_format)
+    REQUEST_VARS['err_nom_indisponible'] = dispo_nom
+    
+    REQUEST_VARS['err_couleur_indisponible']= dispo_couleur
     print(nombre_morpion)
-    if couleur_format != True:
-        REQUEST_VARS['err_couleur_format'] = False
-    if dispo_couleur or dispo_nom:
-        REQUEST_VARS['err_nom_indisponible'] = dispo_nom
-        REQUEST_VARS['err_couleur_indisponible']= dispo_couleur
-
-    if nombre_morpion != None: 
-        if nombre_morpion > 0:
-            REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en trop.Enlevez en de votre équipe"""
-        elif nombre_morpion < 0:
-            REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en moins. Rajoutez en de votre équipe"""
-        else:
-            print("erreur : valeur de renvoi de verif_nombre_morpionincohérente")
-            #j'ai oublié comment on assert
+    if nombre_morpion > 0:
+        print("test")
+        REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en trop.Enlevez en de votre équipe"""
+    elif nombre_morpion < 0:
+        REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en moins. Rajoutez en de votre équipe"""
+    else:
+        print("à priori c bon")
 
     # si tout est bon, on essaie d'entrer l'équipe en esperant que postgre
     # lache pas
-
     try:
         equipe_insertion()
         posseder_insertion()

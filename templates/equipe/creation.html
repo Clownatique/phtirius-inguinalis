@@ -1,16 +1,14 @@
 {% if REQUEST_VARS['tentative_creation_equipe'] == True%}
   <p>Nous traitons votre demande</p>
-  {% if REQUEST_VARS['err_couleur_format'] %}
-
+  {% if REQUEST_VARS['err_couleur_format'] == True %}
+    <p>Pb de couleur</p>
   {% endif %}
-  {% if REQUEST_VARS['err_nombre_morpion'] %}
-
+  <p>{{REQUEST_VARS['err_nombre_morpion']}}</p>
+  {% if REQUEST_VARS['err_couleur_indisponible'] == True %}
+    <p>Couleur indisponible</p>
   {% endif %}
-  {% if REQUEST_VARS['err_couleur_indisponible'] %}
-
-  {% endif %}
-  {% if REQUEST_VARS['err_nom_indisponible'] %}
-
+  {% if REQUEST_VARS['err_nom_indisponible'] == True %}
+    <p>{{REQUEST_VARS['err_nom_indisponible']}} - Nom indisponible</p>
   {% endif %}
 {% endif %}
 
@@ -34,7 +32,7 @@
     <legend>Choisissez vos morpions</legend>
       <select size=7 name="morpion" multiple>
         {% for morpion in REQUEST_VARS["liste_morpion"] %}
-          <option value="{{morpion[0]}}" name="morpion" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[0]}}" >
+          <option value="{{morpion[0]}}" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[0]}}" >
             <!--mettre l'idM dans value-->
             <!--Donc le rajouter dans contrôleur-->
             <p>
