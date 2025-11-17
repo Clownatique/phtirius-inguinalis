@@ -1,3 +1,4 @@
+psycopg import sql
 from datetime import datetime
 
 def creer_partie(connexion, nomE1, couleurE1, nomE2, couleurE2):
