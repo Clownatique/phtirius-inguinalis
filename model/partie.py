@@ -11,7 +11,7 @@ def creer_partie(connexion, nomE1, couleurE1, nomE2, couleurE2):
     idP=cur.fetchone()[0]
     connexion.close()
     cur.close()
-    return id
+    return idP
   except psycopg.Error as e:
     return e
 
