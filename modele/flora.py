@@ -11,7 +11,7 @@ def get_liste_equipes():
               ORDER BY nomE; 
               """) 
   
-  equipes_data = cur.fetchall(); #données brutes des équipes
+  equipes_data = cur.fetchall(); #récupère les résultat sous forme d'une liste de tuples
   liste_equipes = []
   for (nom, couleur, date_crea) in equipes_data : 
     #on récupère tous les morpions pour cette équipe
@@ -28,3 +28,4 @@ def get_liste_equipes():
   return liste_equipes
     
   
+
