@@ -23,6 +23,9 @@ template = "templates/equipe/lister.html"
 url = "equipe/creer"
 controleur = "controleurs/equipe/creation.py"
 template = "templates/equipe/creation.html"
-
+[[routes]]
+url = "[0-9]/"
+controleur = "controleurs/equipe/creation.py"
+template = "templates/equipe/creation.html"
 
 

@@ -8,18 +8,18 @@ CREATE TABLE Equipe(
     PRIMARY KEY (nomE, couleurE),
     nomE VARCHAR(16) NOT NULL,
     couleurE INTEGER NOT NULL,
-    date_creation DATE,
+    date_creation DATE
 );
 
 CREATE TABLE Morpion(
     PRIMARY KEY (idM),
     idM INTEGER NOT NULL,
-    nomM VARCHAR(30);
+    nomM VARCHAR(30),
     image VARCHAR(90),
     PV  INTEGER,
     ATK INTEGER,
     MANA INTEGER,
-    REU INTEGER,
+    REU INTEGER
 );
 
 CREATE TABLE Posseder(
@@ -28,11 +28,7 @@ CREATE TABLE Posseder(
     FOREIGN KEY (nomE, couleurE) REFERENCES Equipe(nomE, couleurE),
     idM INTEGER NOT NULL, -- clé étrangère
     nomE VARCHAR(16) NOT NULL, -- clé étrangère
-    couleurE INTEGER NOT NULL,
-    PV  INTEGER,
-    ATK INTEGER,
-    MANA INTEGER,
-    REU INTEGER,
+    couleurE INTEGER NOT NULL -- clé étrangère
 );
 
 CREATE TABLE Partie (
@@ -41,7 +37,7 @@ CREATE TABLE Partie (
     date_debut DATE,
     date_fin DATE,
     max_tours INTEGER,
-    taille_grille INTEGER,
+    taille_grille INTEGER
 );
 
 CREATE TABLE Journal(
@@ -50,7 +46,7 @@ CREATE TABLE Journal(
     numA INTEGER NOT NULL,
     idP INTEGER NOT NULL,
     date_action DATE,
-    texte_action VARCHAR(80),
+    texte_action VARCHAR(80)
 );
 
 CREATE TABLE Jouer(
@@ -63,7 +59,7 @@ CREATE TABLE Jouer(
     couleurE1 INTEGER, -- deux clés étrangères*
     nomE1 VARCHAR(16), 
     couleurE2 INTEGER,
-    nomE2 VARCHAR(16),
+    nomE2 VARCHAR(16)
 );
 
 
@@ -82,9 +78,9 @@ INSERT INTO Morpion VALUES
 
 -- POSSEDER
 INSERT INTO Posseder VALUES
-(1, 'Tigers', 1, 5,4,3,3),
-(2, 'Tigers', 1, 8,2,2,3),
-(3, 'Dragons', 2, 4,3,6,2);
+(1, 'Tigers', 1),
+(2, 'Tigers', 1),
+(3, 'Dragons', 2);
 
 -- PARTIE
 INSERT INTO Partie VALUES

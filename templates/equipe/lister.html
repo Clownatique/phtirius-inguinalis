@@ -1,7 +1,15 @@
+<p>{{ REQUEST_VARS['tentative_creation_equipe'] }}</p>
 <ul>
   {% for equipe in REQUEST_VARS['liste_equipes'] %}
     <li>
-      {{equipe}} 
+      {{equipe['info']}} 
+      <ol>
+        {% for morpion in equipe['morpions']%}
+          <li>
+            {{morpion}}
+          </li>
+          {% endfor %}
+      </ol>
     </li>
   {% endfor %}
 </ul>

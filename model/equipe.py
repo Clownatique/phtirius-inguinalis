@@ -11,6 +11,18 @@ def liste_equipes(connexion) -> dict:
         except psycopg.Error as e:
             return e
 
+def liste_morpion_une_equipe(connexion,nom,couleur):
+    with connexion.cursor() as cursor:
+        try:
+            requete = f'''SELECT image,pv,atk,mana,reu from morpion m join
+            posseder p using(idm) where p.nomE = '{nom}' and p.couleurE
+            = '{couleur}' '''
+            print(requete)
+            cursor.execute(requete)
+            return cursor.fetchall()
+        except psycopg.Error as e:
+            return e
+
 def liste_morpion(connexion) -> dict:
     with connexion.cursor() as cursor:
         try:

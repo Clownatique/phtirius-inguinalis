@@ -27,10 +27,11 @@ def verif_couleur_format(equipe_dict:dict) -> bool:
     None
 
 if POST != {}: # Si l'utilisateur a rentré le formulaire
-
+    print('la lumiere fut')
     # pour afficher l'encart avec le message de réussite de l'envoie du form
     REQUEST_VARS['tentative_creation_equipe'] = True
-    
+    REQUEST_VARS['couleurE'] = POST['couleur'][0]
+    REQUEST_VARS['nomE'] = POST['nom'][0] 
     # appel aux fonctions de vérif
 
     dispo_couleur = verif_dispo_couleur_equipe(connexion,POST)
@@ -65,12 +66,13 @@ if POST != {}: # Si l'utilisateur a rentré le formulaire
        # base de données
 
 else: # Si l'utilisateur a besoin du formulaire
-    with connexion.cursor() as cursor:
-        try:
-            cursor.execute("SELECT image,pv,atk,mana,reu from morpion")
-            result = cursor.fetchall()
-            REQUEST_VARS['liste_morpion'] = result
-        except psycopg.Error as e:
-            print(f"Error : {e}")
+   None 
+with connexion.cursor() as cursor:
+    try:
+        cursor.execute("SELECT image,pv,atk,mana,reu from morpion")
+        result = cursor.fetchall()
+        REQUEST_VARS['liste_morpion'] = result
+    except psycopg.Error as e:
+        print(f"Error : {e}")
 
 
