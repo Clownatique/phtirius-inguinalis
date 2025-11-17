@@ -40,7 +40,7 @@ il est dispo ici [schema\_relationnel](rendu/schema_relationnel.md)
 
 ## fonctionnalités
 
-### accueil et statistiques (nestor)
+### accueil et statistiques 
 
 -  Top-3 des équipes avec le plus de victoires
 -  Partie la plus rapide et celle la plus longue
@@ -55,29 +55,35 @@ le controleur accueil ne gère pour l'instant pas grand chose
 il utilise un système de bloque pour scinder les statistiques en deux
 ### gestion des équipes
 
-- [ ] faire le script pour remplir la bdd avec les morpions (avec les images)
+- [x] faire le script pour remplir la bdd avec les morpions (avec les images)
 
-#### créer une nouvelle équipe (nestor)
+#### créer une nouvelle équipe 
 
-- [ ] vue `templates/equipe/creation.html`
-- [ ] modèle
-- [ ] controlleur `controleurs/equipe/creation.py`
+- [x] vue `templates/equipe/creation.html`
+- [x] modèle
+- [x] ~ controlleur `controleurs/equipe/creation.py`
 
-#### lister les équipes (flora)
+#### lister les équipes
 
-- [ ] vue `templates/equipe/lister.html`
-- [ ] modèle
-- [ ] controlleur`controleurs/equipe/lister.py`
+- [x] vue `templates/equipe/lister.html`
+- [x] modèle
+- [x] controlleur`controleurs/equipe/lister.py`
+
+#### supprimer les équipes 
+
+- [x] vue `templates/equipe/lister.html`
+- [x] modèle
+- [x] controlleur`controleurs/equipe/lister.py`
 
 ### partie normale
 
-#### pré partie (flora)
+#### pré partie
 
 forms pour créer une instance partie
 
-- [ ] vue `templates/partie_simple/creation.html`
-- [ ] modèle
-- [ ] controlleur `controleurs/partie/creation.py`
+- [ ] vue `templates/partie_simple/creation.html` (flora)
+- [ ] modèle (nestor)
+- [ ] controlleur `controleurs/partie/creation.py` (flora puis nestor)
 
 #### pendant la partie
 
