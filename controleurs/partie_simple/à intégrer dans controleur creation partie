@@ -1,0 +1,25 @@
+# nécessaire pour le formulaire en lui même
+# forms lors d'un get
+REQUEST_VARS['liste_equipes']
+
+# forms lors d'un post
+
+REQUEST_VARS['partie_soumise?']
+
+REQUEST_VARS['max_tour_soumis']
+REQUEST_VARS['taille_grille_soumise']
+REQUEST_VARS['equipe_1_soumise']
+REQUEST_VARS['equipe_2_soumise']
+REQUEST_VARS['est_speciale_soumis']
+
+REQUEST_VARS['err_meme_equipe'] # si l'utilisateur rentre deux fois la même équipe
+REQUEST_VARS['err_max_tours'] # si l'utilisateur rentre un nombre improbable de tour
+REQUEST_VARS['err_taille_grille'] # si l'utilisateur rentre une taille de grille supérieur à 3
+
+# nécessaire pour l'insertion
+REQUEST_VARS['equipe_2']
+REQUEST_VARS['equipe_1']
+REQUEST_VARS['nb_max_tours']
+REQUEST_VARS['taille_equipe']
+REQUEST_VARS['est_speciale?']
+
