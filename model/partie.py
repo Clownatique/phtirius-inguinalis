@@ -1,14 +1,22 @@
 from datetime import datetime
 
-def creer_partie(connexion, idEquipe1, idEquipe2):
+def creer_partie(connexion, nomE1, couleurE1, nomE2, couleurE2):
   try :
     cur=connexion.cursor()
-    sql = """INSERT INTO PARTIE (idEquipe1, idEquipe2, date_debut) 
-          VALUES (%s, %s, %s) 
-          RETURNING idPartie;"""
-    valeurs=(idEquipe1, idEquipe2, datetime.now())
+    sql = """INSERT INTO PARTIE (couleurE1, nomE1, couleurE2, nomE2, date_debut, est_special) 
+          VALUES (%s, %s, %s, %s, %s, %s) 
+          RETURNING idP;"""
+    valeurs=(couleurE1, nomE1, couleurE2, nomE2, datetime.now(), est_special)
     cur.execute(sql,valeurs)
-    cur.fetchone()
+    idP=cur.fetchone()[0]
+    connexion.close()
+    cur.close()
+    return idP
+  except psycopg.Error as e:
+    return e
+
+
+    
 
    
     
