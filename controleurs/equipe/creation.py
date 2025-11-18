@@ -3,11 +3,8 @@ import re
 from model.equipe import insertion_equipe, insertion_posseder
 from model.equipe import liste_morpion
 from model.equipe import couleur_prises, noms_pris
-# from model.flora import liste_morpion
 
 connexion = SESSION['CONNEXION']
-
-# fonction qui restent ici
 
 def verif_nombre_morpion(equipe_dict:dict) -> int:
     """
@@ -49,43 +46,38 @@ if POST != {}: # Si l'utilisateur a rentré le formulaire
     REQUEST_VARS['tentative_creation_equipe'] = True
     # pour réafficher dans le form
     REQUEST_VARS['couleurE'] = POST['couleur'][0]
-    REQUEST_VARS['nomE'] = POST['nom'][0] 
+    REQUEST_VARS['nomE'] = POST['nom'][0]
     # appel aux fonctions de vérif
     dispo_couleur = couleur_est_pris(POST)
     dispo_nom = verif_nom_pris(POST)
     nombre_morpion = verif_nombre_morpion(POST)
     couleur_format = couleur_format(POST)
     # déf des messages d'erreur côté utilisateur
-    REQUEST_VARS['err_couleur_format'] = not(couleur_format)
-    REQUEST_VARS['err_nom_indisponible'] = dispo_nom
-    
-    REQUEST_VARS['err_couleur_indisponible']= dispo_couleur
-    print(nombre_morpion)
-    if nombre_morpion > 0:
-        print("test")
-        REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en trop.Enlevez en de votre équipe"""
-    elif nombre_morpion < 0:
-        REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en moins. Rajoutez en de votre équipe"""
-    else:
-        print("à priori c bon")
+    if ( couleur_est_pris or verif_nom_pris or nombre_morpion != 0 or couleur_format) :
+        REQUEST_VARS['err_couleur_format'] = not(couleur_format)
+        REQUEST_VARS['err_nom_indisponible'] = dispo_nom
+
+        REQUEST_VARS['err_couleur_indisponible']= dispo_couleur
+        if nombre_morpion <0:
+            print("en moins")
+            REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en trop.Enlevez en de votre équipe"""
+        elif nombre_morpion > 0:
+            print("en trop")
+            REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en moins. Rajoutez en de votre équipe"""
+        else:
+            print(nombre_morpion)
+            REQUEST_VARS['err_nb_morpion'] = "à priori c bon"
 
     # si tout est bon, on essaie d'entrer l'équipe en esperant que postgre
     # lache pas
     try:
-        equipe_insertion()
-        posseder_insertion()
-    except:
-       REQUEST_VARS['erreur_insertion'] = "erreur_insertion"# ici l'erreur est uniquement dûe à la
-       # base de données
-
-else: # Si l'utilisateur a besoin du formulaire
-   None 
-with connexion.cursor() as cursor:
-    try:
-        cursor.execute("SELECT image,pv,atk,mana,reu from morpion")
-        result = cursor.fetchall()
-        REQUEST_VARS['liste_morpion'] = result
+        id_equipe_inseree =  insertion_equipe(connexion,POST['nom'][0],POST['couleur'][0])
+        print("test_creation")
+        print(POST['couleur'])
+        REQUEST_VARS['morpion_inseree'] = insertion_posseder(connexion, POST['nom'],POST['couleur'], POST['morpion'])
     except psycopg.Error as e:
-        print(f"Error : {e}")
+        print(e)
+        print("ça c'est pas bien passé")
+        REQUEST_VARS['erreur_insertion'] = "erreur_insertion"
 
-
+REQUEST_VARS['liste_morpion'] = liste_morpion(connexion)

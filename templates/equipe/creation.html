@@ -3,13 +3,16 @@
   {% if REQUEST_VARS['err_couleur_format'] == True %}
     <p>Pb de couleur</p>
   {% endif %}
-  <p>{{REQUEST_VARS['err_nombre_morpion']}}</p>
+
+  <p>{{REQUEST_VARS['err_nb_morpion']}}</p>
+
   {% if REQUEST_VARS['err_couleur_indisponible'] == True %}
     <p>Couleur indisponible</p>
   {% endif %}
   {% if REQUEST_VARS['err_nom_indisponible'] == True %}
     <p>{{REQUEST_VARS['err_nom_indisponible']}} - Nom indisponible</p>
   {% endif %}
+  {{REQUEST_VARS['err_insertion']}}
 {% endif %}
 
 <form method="post" action="">
@@ -32,7 +35,7 @@
     <legend>Choisissez vos morpions</legend>
       <select size=7 name="morpion" multiple>
         {% for morpion in REQUEST_VARS["liste_morpion"] %}
-          <option value="{{morpion[0]}}" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[0]}}" >
+          <option value="{{morpion[0]}}" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[1]}}" >
             <!--mettre l'idM dans value-->
             <!--Donc le rajouter dans contrôleur-->
             <p>

@@ -36,7 +36,7 @@ def get_instances(connexion, nom_table):
     String nom_table : nom de la table
     """
     query = sql.SQL('SELECT * FROM {table}').format(table=sql.Identifier(nom_table), )
-    return execute_select_query(connexion, query)
+    return select_query(connexion, query)
 
 def count_instances(connexion, nom_table):
     """
@@ -44,7 +44,7 @@ def count_instances(connexion, nom_table):
     String nom_table : nom de la table
     """
     query = sql.SQL('SELECT COUNT(*) AS nb FROM {table}').format(table=sql.Identifier(nom_table))
-    return execute_select_query(connexion, query)
+    return select_query(connexion, query)
 
 def get_table_like(connexion, nom_table, like_pattern):
     """
@@ -61,4 +61,4 @@ def get_table_like(connexion, nom_table, like_pattern):
         sql.Identifier(nom_att),
         sql.Placeholder())
     #    like_pattern=sql.Placeholder(name=like_pattern))
-    return execute_select_query(connexion, query, [motif])
+    return select_query(connexion, query, [motif])
