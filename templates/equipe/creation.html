@@ -12,6 +12,9 @@
   {% if REQUEST_VARS['err_nom_indisponible'] == True %}
     <p>{{REQUEST_VARS['err_nom_indisponible']}} - Nom indisponible</p>
   {% endif %}
+  {% if REQUEST_VARS['err_format_couleur']%}
+    <p> La couleur doit être dans le format suivant: #RRGGBB</p>
+  {%endif%}
   {{REQUEST_VARS['err_insertion']}}
 {% endif %}
 

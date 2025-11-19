@@ -14,12 +14,12 @@ def verif_nombre_morpion(equipe_dict:dict) -> int:
      # plus de 8 : positif
      # moins de 6 : négativ
     """
-    if 'morpion' not in equipe_dict:
+    if not('morpion' in equipe_dict):
         return 6
     nombre_morpion = len(equipe_dict['morpion'])
     return max(0, min(nombre_morpion - 8, 6 - nombre_morpion))
 
-def couleur_est_pris(equipe_dict:dict) -> list: # de tuples
+def couleur_est_pris(equipe_dict:dict) -> bool: # de tuples
     couleur_voulu = equipe_dict['couleur']
     liste_coul_prises = []
     for i in couleur_prises(connexion):
@@ -33,31 +33,29 @@ def verif_nom_pris(equipe_dict:dict) -> bool :
     Renvoie vrai si pris, faux si pas pris
     """
     liste_coul_prises = [ i[0] for i in noms_pris(connexion) ]
-    print("jul")
-    print(equipe_dict['nom'] in liste_coul_prises)
+    if equipe_dict['nom'] in liste_coul_prises:
+        print("le nom est pris")
     return equipe_dict['nom'] in liste_coul_prises
 
 def couleur_format(equipe_dict:dict) -> bool:
     couleur = equipe_dict['couleur'][0]
     regex = r'[0-9a-fA-F]{6}$'
-    return bool(re.match(regex, couleur)) # j'ai utilisé de l'ia ici
+    return not(bool(re.match(regex, couleur))) # j'ai utilisé de l'ia ici
 
 if POST != {}: # Si l'utilisateur a rentré le formulaire
     REQUEST_VARS['tentative_creation_equipe'] = True
-    # pour réafficher dans le form
     REQUEST_VARS['couleurE'] = POST['couleur'][0]
     REQUEST_VARS['nomE'] = POST['nom'][0]
-    # appel aux fonctions de vérif
     dispo_couleur = couleur_est_pris(POST)
     dispo_nom = verif_nom_pris(POST)
     nombre_morpion = verif_nombre_morpion(POST)
-    couleur_format = couleur_format(POST)
-    # déf des messages d'erreur côté utilisateur
-    if ( couleur_est_pris or verif_nom_pris or nombre_morpion != 0 or couleur_format) :
+    couleur_format_ok = couleur_format(POST)
+    print(f"""dispo_nom:{dispo_nom},dispo_couleur:{dispo_couleur},couleur_format_ok:{couleur_format_ok}""")
+    if ( dispo_couleur or dispo_nom or nombre_morpion != 0 or couleur_format_ok):
         REQUEST_VARS['err_couleur_format'] = not(couleur_format)
         REQUEST_VARS['err_nom_indisponible'] = dispo_nom
-
         REQUEST_VARS['err_couleur_indisponible']= dispo_couleur
+        REQUEST_VARS['err_format_couleur'] = couleur_format_ok
         if nombre_morpion <0:
             print("en moins")
             REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en trop.Enlevez en de votre équipe"""
@@ -65,19 +63,13 @@ if POST != {}: # Si l'utilisateur a rentré le formulaire
             print("en trop")
             REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en moins. Rajoutez en de votre équipe"""
         else:
-            print(nombre_morpion)
-            REQUEST_VARS['err_nb_morpion'] = "à priori c bon"
-
-    # si tout est bon, on essaie d'entrer l'équipe en esperant que postgre
-    # lache pas
-    try:
-        id_equipe_inseree =  insertion_equipe(connexion,POST['nom'][0],POST['couleur'][0])
-        print("test_creation")
-        print(POST['couleur'])
-        REQUEST_VARS['morpion_inseree'] = insertion_posseder(connexion, POST['nom'],POST['couleur'], POST['morpion'])
-    except psycopg.Error as e:
-        print(e)
-        print("ça c'est pas bien passé")
-        REQUEST_VARS['erreur_insertion'] = "erreur_insertion"
+            REQUEST_VARS['err_nb_morpion'] = nombre_morpion
+        print("eh oui y'a des erreurs")
+    else:
+        try:
+            id_equipe_inseree =  insertion_equipe(connexion,POST['nom'],POST['couleur'])
+            REQUEST_VARS['morpion_inseree'] = insertion_posseder(connexion, POST['nom'],POST['couleur'], POST['morpion'])
+        except psycopg.Error as e:
+            print(e)
 
 REQUEST_VARS['liste_morpion'] = liste_morpion(connexion)
