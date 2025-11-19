@@ -13,7 +13,7 @@ def liste_equipes(connexion):
     return select_query(connexion, query)
 
 def liste_morpion_une_equipe(connexion,nom,couleur):
-    requete = '''SELECT image,pv,atk,mana,reu from morpion m join
+    requete = '''SELECT image,m.pv,m.atk,m.mana,m.reu from morpion m join
     posseder p using(idm) where p.nomE = %s and p.couleurE = %s'''
     params = [nom, couleur]
     return select_query(connexion, requete, params)
@@ -28,8 +28,7 @@ def liste_morpion(connexion):
 
 def insertion_equipe(connexion, nom, couleur):
     query = f"""INSERT INTO equipe (nome, couleure, date_creation) VALUES(%s,%s,%s)"""
-    print(couleur)
-    return other_query(connexion, query, [nom, couleur, datetime.now()])
+    return other_query(connexion, query, [nom[0], couleur[0], datetime.now()])
 
 def insertion_posseder(connexion, nom, couleur, liste_morpion):
     """
@@ -40,8 +39,8 @@ def insertion_posseder(connexion, nom, couleur, liste_morpion):
     for indice_morpion in liste_morpion:
         # faire le traitement pour récupérer les stats
         # de base du morpion pour les affecter
-        query = "SELECT pv, atk, mana, reu from morpion where idm = %s"
+        query = "SELECT pv, atk, mana, reu FROM morpion WHERE idm = %s"
         stat = select_query(connexion, query, [int(indice_morpion)])[0]
+        print(indice_morpion)
         query ="INSERT INTO posseder values (%s,%s,%s,%s,%s,%s,%s)"
-        print(nom)
-        other_query(connexion, query,[indice_morpion,nom[0],couleur[0],stat[0],stat[1],stat[2],stat[3]])
+        other_query(connexion, query,[int(indice_morpion), nom[0], couleur[0], stat[0],stat[1],stat[2],stat[3]])

@@ -20,10 +20,11 @@ def verif_nombre_morpion(equipe_dict:dict) -> int:
     return max(0, min(nombre_morpion - 8, 6 - nombre_morpion))
 
 def couleur_est_pris(equipe_dict:dict) -> bool: # de tuples
-    couleur_voulu = equipe_dict['couleur']
+    couleur_voulu = equipe_dict['couleur'][0]
     liste_coul_prises = []
     for i in couleur_prises(connexion):
         liste_coul_prises.append(i[0])
+    print(liste_coul_prises)
     return couleur_voulu in liste_coul_prises
 
 
@@ -33,9 +34,11 @@ def verif_nom_pris(equipe_dict:dict) -> bool :
     Renvoie vrai si pris, faux si pas pris
     """
     liste_coul_prises = [ i[0] for i in noms_pris(connexion) ]
-    if equipe_dict['nom'] in liste_coul_prises:
+    print(equipe_dict['nom'])
+    print(liste_coul_prises)
+    if equipe_dict['nom'][0] in liste_coul_prises:
         print("le nom est pris")
-    return equipe_dict['nom'] in liste_coul_prises
+    return equipe_dict['nom'][0] in liste_coul_prises
 
 def couleur_format(equipe_dict:dict) -> bool:
     couleur = equipe_dict['couleur'][0]
