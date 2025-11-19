@@ -1,5 +1,5 @@
 #config de la bd
-config-db.toml
+config-bd.toml
 # Byte-compiled files
 __pycache__/
 *.py[cod]
@@ -46,4 +46,3 @@ pytest_cache/
 *.html
 *.svg
 *.ipynb
-

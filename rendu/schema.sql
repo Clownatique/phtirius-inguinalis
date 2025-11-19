@@ -35,31 +35,40 @@ CREATE TABLE Posseder(
 );
 
 CREATE TABLE Partie (
-    PRIMARY KEY (idP),
-    idP INTEGER NOT NULL,
+    PRIMARY KEY (nome1, couleurE1, nomE2, couleurE2, date_debut),
+    FOREIGN KEY (nome1, couleurE1) REFERENCES Equipe(nomE, couleurE),
+    FOREIGN KEY (nomE2, couleurE2) REFERENCES Equipe(nomE, couleurE),
+    nomE1 VARCHAR(16) NOT NULL, -- clé étrangère
+    couleurE1 VARCHAR(6) NOT NULL, -- clé étrangère
+    nomE2 VARCHAR(16) NOT NULL, -- clé étrangère
+    couleurE2 VARCHAR(6) NOT NULL, -- clé étrangère
     date_debut DATE,
     date_fin DATE,
     max_tours INTEGER,
-    taille_grille INTEGER
+    taille_grille INTEGER,
+    est_speciale BOOL
 );
 
 CREATE TABLE Journal(
-    PRIMARY KEY (numA,idP),
-    FOREIGN KEY (idP) REFERENCES Partie(idP),
-    numA INTEGER NOT NULL,
-    idP INTEGER NOT NULL,
+    numA SERIAL INTEGER NOT NULL,
     date_action DATE,
     texte_action VARCHAR(80)
+    nomE1 VARCHAR(16) NOT NULL, -- clé étrangère
+    couleurE1 VARCHAR(6) NOT NULL, -- clé étrangère
+    nomE2 VARCHAR(16) NOT NULL, -- clé étrangère
+    couleurE2 VARCHAR(6) NOT NULL, -- clé étrangère
+    date_debut DATE,
+    PRIMARY KEY (numA,nome1, couleurE1, nomE2, couleurE2, date_debut),
+    FOREIGN KEY (nome1, couleurE1, nomE2, couleurE2, date_debut) REFERENCES Partie(nome1, couleurE1, nomE2, couleurE2, date_debut)
 );
 
 CREATE TABLE Jouer(
     PRIMARY KEY (idP),
-    FOREIGN KEY(idP) REFERENCES Partie(idP),
     FOREIGN KEY(nomE1, couleurE1) REFERENCES Equipe(nomE, couleurE),
     FOREIGN KEY(nomE2, couleurE2) REFERENCES Equipe(nomE, couleurE),
     idP INTEGER NOT NULL,
     couleurE1 VARCHAR(6), -- deux clés étrangères*
-    nomE1 VARCHAR(16), 
+    nomE1 VARCHAR(16),
     couleurE2 VARCHAR(6),
     nomE2 VARCHAR(16)
 );
