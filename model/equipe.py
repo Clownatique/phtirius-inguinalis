@@ -4,7 +4,7 @@ import psycopg
 from .utils import select_query, other_query,get_instances,count_instances,get_table_like
 from datetime import datetime
 
-def noms_pris(connexion):
+def noms_utilises(connexion):
     query =  'SELECT nome FROM equipe'
     return select_query(connexion, query)
 

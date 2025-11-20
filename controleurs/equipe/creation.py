@@ -1,85 +1,111 @@
-import psycopg
+from _typeshed import NoneType
 import re
 from model.equipe import insertion_equipe, insertion_posseder
 from model.equipe import liste_morpion
-from model.equipe import couleur_prises, noms_pris
+from model.equipe import couleur_prises, noms_utilises
 
 connexion = SESSION['CONNEXION']
 
-def verif_nombre_morpion(equipe_dict:dict) -> int:
+# pyright: reportUndefinedVariable=false
+REQUEST_VARS = {'nom':'','couleur':'','morpion':''}
+
+def verif_morpion(morpions:list) -> bool:
     """
     Vérifie le bon nombre de morpion dans le form soumis
     Renvoie l'écart du nombre de morpion avec l'intervalle [6,8]
      # entre 6 et 8 : 0
      # plus de 8 : positif
-     # moins de 6 : négativ
+     # moins de 6 : négatif
     """
-    if not('morpion' in equipe_dict):
-        return 6
-    nombre_morpion = len(equipe_dict['morpion'])
-    return max(0, min(nombre_morpion - 8, 6 - nombre_morpion))
+    nombre_morpion = len(morpions)
+    morpion_nec = max(0, min(nombre_morpion - 8, 6 - nombre_morpion))
+    message = 'bon toutou'
+    if morpion_nec > 0:
+        message = f"""{champ} morpion(s) en trop.Enlevez en de votre équipe"""
+    else:
+        message = f"""{champ} morpion(s) en moins. Rajoutez en de votre équipe"""
 
-def couleur_est_pris(equipe_dict:dict) -> bool: # de tuples
-    couleur_voulu = equipe_dict['couleur'][0]
+    REQUEST_VARS['err_nombre_morpion'] = message
+    if REQUEST_VARS == "bon toutou":
+        return True
+    return False
+
+
+
+def verif_couleur_disponible(couleur:str) -> bool: # de tuples
     liste_coul_prises = []
-    for i in couleur_prises(connexion):
-        liste_coul_prises.append(i[0])
-    print(liste_coul_prises)
-    return couleur_voulu in liste_coul_prises
+    for _couleur in couleur_prises(connexion):
+        liste_coul_prises.append(_couleur[0])
+    if couleur in liste_coul_prises:
+        REQUEST_VARS['err_couleur_indisponible'] = f'''{couleur} est déjà pris pr une autre équipe'''
+        return False
+    return True
 
 
-def verif_nom_pris(equipe_dict:dict) -> bool :
+def verif_nom_disponible(nom:str) -> bool:
     """
     Vérifie la disponibilité du nom d'équipe soumis
     Renvoie vrai si pris, faux si pas pris
     """
-    liste_coul_prises = [ i[0] for i in noms_pris(connexion) ]
-    print(equipe_dict['nom'])
-    print(liste_coul_prises)
-    if equipe_dict['nom'][0] in liste_coul_prises:
-        print("le nom est pris")
-    return equipe_dict['nom'][0] in liste_coul_prises
+    noms_utilises_liste = [ i[0] for i in noms_utilises(connexion) ]
+    if nom in noms_utilises_liste:
+        REQUEST_VARS['err_nom_indisponible'] = f'''{nom} est déjà pris pr une autre équipe'''
+        return False
+    return True
 
-def couleur_format(equipe_dict:dict) -> bool:
-    couleur = equipe_dict['couleur'][0]
+def verif_nom_format(nom:str) -> bool:
+    if len(nom) > 6:
+        REQUEST_VARS['err_format_nom'] = f'''{nom} ne respecte pas le format demandé.'''
+        return False
+    return True
+
+def verif_couleur_format(couleur:str) -> bool:
     regex = r'[0-9a-fA-F]{6}$'
-    return not(bool(re.match(regex, couleur))) # j'ai utilisé de l'ia ici
+    if not(bool(re.match(regex, couleur))): # j'ai utilisé de l'ia ici
+        REQUEST_VARS['err_format_couleur'] = f'''{couleur} ne respecte pas le format demandé.'''
 
-if POST != {}: # Si l'utilisateur a rentré le formulaire
-    REQUEST_VARS['tentative_creation_equipe'] = True
-    REQUEST_VARS['couleurE'] = POST['couleur'][0]
-    REQUEST_VARS['nomE'] = POST['nom'][0]
-    dispo_couleur = couleur_est_pris(POST)
-    dispo_nom = verif_nom_pris(POST)
-    nombre_morpion = verif_nombre_morpion(POST)
-    couleur_format_ok = couleur_format(POST)
-    print(f"""dispo_nom:{dispo_nom},dispo_couleur:{dispo_couleur},couleur_format_ok:{couleur_format_ok}""")
-    print(POST)
-    if ('morpion' in POST or 'nom' in POST or 'couleur' in POST):
-        print('aya l"user a pas tout mis')
-    if ( len(POST['nom']) > 6 or dispo_couleur or dispo_nom or nombre_morpion != 0 or couleur_format_ok):
-        if len(POST['nom']) > 6:
-            REQUEST_VARS["err_taille_nom"] = f'''{REQUEST_VARS['nom']} est un nom d\'équipe bien trop long'''
-
-
-        REQUEST_VARS['err_couleur_format'] = not(couleur_format)
-        REQUEST_VARS['err_nom_indisponible'] = dispo_nom
-        REQUEST_VARS['err_couleur_indisponible']= dispo_couleur
-        REQUEST_VARS['err_format_couleur'] = couleur_format_ok
-        if nombre_morpion <0:
-            print("en moins")
-            REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en trop.Enlevez en de votre équipe"""
-        elif nombre_morpion > 0:
-            print("en trop")
-            REQUEST_VARS['err_nb_morpion'] = f"""{nombre_morpion} morpion(s) en moins. Rajoutez en de votre équipe"""
+def verif_complet(post:dict) -> list:
+    champ_manquant = []
+    for champ in ['nom', 'couleur','morpions']:
+        if not(champ in POST):
+            champ_manquant.append(champ)
         else:
-            REQUEST_VARS['err_nb_morpion'] = nombre_morpion
-        print("eh oui y'a des erreurs")
+            REQUEST_VARS[champ] = post[champ]
+    return champ_manquant
+
+if POST != {}: # Si l'utilisateur a rentré des trucs
+    REQUEST_VARS['tentative_creation_equipe'] = True
+    champ_manquant = verif_complet(POST)
+
+    if len(champ_manquant) == 0:
+
+        couleur = POST['couleur'][0]
+        nom = POST['nom'][0]
+        morpions = POST['morpions']
+
+        if (verif_complet(POST) and verif_morpion(morpions) and verif_couleur_disponible(couleur) and verif_couleur_format(couleur) and verif_nom_disponible(nom) and verif_nom_format(nom)):
+            try:
+                id_equipe_inseree =  insertion_equipe(connexion,nom,couleur)
+                REQUEST_VARS['morpion_inseree'] = insertion_posseder(connexion,nom,couleur,morpions)
+            except psycopg.Error as e:
+                print(e)
+
     else:
-        try:
-            id_equipe_inseree =  insertion_equipe(connexion,POST['nom'],POST['couleur'])
-            REQUEST_VARS['morpion_inseree'] = insertion_posseder(connexion, POST['nom'],POST['couleur'], POST['morpion'])
-        except psycopg.Error as e:
-            print(e)
+        champ_existant = [champ for champ in champ_manquant if champ not in ['nom', 'couleur', 'morpions']]
+        for champ in champ_existant:
+            # pour quand même traiter les erreurs d'un utilisateur qui a oublié un champ
+            if champ == 'couleur':
+                couleur = POST['couleur'][0]
+                verif_couleur_disponible()
+                verif_couleur_format()
+            if champ == 'nom':
+                nom = POST['nom'][0]
+                verif_nom_format(nom)
+                verif_nom_disponible(nom)
+            if champ == 'morpions':
+                morpions = POST['morpions']
+                verif_morpion(morpions)
+
+        REQUEST_VARS['champ_manquant'] = champ_manquant
 
 REQUEST_VARS['liste_morpion'] = liste_morpion(connexion)
