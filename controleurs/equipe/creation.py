@@ -54,7 +54,14 @@ if POST != {}: # Si l'utilisateur a rentré le formulaire
     nombre_morpion = verif_nombre_morpion(POST)
     couleur_format_ok = couleur_format(POST)
     print(f"""dispo_nom:{dispo_nom},dispo_couleur:{dispo_couleur},couleur_format_ok:{couleur_format_ok}""")
-    if ( dispo_couleur or dispo_nom or nombre_morpion != 0 or couleur_format_ok):
+    print(POST)
+    if ('morpion' in POST or 'nom' in POST or 'couleur' in POST):
+        print('aya l"user a pas tout mis')
+    if ( len(POST['nom']) > 6 or dispo_couleur or dispo_nom or nombre_morpion != 0 or couleur_format_ok):
+        if len(POST['nom']) > 6:
+            REQUEST_VARS["err_taille_nom"] = f'''{REQUEST_VARS['nom']} est un nom d\'équipe bien trop long'''
+
+
         REQUEST_VARS['err_couleur_format'] = not(couleur_format)
         REQUEST_VARS['err_nom_indisponible'] = dispo_nom
         REQUEST_VARS['err_couleur_indisponible']= dispo_couleur

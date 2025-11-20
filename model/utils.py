@@ -2,7 +2,7 @@ import psycopg
 from psycopg import sql
 from logzero import logger
 
-def select_query(connexion, query, params=[]):
+def select_query(connexion, query, params=[]) -> list:
     """
     Méthode générique pour exécuter une requête SELECT (qui peut retourner plusieurs instances).
     Utilisée par des fonctions plus spécifiques.

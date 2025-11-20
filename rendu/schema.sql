@@ -50,9 +50,9 @@ CREATE TABLE Partie (
 );
 
 CREATE TABLE Journal(
-    numA SERIAL INTEGER NOT NULL,
+    numA INTEGER NOT NULL,
     date_action DATE,
-    texte_action VARCHAR(80)
+    texte_action VARCHAR(80),
     nomE1 VARCHAR(16) NOT NULL, -- clé étrangère
     couleurE1 VARCHAR(6) NOT NULL, -- clé étrangère
     nomE2 VARCHAR(16) NOT NULL, -- clé étrangère
@@ -103,12 +103,3 @@ INSERT INTO Posseder (idm, nome, couleure) VALUES
 (1, 'Tigers', 'ececec'),
 (2, 'Tigers', 'ececec'),
 (3, 'Dragons', 'dadada');
-
--- PARTIE
-INSERT INTO Partie VALUES
-(100, '2025-02-10', NULL, 20, 3);
-
--- JOURNAL
-INSERT INTO Journal VALUES
-(1, 100, '2025-02-10', 'La partie commence !'),
-(2, 100, '2025-02-10', 'Tigers place un morpion.');

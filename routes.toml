@@ -27,5 +27,11 @@ template = "templates/equipe/creation.html"
 url = "[0-9]/"
 controleur = "controleurs/equipe/creation.py"
 template = "templates/equipe/creation.html"
-
-
+[[routes]]
+url = "/partie/<int:id>/"
+controleur = "controleurs/partie_simple/jouer.py"
+template = "templates/partie_simple/jouer.html"
+[[routes.re]]
+url = "/partie/<int:id>/"
+controleur = "controleurs/partie_simple/jouer.py"
+template = "templates/partie_simple/jouer.html"
