@@ -1,4 +1,4 @@
-from model.partie import inserer_action, creer_partie
+from model.partie import inserer_action, creer_partie #j'ai pas trop regarder je pensais utiliser une fonction qui enregistre l'action et une autre qui charge la partie ?
 
 def afficher_tour(idP, numTour):
   #charge les informations nécessaires pour afficher le tour courant (grille, equipe qui doit jouer, liste des morpions dispo)
@@ -32,3 +32,4 @@ def action_placer_morpion(idP, form):
     "grille": partie["grille"]
   }
   
+
