@@ -1,5 +1,3 @@
-# from .utils import insert_requete
-# from .utils import select_requete
 import psycopg
 from .utils import select_query, other_query,get_instances,count_instances,get_table_like
 from datetime import datetime

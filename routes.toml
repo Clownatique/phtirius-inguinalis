@@ -16,6 +16,10 @@ url = "partie-simple/creer"
 controleur = "controleurs/partie_simple/creer.py" # peut être utiliser deux fois le même
 template = "templates/partie_simple/creer.html"
 [[routes]]
+url = "partie-simple/resultat"
+controleur = "controleurs/partie_simple/resultat.py" # peut être utiliser deux fois le même
+template = "templates/partie_simple/resultats.html"
+[[routes]]
 url = "equipe"
 controleur = "controleurs/equipe/lister.py"
 template = "templates/equipe/lister.html"
@@ -27,11 +31,3 @@ template = "templates/equipe/creation.html"
 url = "[0-9]/"
 controleur = "controleurs/equipe/creation.py"
 template = "templates/equipe/creation.html"
-[[routes]]
-url = "/partie/<int:id>/"
-controleur = "controleurs/partie_simple/jouer.py"
-template = "templates/partie_simple/jouer.html"
-[[routes.re]]
-url = "/partie/<int:id>/"
-controleur = "controleurs/partie_simple/jouer.py"
-template = "templates/partie_simple/jouer.html"
