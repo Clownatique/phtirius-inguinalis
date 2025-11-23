@@ -1,0 +1,32 @@
+<h1>Partie simple</h1>
+
+<p>
+  {{ partie.nomE1 }} ({{ partie.couleurE1 }})
+  VS
+  {{ partie.nomE2 }} ({{ partie.couleurE2 }})
+</p>
+
+<h2>Grille de {{taille}} x {{taille}}</h2>
+
+<table border="1" cellspacing="0" cellpadding="10">
+  {% for i in range(taille) %}
+  <tr>
+    {% for j in range(taille) %}
+    <td style="width:40px; height:40px; text-align:center;">
+      {% if grille[i][j]==None %}
+        <form method="POST">
+          <input type="hidden" name="x" value="{{i}}">
+          <input type="hidden" name="y" value="{{j}}">
+          <input type="hidden" name="symbole" value="X">
+          <button type="submit">----</button>
+        </form>
+      {% else %}
+        {{ grille[i][j]}}
+      {% endif %}
+    </td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+<br>
+<a href="partie_simple/resultats/{{ idP }}">Voir résultats</a>
