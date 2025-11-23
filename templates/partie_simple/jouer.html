@@ -9,22 +9,22 @@
   Tour actuel : <strong>{{partie.tour_actuel}}</strong>
 </p>
 
-<h2>Grille de {{taille}} x {{taille}}</h2>
+<h3>Grille actuelle</h3>
 
-<table border="1" cellspacing="0" cellpadding="20" style="text-align:center;">
+<table border="1" cellspacing="0" cellpadding="10" style="text-align:center;">
   {% for i in range(taille) %}
   <tr>
     {% for j in range(taille) %}
     <td style="width:40px; height:40px; text-align:center;">
       {% if grille[i][j]==None %}
-        <form method="POST">
+        <form method="POST" action="{{REQUESTS_VARS['partie_simple.jouer']}}?idP={{partie.idP}}">
           <input type="hidden" name="x" value="{{i}}">
           <input type="hidden" name="y" value="{{j}}">
-          <input type="hidden" name="symbole" value="X">
-          <button type="submit">----</button>
+          <input type="hidden" name="symbole" value="{{symbole_joueur}}">
+          <button type="submit" style="width:100%; height:100%; font-size:10px;">Libre</button>
         </form>
       {% else %}
-        {{ grille[i][j]}}
+        <strong>{{ grille[i][j</strong>
       {% endif %}
     </td>
     {% endfor %}
@@ -32,7 +32,10 @@
   {% endfor %}
 </table>
 <br>
-<a href="partie_simple/resultats/{{ idP }}">Voir résultats</a>
+<a href="{{REQUESTS_VARS['partie_simple.tour']}}?idP={{partie.idP}}"> Jouer le tour suivant -></a>
+
+{% endblock %}
+
 
 
 
