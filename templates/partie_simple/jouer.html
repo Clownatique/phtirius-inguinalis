@@ -1,14 +1,17 @@
-<h1>Partie simple</h1>
+{% extends "base.html" %}
+{% block title %} Partie #{{partie.idP}}{% endblock %}
+{% block content %}
+
+<h2>Partie #{{partie.idP}}</h2>
 
 <p>
-  {{ partie.nomE1 }} ({{ partie.couleurE1 }})
-  VS
-  {{ partie.nomE2 }} ({{ partie.couleurE2 }})
+  <strong>{{partie.equipe1}}</strong> VS <strong>{{partie.equipe2}}</strong><br>
+  Tour actuel : <strong>{{partie.tour_actuel}}</strong>
 </p>
 
 <h2>Grille de {{taille}} x {{taille}}</h2>
 
-<table border="1" cellspacing="0" cellpadding="10">
+<table border="1" cellspacing="0" cellpadding="20" style="text-align:center;">
   {% for i in range(taille) %}
   <tr>
     {% for j in range(taille) %}
@@ -30,3 +33,6 @@
 </table>
 <br>
 <a href="partie_simple/resultats/{{ idP }}">Voir résultats</a>
+
+
+
