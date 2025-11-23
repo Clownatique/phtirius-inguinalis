@@ -81,6 +81,11 @@ INSERT INTO Equipe (nome,couleure,date_creation) VALUES
 ('Tigers', 'ececec', '2024-12-01'),
 ('Dragons', 'dadada', '2025-01-12');
 
+
+INSERT INTO EQUIPE (nome, couleure, date_creation) VALUES
+('abricotiers','eeceed', NOW()),
+('pommiers', '8c8c8c', NOW());
+
 -- MORPIONS
 INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t1.png', 5, 5, 3, 2);
 INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t2.png', 4, 4, 5, 2);
