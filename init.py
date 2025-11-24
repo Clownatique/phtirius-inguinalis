@@ -21,7 +21,7 @@ except Exception as e:
 connexion = get_connexion(config['POSTGRESQL_SERVER'],config['POSTGRESQL_USER'],config['POSTGRESQL_PASSWORD'],config['POSTGRESQL_DATABASE'],'morpion')
 
 try:
-    with open('rendu/schema.sql', 'rb') as sql_buff:
+    with open(r'C:\Users\flora\OneDrive\Documents\bdw-server\websites\phtirius-inguinalis\rendu\schema.sql', 'rb') as sql_buff:
         with connexion.cursor() as cursor:
             cursor.execute(sql_buff.read())
 

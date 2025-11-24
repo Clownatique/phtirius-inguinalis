@@ -17,9 +17,9 @@ from model.partie import inserer_action, creer_partie, recompiler_partie
 #   "morpions": partie["morpions_jouables"]
 # }
 
-REQUEST_VARS['partie'] = {"nomE1":"équipe 1", "nomE2":"équipe 2", "couleurE1":"#eeefff", "couleurE2":"#cccaaaa"}
-REQUEST_VARS['grille'] = [[],[],[]]
+REQUEST_VARS['partie'] = {"nomE1":"équipe 1", "nomE2":"équipe 2", "couleurE1":"#eeefff", "couleurE2":"#cccaaaa", "idP":"04", "tour_actuel":"01"}
+REQUEST_VARS['grille'] = [None, None, None]
 REQUEST_VARS['joueur'] = 0
 REQUEST_VARS['taille'] = 3
 
-if POST != {}:
+#if POST != {}:

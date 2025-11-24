@@ -1,30 +1,29 @@
-{% extends "base.html" %}
-{% block title %} Partie #{{partie.idP}}{% endblock %}
-{% block content %}
 
-<h2>Partie #{{partie.idP}}</h2>
+{% block title %} Partie {{REQUEST_VARS['partie'].idP}}{% endblock %}
+
+<h2>Partie {{REQUEST_VARS['partie'].idP}}</h2>
 
 <p>
-  <strong>{{partie.equipe1}}</strong> VS <strong>{{partie.equipe2}}</strong><br>
-  Tour actuel : <strong>{{partie.tour_actuel}}</strong>
+  <strong>{{REQUEST_VARS['partie'].nomE1}}</strong> VS <strong>{{REQUEST_VARS['partie'].nomE2}}</strong><br>
+  Tour actuel : <strong>{{REQUEST_VARS['partie'].tour_actuel}}</strong>
 </p>
 
 <h3>Grille actuelle</h3>
 
 <table border="1" cellspacing="0" cellpadding="10" style="text-align:center;">
-  {% for i in range(taille) %}
+  {% for i in range(REQUEST_VARS['taille']) %}
   <tr>
-    {% for j in range(taille) %}
+    {% for j in range(REQUEST_VARS['taille']) %}
     <td style="width:40px; height:40px; text-align:center;">
-      {% if grille[i][j]==None %}
-        <form method="POST" action="{{REQUESTS_VARS['partie_simple.jouer']}}?idP={{partie.idP}}">
+      {% if REQUEST_VARS['grille[i][j]']==None %}
+        <form method="POST" action="partie-simple">
           <input type="hidden" name="x" value="{{i}}">
           <input type="hidden" name="y" value="{{j}}">
-          <input type="hidden" name="symbole" value="{{symbole_joueur}}">
           <button type="submit" style="width:100%; height:100%; font-size:10px;">Libre</button>
         </form>
       {% else %}
-        <strong>{{ grille[i][j</strong>
+          <strong>{{ REQUEST_VARS['grille[i][j]'] }}</strong>
+          
       {% endif %}
     </td>
     {% endfor %}
@@ -32,9 +31,9 @@
   {% endfor %}
 </table>
 <br>
-<a href="{{REQUESTS_VARS['partie_simple.tour']}}?idP={{partie.idP}}"> Jouer le tour suivant -></a>
+<a href="partie-simple"> Jouer le tour suivant -></a>
 
-{% endblock %}
+
 
 
 

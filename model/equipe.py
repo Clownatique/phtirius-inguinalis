@@ -1,5 +1,5 @@
 import psycopg
-from .utils import select_query, other_query,get_instances,count_instances,get_table_like
+from model.utils import select_query, other_query,get_instances,count_instances,get_table_like
 from datetime import datetime
 
 def noms_utilises(connexion):
