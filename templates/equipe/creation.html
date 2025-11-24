@@ -37,6 +37,7 @@
   <fieldset>
     <legend>Choisissez vos morpions</legend>
       <select size=7 name="morpion" multiple>
+        {{REQUEST_VARS["liste_morpion"]}}
         {% for morpion in REQUEST_VARS["liste_morpion"] %}
           <option value="{{morpion[0]}}" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[1]}}" >
             <!--mettre l'idM dans value-->

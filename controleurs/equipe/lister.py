@@ -1,15 +1,18 @@
 from model.equipe import liste_equipes
 from model.equipe import liste_morpion_une_equipe
 
-REQUEST_VARS['equipes_seul'] = liste_equipes(SESSION['CONNEXION'])
+
+connexion = SESSION['CONNEXION']
+
+REQUEST_VARS['equipes_seul'] = liste_equipes(connexion)
 #ajout des trucs dans le truc tsais
 liste_equipe_morpion = []
 for infoE in REQUEST_VARS['equipes_seul']:
     equipe_morpions = {}
 
-    morpions = liste_morpion_une_equipe(SESSION['CONNEXION'],infoE[0],infoE[1]) 
+    morpions = liste_morpion_une_equipe(connexion,infoE[0])
     equipe_morpions['info'] = infoE
-    equipe_morpions['morpions'] = morpions 
+    equipe_morpions['morpions'] = morpions
     liste_equipe_morpion.append(equipe_morpions)
 
 print(liste_equipe_morpion)

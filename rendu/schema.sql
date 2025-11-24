@@ -5,9 +5,9 @@ CREATE SCHEMA morpion;
 SET SEARCH_PATH TO morpion;
 
 CREATE TABLE Equipe(
-    PRIMARY KEY (nomE, couleurE),
+    PRIMARY KEY (nomE),
     nomE VARCHAR(16) NOT NULL,
-    couleurE VARCHAR(6) NOT NULL,
+    couleurE VARCHAR(6) UNIQUE NOT NULL,
     date_creation DATE
 );
 
@@ -22,56 +22,37 @@ CREATE TABLE Morpion(
 );
 
 CREATE TABLE Posseder(
-    PRIMARY KEY (idM, nomE, couleurE),
+    PRIMARY KEY (idM, nomE),
     FOREIGN KEY (idM) REFERENCES Morpion(idM),
-    FOREIGN KEY (nomE, couleurE) REFERENCES Equipe(nomE, couleurE),
+    FOREIGN KEY (nomE) REFERENCES Equipe(nomE),
     idM INTEGER NOT NULL, -- clé étrangère
-    nomE VARCHAR(16) NOT NULL, -- clé étrangère
-    couleurE VARCHAR(6) NOT NULL, -- clé étrangère
-    PV  INTEGER,
-    ATK INTEGER,
-    MANA INTEGER,
-    REU INTEGER
+    nomE VARCHAR(16) NOT NULL-- clé étrangère
 );
 
 CREATE TABLE Partie (
-    PRIMARY KEY (nome1, couleurE1, nomE2, couleurE2, date_debut),
-    FOREIGN KEY (nome1, couleurE1) REFERENCES Equipe(nomE, couleurE),
-    FOREIGN KEY (nomE2, couleurE2) REFERENCES Equipe(nomE, couleurE),
-    nomE1 VARCHAR(16) NOT NULL, -- clé étrangère
-    couleurE1 VARCHAR(6) NOT NULL, -- clé étrangère
+    idp UUID,
+    nomE1 VARCHAR(16) NOT NULL,
     nomE2 VARCHAR(16) NOT NULL, -- clé étrangère
-    couleurE2 VARCHAR(6) NOT NULL, -- clé étrangère
     date_debut DATE,
     date_fin DATE,
     max_tours INTEGER,
     taille_grille INTEGER,
-    est_speciale BOOL
+    est_speciale BOOL,
+    FOREIGN KEY (nome1) REFERENCES Equipe(nomE),
+    FOREIGN KEY (nome2) REFERENCES Equipe(nomE),
+    PRIMARY KEY (idp) --uuid
 );
 
 CREATE TABLE Journal(
-    numA INTEGER NOT NULL,
+    numA INTEGER UNIQUE NOT NULL,
     date_action DATE,
     texte_action VARCHAR(80),
-    nomE1 VARCHAR(16) NOT NULL, -- clé étrangère
-    couleurE1 VARCHAR(6) NOT NULL, -- clé étrangère
-    nomE2 VARCHAR(16) NOT NULL, -- clé étrangère
-    couleurE2 VARCHAR(6) NOT NULL, -- clé étrangère
     date_debut DATE,
-    PRIMARY KEY (numA,nome1, couleurE1, nomE2, couleurE2, date_debut),
-    FOREIGN KEY (nome1, couleurE1, nomE2, couleurE2, date_debut) REFERENCES Partie(nome1, couleurE1, nomE2, couleurE2, date_debut)
+    idp UUID,
+    PRIMARY KEY (numA,idp),
+    FOREIGN KEY (idP) REFERENCES Partie(idp)
 );
 
-CREATE TABLE Jouer(
-    PRIMARY KEY (idP),
-    FOREIGN KEY(nomE1, couleurE1) REFERENCES Equipe(nomE, couleurE),
-    FOREIGN KEY(nomE2, couleurE2) REFERENCES Equipe(nomE, couleurE),
-    idP INTEGER NOT NULL,
-    couleurE1 VARCHAR(6), -- deux clés étrangères*
-    nomE1 VARCHAR(16),
-    couleurE2 VARCHAR(6),
-    nomE2 VARCHAR(16)
-);
 
 
 --- INSERTION FICTIVE DE DONNEES DANS LES TABLES
@@ -104,7 +85,10 @@ INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t14.png', 8, 2, 5, 0);
 INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t15.png', 7, 0, 8, 0);
 INSERT INTO morpion (image, PV, ATK, MANA, REU) VALUES ('t16.png', 5, 5, 5, 0);
 -- POSSEDER
-INSERT INTO Posseder (idm, nome, couleure) VALUES
-(1, 'Tigers', 'ececec'),
-(2, 'Tigers', 'ececec'),
-(3, 'Dragons', 'dadada');
+INSERT INTO Posseder (idm, nome) VALUES
+(1, 'Tigers'),
+(2, 'Tigers'),
+(4, 'Dragons'),
+(8,'abricotiers'),
+(5,'abricotiers'),
+(6,'abricotiers');

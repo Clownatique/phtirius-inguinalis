@@ -1,4 +1,3 @@
-from _typeshed import NoneType
 import re
 from model.equipe import insertion_equipe, insertion_posseder
 from model.equipe import liste_morpion
@@ -7,7 +6,9 @@ from model.equipe import couleur_prises, noms_utilises
 connexion = SESSION['CONNEXION']
 
 # pyright: reportUndefinedVariable=false
-REQUEST_VARS = {'nom':'','couleur':'','morpion':''}
+#REQUEST_VARS = {'nom':'','couleur':'','morpion':''}
+
+REQUEST_VARS["liste_morpion"] = liste_morpion(connexion)
 
 def verif_morpion(morpions:list) -> bool:
     """
@@ -32,14 +33,6 @@ def verif_morpion(morpions:list) -> bool:
 
 
 
-def verif_couleur_disponible(couleur:str) -> bool: # de tuples
-    liste_coul_prises = []
-    for _couleur in couleur_prises(connexion):
-        liste_coul_prises.append(_couleur[0])
-    if couleur in liste_coul_prises:
-        REQUEST_VARS['err_couleur_indisponible'] = f'''{couleur} est déjà pris pr une autre équipe'''
-        return False
-    return True
 
 
 def verif_nom_disponible(nom:str) -> bool:
@@ -60,8 +53,9 @@ def verif_nom_format(nom:str) -> bool:
     return True
 
 def verif_couleur_format(couleur:str) -> bool:
-    regex = r'[0-9a-fA-F]{6}$'
-    if not(bool(re.match(regex, couleur))): # j'ai utilisé de l'ia ici
+    regex = r'^[0-9a-fA-F]{6}$'
+    # bien si on le fait sans regexp
+    if not(bool(re.search(regex, couleur))): # j'ai utilisé de l'ia ici
         REQUEST_VARS['err_format_couleur'] = f'''{couleur} ne respecte pas le format demandé.'''
 
 def verif_complet(post:dict) -> list:
@@ -83,7 +77,7 @@ if POST != {}: # Si l'utilisateur a rentré des trucs
         nom = POST['nom'][0]
         morpions = POST['morpions']
 
-        if (verif_complet(POST) and verif_morpion(morpions) and verif_couleur_disponible(couleur) and verif_couleur_format(couleur) and verif_nom_disponible(nom) and verif_nom_format(nom)):
+        if (verif_complet(POST) and verif_morpion(morpions) and verif_couleur_format(couleur) and verif_nom_disponible(nom) and verif_nom_format(nom)):
             try:
                 id_equipe_inseree =  insertion_equipe(connexion,nom,couleur)
                 REQUEST_VARS['morpion_inseree'] = insertion_posseder(connexion,nom,couleur,morpions)
@@ -96,8 +90,7 @@ if POST != {}: # Si l'utilisateur a rentré des trucs
             # pour quand même traiter les erreurs d'un utilisateur qui a oublié un champ
             if champ == 'couleur':
                 couleur = POST['couleur'][0]
-                verif_couleur_disponible()
-                verif_couleur_format()
+                verif_couleur_format(couleur)
             if champ == 'nom':
                 nom = POST['nom'][0]
                 verif_nom_format(nom)
@@ -108,4 +101,5 @@ if POST != {}: # Si l'utilisateur a rentré des trucs
 
         REQUEST_VARS['champ_manquant'] = champ_manquant
 
-REQUEST_VARS['liste_morpion'] = liste_morpion(connexion)
+REQUEST_VARS["liste_morpion"] = liste_morpion(connexion)
+print(liste_morpion(connexion))
