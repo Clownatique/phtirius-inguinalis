@@ -3,6 +3,10 @@
 # - controleur : chemin vers le fichier du controleur
 # - template : chemin vers le fichier de template
 
+#
+# DIVERS
+#
+
 [[routes]]
 url = ""
 controleur = "controleurs/accueil/accueil.py"
@@ -11,24 +15,29 @@ template = "templates/accueil/accueil.html"
 url = "parties"
 controleur = "controleurs/liste_partie.py"
 template = "templates/liste_partie.html"
-[[routes]]
-url = "partie-simple"
-controleur = "controleurs/partie_simple/jouer.py"
-template = "templates/partie_simple/jouer.html"
+#
+# PARTIE
+#
 [[routes]]
 url = "partie"
-controleur = "controleurs/partie_simple/jouer.py"
-template = "templates/partie_simple/jouer.html"
+controleur = "controleurs/partie/jouer.py"
+template = "templates/partie/jouer.html"
+
 [[routes]]
-url = "partie-simple/creer"
-controleur = "controleurs/partie_simple/creer.py" # peut être utiliser deux fois le même
-template = "templates/partie_simple/creer.html"
+url = "partie/creer"
+controleur = "controleurs/partie/creer.py" # peut être utiliser deux fois le même
+template = "templates/partie/creer.html"
+
 [[routes]]
-url = "partie-simple/resultat"
-controleur = "controleurs/partie_simple/resultat.py" # peut être utiliser deux fois le même
-template = "templates/partie_simple/resultats.html"
+url = "partie/resultat"
+controleur = "controleurs/partie/resultat.py" # peut être utiliser deux fois le même
+template = "templates/partie/resultats.html"
+
+#
+# EQUIPE
+#
 [[routes]]
-url = "equipe"
+url = "equipes"
 controleur = "controleurs/equipe/lister.py"
 template = "templates/equipe/lister.html"
 [[routes]]

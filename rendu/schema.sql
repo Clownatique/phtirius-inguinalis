@@ -94,5 +94,7 @@ INSERT INTO Posseder (idm, nome) VALUES
 (5,'abricotiers'),
 (6,'abricotiers');
 
-INSERT INTO Partie (nomE1,nomE2,date_debut,max_tours,taille_grille) VALUES
-('abricotiers','pommiers',NOW(),64,3);
+INSERT INTO Partie (idp,nomE1,nomE2,date_debut,max_tours,taille_grille,est_speciale) VALUES
+('711228c0-d551-40ee-9757-680703c82afa','abricotiers','pommiers',NOW(),64,3,False),
+('903843bd-2f39-4a82-adb3-13bd99c1f932','Tigers','Dragons',NOW(),15,9,False),
+('c25aa76f-d6da-420c-80b2-7d775962bbbf','pommiers','Dragons',NOW(),2,3,True);
