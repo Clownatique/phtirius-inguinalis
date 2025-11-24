@@ -2,6 +2,29 @@ from psycopg import sql
 from datetime import datetime
 from .utils import other_query, select_query
 
+def recuperer_partie(connexion, idp):
+  """
+    RENVOIE UN DICTIONNAIRE : PARTIE
+  """
+  query = """SELECT * FROM Partie WHERE idP = %s"""
+  partie = select_query(connexion,query,[idp])
+  if len(partie) == 0:
+    print("résultat de la requête:")
+
+    print(partie)
+    partie = {
+    "nomE1":partie[1],
+    "nomE2":partie[2],
+      "idP":idp,
+      "taille_grille":partie[6],
+    }
+    return partie
+  else:
+    print(partie)
+    print(partie[0])
+    print("la requete renvoie plus de 0 instances")
+
+
 def recompiler_partie(connexion, partie:list):
   """
     Renvoie un tableau correspondant à la partie passé en paramètre

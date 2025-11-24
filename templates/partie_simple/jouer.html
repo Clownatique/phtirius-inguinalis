@@ -1,7 +1,10 @@
 
 {% block title %} Partie {{REQUEST_VARS['partie'].idP}}{% endblock %}
 
-<h2>Partie {{REQUEST_VARS['partie'].idP}}</h2>
+{{REQUEST_VARS['erreur']}}
+
+<h2>Partie {{REQUEST_VARS['ID_PARTIE']}}</h2>
+{{REQUEST_VARS["partie"]}}
 
 <p>
   <strong>{{REQUEST_VARS['partie'].nomE1}}</strong> VS <strong>{{REQUEST_VARS['partie'].nomE2}}</strong><br>
@@ -23,7 +26,7 @@
         </form>
       {% else %}
           <strong>{{ REQUEST_VARS['grille[i][j]'] }}</strong>
-          
+
       {% endif %}
     </td>
     {% endfor %}
@@ -32,9 +35,3 @@
 </table>
 <br>
 <a href="partie-simple"> Jouer le tour suivant -></a>
-
-
-
-
-
-

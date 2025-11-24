@@ -8,7 +8,15 @@ url = ""
 controleur = "controleurs/accueil/accueil.py"
 template = "templates/accueil/accueil.html"
 [[routes]]
+url = "parties"
+controleur = "controleurs/liste_partie.py"
+template = "templates/liste_partie.html"
+[[routes]]
 url = "partie-simple"
+controleur = "controleurs/partie_simple/jouer.py"
+template = "templates/partie_simple/jouer.html"
+[[routes]]
+url = "partie"
 controleur = "controleurs/partie_simple/jouer.py"
 template = "templates/partie_simple/jouer.html"
 [[routes]]

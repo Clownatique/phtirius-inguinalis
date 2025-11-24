@@ -1,4 +1,5 @@
 #config de la bd
+init.py
 config-bd.toml
 # Byte-compiled files
 __pycache__/

@@ -4,6 +4,8 @@ DROP SCHEMA IF EXISTS morpion CASCADE;
 CREATE SCHEMA morpion;
 SET SEARCH_PATH TO morpion;
 
+CREATE EXTENSION "uuid-ossp";
+
 CREATE TABLE Equipe(
     PRIMARY KEY (nomE),
     nomE VARCHAR(16) NOT NULL,
@@ -30,7 +32,7 @@ CREATE TABLE Posseder(
 );
 
 CREATE TABLE Partie (
-    idp UUID,
+    idp UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     nomE1 VARCHAR(16) NOT NULL,
     nomE2 VARCHAR(16) NOT NULL, -- clé étrangère
     date_debut DATE,
@@ -39,12 +41,11 @@ CREATE TABLE Partie (
     taille_grille INTEGER,
     est_speciale BOOL,
     FOREIGN KEY (nome1) REFERENCES Equipe(nomE),
-    FOREIGN KEY (nome2) REFERENCES Equipe(nomE),
-    PRIMARY KEY (idp) --uuid
+    FOREIGN KEY (nome2) REFERENCES Equipe(nomE)
 );
 
 CREATE TABLE Journal(
-    numA INTEGER UNIQUE NOT NULL,
+    numA  INTEGER UNIQUE NOT NULL,
     date_action DATE,
     texte_action VARCHAR(80),
     date_debut DATE,
@@ -92,3 +93,6 @@ INSERT INTO Posseder (idm, nome) VALUES
 (8,'abricotiers'),
 (5,'abricotiers'),
 (6,'abricotiers');
+
+INSERT INTO Partie (nomE1,nomE2,date_debut,max_tours,taille_grille) VALUES
+('abricotiers','pommiers',NOW(),64,3);
