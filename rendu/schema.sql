@@ -45,11 +45,11 @@ CREATE TABLE Partie (
 );
 
 CREATE TABLE Journal(
-    numA  INTEGER UNIQUE NOT NULL,
+    numA  INTEGER NOT NULL,
     date_action DATE,
     texte_action VARCHAR(80),
     date_debut DATE,
-    idp UUID,
+    idp UUID NOT NULL,
     PRIMARY KEY (numA,idp),
     FOREIGN KEY (idP) REFERENCES Partie(idp)
 );
@@ -96,5 +96,10 @@ INSERT INTO Posseder (idm, nome) VALUES
 
 INSERT INTO Partie (idp,nomE1,nomE2,date_debut,max_tours,taille_grille,est_speciale) VALUES
 ('711228c0-d551-40ee-9757-680703c82afa','abricotiers','pommiers',NOW(),64,3,False),
-('903843bd-2f39-4a82-adb3-13bd99c1f932','Tigers','Dragons',NOW(),15,9,False),
+('903843bd-2f39-4a82-adb3-13bd99c1f932','Tigers','Dragons','2025-11-24T23:44:39.028332+01:00',15,9,False),
 ('c25aa76f-d6da-420c-80b2-7d775962bbbf','pommiers','Dragons',NOW(),2,3,True);
+
+INSERT INTO Journal (numa,date_action,texte_action,idp) values
+(1,'2025-11-24T23:46:39.028332+01:00','0,2','903843bd-2f39-4a82-adb3-13bd99c1f932'),
+(2,'2025-11-24T23:51:39.028332+01:00','1,2','903843bd-2f39-4a82-adb3-13bd99c1f932');
+--(3,'2025-11-24T23:52:39.028332+01:00','1,0','903843bd-2f39-4a82-adb3-13bd99c1f932');

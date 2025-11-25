@@ -16,10 +16,13 @@ def recuperer_partie(connexion, idp):
     query = '''SELECT couleure FROM equipe WHERE nomE = %s'''
     select_query(connexion,query,[idp])
     couleur = [select_query(connexion, query,[partie[0][i]]) for i in range(1,2)]
+    tour = select_query(connexion,'SELECT MAX(numa) FROM Journal WHERE idp = %s',[idp])
+    tour = 2 if tour[0][0] % 2 != 0 else 1
     partie = {
       "nomE1":partie[0][1],
       "nomE2":partie[0][2],
       "idP":idp,
+      "tour":tour,
       "taille":partie[0][6],
       "est_speciale":partie[0][7]
     }
@@ -34,17 +37,18 @@ def recompiler_partie(connexion, idP):
   actions = select_query(connexion,query, [idP])
   query = """SELECT taille_grille FROM partie """+sel_partie
   taille_grille = select_query(connexion, query,[idP])[0][0]
+  print(f'''action joué durant la partie {idP}:{actions}''')
   if taille_grille == None:
     taille_grille = 3
-  grille = [[None for _ in range(taille_grille)] for _ in range(taille_grille)]
+  grille = [[0 for _ in range(taille_grille)] for _ in range(taille_grille)]
 
   for i in actions:
     # une action dans le contexte d'une partie simple ça ressemble à ça:
     # (0 ou 1): x,y
     # pour l'instant les grilles ne peuvent pas aller au dessus de 9
-    x = i[2:-2]
-    y = i[4:]
-    grille[x][y] = i[:1]
+    x = int(i[2][:1])
+    y = int(i[2][2:])
+    grille[x][y] = 1 if i[0] % 2 != 0 else 2
 
   return grille
 
