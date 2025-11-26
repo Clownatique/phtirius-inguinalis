@@ -1,5 +1,4 @@
 #config de la bd
-init.py
 config-bd.toml
 # Byte-compiled files
 __pycache__/
@@ -44,6 +43,4 @@ pytest_cache/
 # Other files
 *.DS_Store
 *.pkl
-*.html
-*.svg
 *.ipynb

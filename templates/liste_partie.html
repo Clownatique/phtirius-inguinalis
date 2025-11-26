@@ -1,0 +1,11 @@
+<ul>
+{% for partie in REQUEST_VARS['liste_partie']%}
+  <li>
+  <a href="/partie/{{partie[0]}}">
+    Partie entre {{partie[1]}} contre {{partie[2]}}
+    {{partie}}
+  </a>
+  <em>{{partie[3]}}</em>
+  </li>
+{% endfor %}
+</ul>

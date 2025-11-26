@@ -1,0 +1,57 @@
+{% if REQUEST_VARS['partie_soumise'] == True%}
+  <p>Nous traitons votre demande</p>
+
+  {% if REQUEST_VARS['err_meme_equipe'] == True %}
+    <p>
+    </p>
+  {% endif %}
+  {% if REQUEST_VARS['err_max_tours'] == True %}
+    <p>
+    </p>
+  {% endif %}
+  {% if REQUEST_VARS['err_taille_grille'] == True %}
+    <p>
+    </p>
+  {% endif %}
+{% endif %}
+
+
+<form method="post" action="">
+  <fieldset max=1>
+    <legend>Choix de la première équipe</legend>
+      {% for equipe in REQUEST_VARS['equipes'] %}
+        <label>
+          {{equipe[0]}}
+        </label>
+        <input type="radio" name="equipe_1">
+        <br>
+      {% endfor %}
+  </fieldset>
+
+  <fieldset>
+    <legend>Choix de la deuxième équipe</legend>
+      {% for equipe in REQUEST_VARS['equipes'] %}
+        <label>
+          {{equipe[0]}}
+        </label>
+        <input type="radio" name="equipe_2">
+        <br>
+       {% endfor %}
+  </fieldset>
+
+  <fieldset>
+    <legend> Configuration de la partie</legend>
+
+      <label for="taille_grille" name="taille_grille">Taille de la
+        grille:</label>
+      <input id="taille_grille" name="taille_grille" type="number" value="{{REQUEST_VARS['taille_grille_soumise']}}" placeholder="3" max="9">
+      <br>
+      <label for="nb_tour_max" name="nb_tour_max">Nombre de tour maximum</label>
+      <input id="nb_tour_max" name="nb_tour_max" type="number" value="{{REQUEST_VARS["max_tour_soumis"]}}" text placeholder="32" max="64">
+      <br>
+      <label for="est_special" name="est_special">Partie Spéciale ?</label>
+      <input id="est_special" name="est_special" type="checkbox" value="{{REQUEST_VARS["est_special_soumis"]}}">
+
+  </fieldset>
+  <input value="créer la partie" type="submit">
+</form>

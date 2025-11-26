@@ -1,0 +1,29 @@
+{% block complique %}
+
+<form method="POST" action="partie-simple">
+  <table border="1" cellspacing="0" cellpadding="10" style="text-align:center;">
+    {% for i in range(REQUEST_VARS['partie']['taille']) %}
+    <tr>
+      {% for j in range(REQUEST_VARS['partie']['taille']) %}
+      <td style="width:40px; height:40px; text-align:center;">
+        {% if REQUEST_VARS['grille[i][j]']==None %}
+          <form method="POST" action="partie-simple">
+            <input type="hidden" name="x" value="{{i}}">
+            <input type="hidden" name="y" value="{{j}}">
+            <button type="submit" style="width:100%; height:100%; font-size:10px;">Libre</button>
+        {% else %}
+            <strong>{{ REQUEST_VARS['grille'][i][j] }}</strong>
+
+        {% endif %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+  </table>
+  <table>
+    {% for morpion_equipe in REQUEST_VARS['morpions']%}
+      <tr>
+    {% endfor %}
+  </table>
+</form>
+{% endblock %}
