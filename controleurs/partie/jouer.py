@@ -14,7 +14,8 @@ def verifier_action(case:tuple,joueur:str):
     return True
 
 
-url_components = REQUEST_VARS['url_components']
+#url_components = REQUEST_VARS['url_components']
+url_components = [None,'903843bd-2f39-4a82-adb3-13bd99c1f932']
 connexion = SESSION['CONNEXION']
 
 if url_components[1] == '':
@@ -31,7 +32,7 @@ else:
         REQUEST_VARS['grille'] = recompiler_partie(connexion,partie['idP'])
         REQUEST_VARS['avancee'] = partie['est_speciale']
         REQUEST_VARS['taille'] = 3
-        REQUEST_VARS['joueur'] = 0
+        REQUEST_VARS['joueur'] = REQUEST_VARS['partie'][f"""nomE{REQUEST_VARS['partie']['tour']}"""]
         if partie['est_speciale']:
             None
             #REQUEST_VARS['morpions'] = recuperer_morpions(connexion, nomE)
