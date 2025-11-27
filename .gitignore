@@ -1,5 +1,9 @@
 #config de la bd
 config-bd.toml
+init.py
+
+pyrightconfig.json
+
 # Byte-compiled files
 __pycache__/
 *.py[cod]

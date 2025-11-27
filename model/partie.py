@@ -2,6 +2,7 @@ from psycopg import sql
 from datetime import datetime
 from .utils import other_query, select_query
 
+
 def recuperer_partie(connexion, idp):
   """
     RENVOIE UN DICTIONNAIRE : PARTIE
@@ -77,9 +78,10 @@ def inserer_action(connexion, idPartie:int, action):
   return other_query(requete, valeurs)
 
 
-def creer_partie(connexion, nomE1, couleurE1, nomE2, couleurE2,est_special):
-    sql = """INSERT INTO PARTIE (couleurE1, nomE1, couleurE2, nomE2, date_debut, est_special)
-          VALUES (%s, %s, %s, %s, %s, %s) RETURNING idP;"""
-    valeurs=(couleurE1, nomE1, couleurE2, nomE2, datetime.now(), est_special)
+def creer_partie(connexion, nomE1, nomE2, est_special,max_tours,taille_grille):
+    sql = """INSERT INTO PARTIE (nomE1, nomE2, date_debut, est_speciale,max_tours,taille_grille)
+          VALUES (%s, %s, NOW(), %s, %s, %s)"""
+    print(sql)
+    valeurs=[nomE1, nomE2, est_special,max_tours,taille_grille]
     idP = other_query(connexion, sql, valeurs)
     return idP

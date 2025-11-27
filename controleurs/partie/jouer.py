@@ -4,15 +4,22 @@ from model.utils import select_query
 
 #pyright: reportUndefinedVariable=false
 
-def verifier_action(case:tuple,joueur:str):
+def verifier_action(action:str,jouer:str, partie:list):
     """
         PRENDS:- un tuple de 2 cases
                - une manière d'identifier un jour (string ?)
          RENDS:- un bool pour le contrôleur
                - un str pour la bd si c bon/un message d'erreur
     """
-    return True
-
+    try:
+        pos_sou = action.split(',')
+        if grille[pos_sou[0]][pos_sou[1]] == None:
+            True
+        else:
+            return False
+    except:
+        REQUEST_VARS["j'en connais un qui bidouille et ça me plaît pas"]
+        return False
 
 #url_components = REQUEST_VARS['url_components']
 url_components = [None,'903843bd-2f39-4a82-adb3-13bd99c1f932']
@@ -31,7 +38,7 @@ else:
         print(partie)
         REQUEST_VARS['grille'] = recompiler_partie(connexion,partie['idP'])
         REQUEST_VARS['avancee'] = partie['est_speciale']
-        REQUEST_VARS['taille'] = 3
+        REQUEST_VARS['taille'] = partie['taille']
         REQUEST_VARS['joueur'] = REQUEST_VARS['partie'][f"""nomE{REQUEST_VARS['partie']['tour']}"""]
         if partie['est_speciale']:
             None
