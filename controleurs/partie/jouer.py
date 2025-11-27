@@ -21,8 +21,7 @@ def verifier_action(action:str,jouer:str, partie:list):
         REQUEST_VARS["j'en connais un qui bidouille et ça me plaît pas"]
         return False
 
-#url_components = REQUEST_VARS['url_components']
-url_components = [None,'903843bd-2f39-4a82-adb3-13bd99c1f932']
+url_components = REQUEST_VARS['url_components']
 connexion = SESSION['CONNEXION']
 
 if url_components[1] == '':

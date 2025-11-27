@@ -28,6 +28,8 @@ def recuperer_partie(connexion, idp):
     elif type(tour[0][0]) == int:
       tour = 2 if (tour[0][0] % 2 != 0) else 1
 
+    print(f"""taille:{partie}""")
+
     partie = {
       "nomE1":partie[0][1],
       "couleurE1": couleur[0],
