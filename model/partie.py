@@ -14,13 +14,24 @@ def recuperer_partie(connexion, idp):
     return 404
   else:
     query = '''SELECT couleure FROM equipe WHERE nomE = %s'''
-    select_query(connexion,query,[idp])
-    couleur = [select_query(connexion, query,[partie[0][i]]) for i in range(1,2)]
+
+    print(partie)
+    #select_query(connexion, query,[partie[0][i]])
+
+    couleur = [select_query(connexion, query,[partie[0][i]])[0][0] for i in range(1,3)]
+
     tour = select_query(connexion,'SELECT MAX(numa) FROM Journal WHERE idp = %s',[idp])
-    tour = 2 if tour[0][0] % 2 != 0 else 1
+
+    if tour[0][0] == None:
+      tour = 1
+    elif type(tour[0][0]) == int:
+      tour = 2 if (tour[0][0] % 2 != 0) else 1
+
     partie = {
       "nomE1":partie[0][1],
+      "couleurE1": couleur[0],
       "nomE2":partie[0][2],
+      "couleurE2": couleur[1],
       "idP":idp,
       "tour":tour,
       "taille":partie[0][6],
