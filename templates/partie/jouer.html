@@ -4,12 +4,11 @@
   <p> Aucune partie renseignée, veuillez en choisir une <a href="/parties/">ici</a></p>
   {% else %}
       {{REQUEST_VARS['erreur']}}
-    <h2>Partie {{REQUEST_VARS['ID_PARTIE']}}</h2>
-    {{REQUEST_VARS["partie"]}}
+    <h2>Partie</h2>
 
     <p>
       <strong>{{REQUEST_VARS['partie'].nomE1}}</strong> VS <strong>{{REQUEST_VARS['partie'].nomE2}}</strong><br>
-      Tour actuel : <strong>{{REQUEST_VARS['partie']['tour']}}</strong>
+      <em>à l'équipe  {{REQUEST_VARS[f"nomE{REQUEST_VARS['partie']['tour']} de jouer:</em>
     </p>
 
     <h3>Grille actuelle</h3>
@@ -44,5 +43,4 @@
 </form>
     {% endif %}
     <br>
-    <a href="partie-simple"> Jouer le tour suivant -></a>
 {% endif %}
