@@ -22,12 +22,12 @@ def verif_morpion(morpions:list) -> bool:
     morpion_nec = max(0, min(nombre_morpion - 8, 6 - nombre_morpion))
     message = 'bon toutou'
     if morpion_nec > 0:
-        message = f"""{champ} morpion(s) en trop.Enlevez en de votre équipe"""
+        message = f"""{champ} morpion(s) en trop.Enlevez en de votre équipe""" #c'est quoi champ? faut pas mettre morpion_nec plutôt?
     else:
         message = f"""{champ} morpion(s) en moins. Rajoutez en de votre équipe"""
 
     REQUEST_VARS['err_nombre_morpion'] = message
-    if REQUEST_VARS == "bon toutou":
+    if REQUEST_VARS == "bon toutou": #et là faut pas mettre "if morpion_nec == 0" car resquest_vars c'est un dict non ? (je me trompe peut-être je suis pas sûre)
         return True
     return False
 
@@ -57,6 +57,8 @@ def verif_couleur_format(couleur:str) -> bool:
     # bien si on le fait sans regexp
     if not(bool(re.search(regex, couleur))): # j'ai utilisé de l'ia ici
         REQUEST_VARS['err_format_couleur'] = f'''{couleur} ne respecte pas le format demandé.'''
+        return False
+    return True  #j'ai rajouté les return tu les avais oublié tkt
 
 def verif_complet(post:dict) -> list:
     champ_manquant = []
@@ -77,7 +79,7 @@ if POST != {}: # Si l'utilisateur a rentré des trucs
         nom = POST['nom'][0]
         morpions = POST['morpions']
 
-        if (verif_complet(POST) and verif_morpion(morpions) and verif_couleur_format(couleur) and verif_nom_disponible(nom) and verif_nom_format(nom)):
+        if  (verif_morpion(morpions) and verif_couleur_format(couleur) and verif_nom_disponible(nom) and verif_nom_format(nom)):
             try:
                 id_equipe_inseree =  insertion_equipe(connexion,nom,couleur)
                 REQUEST_VARS['morpion_inseree'] = insertion_posseder(connexion,nom,couleur,morpions)
