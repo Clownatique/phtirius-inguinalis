@@ -1,10 +1,12 @@
+DELETE FROM Equipe;
+DELETE FROM Morpion;
+DELETE FROM Posseder;
+DELETE FROM Partie;
+DELETE FROM Journal;
 -- EQUIPES
 INSERT INTO Equipe (nome,couleure,date_creation) VALUES
-('Tigers', 'ececec', '2024-12-01'),
-('Dragons', 'dadada', '2025-01-12');
-
-
-INSERT INTO EQUIPE (nome, couleure, date_creation) VALUES
+('Tigers', 'ececec', NOW()),
+('Dragons', 'dadada', NOW()),
 ('abricotiers','eeceed', NOW()),
 ('pommiers', '8c8c8c', NOW());
 
