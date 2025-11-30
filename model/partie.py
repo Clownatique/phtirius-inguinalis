@@ -28,7 +28,9 @@ def recuperer_partie(connexion, idp):
     elif type(tour[0][0]) == int:
       tour = 2 if (tour[0][0] % 2 != 0) else 1
 
-    print(f"""taille:{partie}""")
+    print(partie)
+    for k in partie:
+        print(f"""{k}""")
 
     partie = {
       "nomE1":partie[0][1],
@@ -60,8 +62,9 @@ def recompiler_partie(connexion, idP):
     # une action dans le contexte d'une partie simple ça ressemble à ça:
     # (0 ou 1): x,y
     # pour l'instant les grilles ne peuvent pas aller au dessus de 9
-    x = int(i[2][:1])
-    y = int(i[2][2:])
+    print(f"action:{i}")
+    x = int(i[1][:1])
+    y = int(i[1][2:])
     grille[x][y] = 1 if i[0] % 2 != 0 else 2
 
   return grille
@@ -75,9 +78,11 @@ def verifier_action(connexion, grille:list, action):
   return True
 
 def inserer_action(connexion, idPartie:int, action):
-  requete = """INSERT INTO JOURNAL (idP, texte_action,date_action) VALUES (%s,%s,NOW())"""
-  valeurs = [idPartie,action]
-  return other_query(requete, valeurs)
+  requete_numa = "SELECT max(numa)+1 FROM Journal WHERE idp = %s"
+  numa = select_query(connexion,requete_numa,[idPartie])
+  requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action) VALUES (%s,%s,%s,NOW())"""
+  valeurs = [int(numa[0][0]),idPartie,action[0]]
+  return other_query(connexion, requete, valeurs)
 
 
 def creer_partie(connexion, nomE1, nomE2, est_special,max_tours,taille_grille):

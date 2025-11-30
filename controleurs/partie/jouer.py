@@ -11,15 +11,15 @@ def verifier_action(action:str,jouer:str, partie:list):
          RENDS:- un bool pour le contrôleur
                - un str pour la bd si c bon/un message d'erreur
     """
-    try:
-        pos_sou = action.split(',')
-        if grille[pos_sou[0]][pos_sou[1]] == None:
-            True
-        else:
-            return False
-    except:
-        REQUEST_VARS["j'en connais un qui bidouille et ça me plaît pas"]
+    pos_sou = action[0].split(',')
+    print(partie)
+    print(pos_sou)
+    if partie[int(pos_sou[0])][int(pos_sou[1])] == 0:
+        return True
+    else:
         return False
+        # REQUEST_VARS[""]= "j'en connais un qui bidouille et ça me plaît pas"
+        # return False
 
 url_components = REQUEST_VARS['url_components']
 connexion = SESSION['CONNEXION']
@@ -45,6 +45,8 @@ else:
 
         if POST != {}:
             print(POST['case'])
+            if verifier_action(POST['case'],REQUEST_VARS['joueur'], REQUEST_VARS['grille']):
+                inserer_action(connexion,partie['idP'],POST['case'])
             #if verifier_action(POST['case'],REQUEST_VARS['jouer']):
 #lig=int(form.get("ligne"))    ->
 #col=int(form.get("colonne"))  -> avec le framework du prof, il faut utiliser le dictionnaire POST ;)
