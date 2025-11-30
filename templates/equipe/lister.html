@@ -1,15 +1,25 @@
 <p>{{ REQUEST_VARS['tentative_creation_equipe'] }}</p>
-<ul>
-  {% for equipe in REQUEST_VARS['liste_equipes'] %}
-    <li>
-      {{equipe['info']}} 
-      <ol>
-        {% for morpion in equipe['morpions']%}
-          <li>
-            {{morpion}}
-          </li>
-          {% endfor %}
-      </ol>
-    </li>
-  {% endfor %}
-</ul>
+<form action="." method="POST">
+  <ul>
+    {% for equipe in REQUEST_VARS['liste_equipes'] %}
+      <fieldset>
+      <li>
+        <label style="background-color: {{equipe['info'][1]}};">{{equipe['info'][0]}}
+        <input type="checkbox" name="{{equipe['info'][0]}}">
+        </label>
+        <ul>
+          {% for morpion in equipe['morpions']%}
+            <li>
+              <img src="/static/img/img-morpions/{{morpion[0]}}" width="50" alt="">
+              {% for i in range(1,4) %}
+                {{morpion[i]}}
+              {% endfor %}
+            </li>
+            {% endfor %}
+        </ul>
+      </li>
+      </fieldset>
+    {% endfor %}
+  </ul>
+  <input type="submit">
+</form>

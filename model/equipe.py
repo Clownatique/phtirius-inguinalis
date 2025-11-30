@@ -38,3 +38,7 @@ def insertion_posseder(connexion, nom, couleur, liste_morpion):
         # de base du morpion pour les affecter
         query ="INSERT INTO posseder values (%s,%s)"
         other_query(connexion, query,[int(indice_morpion), nom[0]])
+
+def supprimer_equipe(connexion, nom):
+    query = f"""DELETE FROM Equipe WHERE nome = %s"""
+    other_query(connexion,query, [nom])
