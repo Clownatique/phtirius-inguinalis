@@ -4,6 +4,8 @@ from model.utils import select_query
 
 #pyright: reportUndefinedVariable=false
 
+connexion = SESSION['CONNEXION']
+
 def verifier_action(action:str,jouer:str, partie:list):
     """
         PRENDS:- un tuple de 2 cases
@@ -21,12 +23,10 @@ def verifier_action(action:str,jouer:str, partie:list):
         # REQUEST_VARS[""]= "j'en connais un qui bidouille et ça me plaît pas"
         # return False
 
-url_components = REQUEST_VARS['url_components']
-connexion = SESSION['CONNEXION']
-
-if url_components[1] == '':
+if not('url_components' in REQUEST_VARS):
     REQUEST_VARS['erreur'] = "erreur"
 else:
+    url_components = REQUEST_VARS['url_components']
     idp = url_components[1]
     connexion = SESSION['CONNEXION']
     partie = recuperer_partie(connexion,idp)
