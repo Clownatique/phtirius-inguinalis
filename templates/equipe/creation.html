@@ -23,14 +23,14 @@
   <fieldset>
     <legend>Choisissez la couleur de votre équipe</legend>
     <label for="couleur"></label>
-    <input type="color" placeholder="Au format numérique" value="{{REQUEST_VARS['couleurE']}}" name="couleur" id="couleur" required></input>
+    <input type="color" placeholder="Au format numérique" value="{{REQUEST_VARS['couleurE']}}" name="couleur" id="couleur" required >
     <br />
   </fieldset>
   <!--nom-->
   <fieldset>
     <legend>Choisissez le nom de votre équipe</legend>
     <label for="nom"></label>
-    <input type="nom" name="nom" id="nom" value="{{REQUEST_VARS['nomE']}}" required></input>
+    <input type="text" name="nom" id="nom" value="{{REQUEST_VARS['nomE']}}" required >
   </fieldset>
   <br />
 
@@ -43,10 +43,10 @@
             <!--mettre l'idM dans value-->
             <!--Donc le rajouter dans contrôleur-->
             <p>
-              PV={{morpion[1]}}
-              ATK={{morpion[2]}}
-              MANA={{morpion[3]}}
-              REU={{morpion[4]}}
+              PV={{morpion[3]}}
+              ATK={{morpion[4]}}
+              MANA={{morpion[5]}}
+              REU={{morpion[6]}}
             </p>
           </option>
         {% endfor %}
