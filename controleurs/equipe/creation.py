@@ -19,15 +19,14 @@ def verif_morpion(morpions:list) -> bool:
      # moins de 6 : négatif
     """
     nombre_morpion = len(morpions)
-    morpion_nec = max(0, min(nombre_morpion - 8, 6 - nombre_morpion))
-    message = 'bon toutou'
-    if morpion_nec > 0:
-        message = f"""{champ} morpion(s) en trop.Enlevez en de votre équipe""" #c'est quoi champ? faut pas mettre morpion_nec plutôt?
-    else:
-        message = f"""{champ} morpion(s) en moins. Rajoutez en de votre équipe"""
+    morpion_nec = max(0, max(nombre_morpion - 8, 6 - nombre_morpion))
+    if nombre_morpion < 6:
+        REQUEST_VARS['err_nombre_morpion'] = f"""{morpion_nec} morpion(s) en moins. Rajoutez-en dans votre équipe""" 
+    if nombre_morpion >8 :
+        REQUEST_VARS['err_nombre_morpion'] = f"""{morpion_nec} morpion(s) en trop. Enlevez-en dans votre équipe"""
 
-    REQUEST_VARS['err_nombre_morpion'] = message
-    if REQUEST_VARS == "bon toutou": #et là faut pas mettre "if morpion_nec == 0" car resquest_vars c'est un dict non ? (je me trompe peut-être je suis pas sûre)
+    if morpion_nec==0:
+        REQUEST_VARS['succes'] = "Equipe créée !"
         return True
     return False
 
@@ -58,7 +57,7 @@ def verif_couleur_format(couleur:str) -> bool:
     if not(bool(re.search(regex, couleur))): # j'ai utilisé de l'ia ici
         REQUEST_VARS['err_format_couleur'] = f'''{couleur} ne respecte pas le format demandé.'''
         return False
-    return True  #j'ai rajouté les return tu les avais oublié tkt
+    return True 
 
 def verif_complet(post:dict) -> list:
     champ_manquant = []

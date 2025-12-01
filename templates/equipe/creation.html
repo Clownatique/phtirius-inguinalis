@@ -102,11 +102,12 @@
     <div class="messages">
       <!--Message de succès-->
       {% if REQUEST_VARS.get('succes')%}
-      <div class="alert alert-success">
+      <div class="alert alert-succes">
         <span style="font-size: 1.5em;">✅</span>
-        <span>{{ REQUEST_VARS['success'] }}</span>
+        <span>{{ REQUEST_VARS['succes'] }}</span>
       </div>
       {% endif %}
+      
 
       <!--Messages d'erreur-->
       <!--Erreur : format couleur-->
@@ -179,7 +180,7 @@
         <legend>Choisissez vos morpions <span class="required">*</span> (6 à 8)</legend>
         <select size=10 name="morpions" id="morpions" multiple required>
           {% for morpion in REQUEST_VARS.get("liste_morpion",[]) %}
-          <option value="{{morpion[0]}}" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[1]}})" >
+          <option value="{{morpion[0]}}" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[2]}})" >
             <!--mettre l'idM dans value-->
             <!--Donc le rajouter dans contrôleur-->
             {{morpion[1]}} -

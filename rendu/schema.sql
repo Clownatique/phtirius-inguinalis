@@ -9,7 +9,7 @@ CREATE EXTENSION "uuid-ossp";
 CREATE TABLE Equipe(
     nomE VARCHAR(50) PRIMARY KEY,
     couleurE VARCHAR(7) UNIQUE NOT NULL,
-    date_creation TIMESTAMP DEFAULT NOW() --mettre à défaut l'instant présent ?
+    date_creation TIMESTAMP DEFAULT NOW() 
 );
 
 CREATE TABLE Morpion(
