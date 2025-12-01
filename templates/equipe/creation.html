@@ -30,13 +30,13 @@
   <fieldset>
     <legend>Choisissez le nom de votre équipe</legend>
     <label for="nom"></label>
-    <input type="nom" name="nom" id="nom" value="{{REQUEST_VARS['nomE']}}" equired></input>
+    <input type="nom" name="nom" id="nom" value="{{REQUEST_VARS['nomE']}}" required></input>
   </fieldset>
   <br />
 
   <fieldset>
     <legend>Choisissez vos morpions</legend>
-      <select size=7 name="morpion" multiple>
+      <select size=7 name="morpions" multiple>
         {{REQUEST_VARS["liste_morpion"]}}
         {% for morpion in REQUEST_VARS["liste_morpion"] %}
           <option value="{{morpion[0]}}" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[1]}}" >
