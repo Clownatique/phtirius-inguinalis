@@ -56,7 +56,12 @@ def recompiler_partie(connexion, idP):
   print(f'''action joué durant la partie {idP}:{actions}''')
   if taille_grille == None:
     taille_grille = 3
+
   grille = [[0 for _ in range(taille_grille)] for _ in range(taille_grille)]
+  # 0 : case vide
+  # None : case détruite
+  # 'idM' : morpion avancé dessus
+  # 1/2 : partie simple
 
   for i in actions:
     # une action dans le contexte d'une partie simple ça ressemble à ça:
@@ -79,9 +84,14 @@ def verifier_action(connexion, grille:list, action):
 
 def inserer_action(connexion, idPartie:int, action):
   requete_numa = "SELECT max(numa)+1 FROM Journal WHERE idp = %s"
-  numa = select_query(connexion,requete_numa,[idPartie])
+  numa = select_query(connexion,requete_numa,[idPartie])[0][0]
+  if numa == None:
+    numa = 1
+  else:
+    numa = int(numa)
+  print(action)
   requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action) VALUES (%s,%s,%s,NOW())"""
-  valeurs = [int(numa[0][0]),idPartie,action[0]]
+  valeurs = [numa, idPartie,action[0]]
   return other_query(connexion, requete, valeurs)
 
 

@@ -23,31 +23,33 @@ def verifier_action(action:str,jouer:str, partie:list):
         # REQUEST_VARS[""]= "j'en connais un qui bidouille et ça me plaît pas"
         # return False
 
-if not('url_components' in REQUEST_VARS):
+if not('url_components' in REQUEST_VARS) or (REQUEST_VARS['url_components'][1] == ''):
+    # on vérifie l'url
     REQUEST_VARS['erreur'] = "erreur"
 else:
-    url_components = REQUEST_VARS['url_components']
-    idp = url_components[1]
-    connexion = SESSION['CONNEXION']
+    idp = REQUEST_VARS['url_components'][1]
     partie = recuperer_partie(connexion,idp)
-    if partie == 404:
-        REQUEST_VARS['erreur'] = "erreur"
+    REQUEST_VARS['partie'] = partie
+    print(partie)
+    if idp in SESSION:
+        grille = SESSION[idp]
     else:
-        REQUEST_VARS['partie'] = partie
-        print(partie)
-        REQUEST_VARS['grille'] = recompiler_partie(connexion,partie['idP'])
-        REQUEST_VARS['avancee'] = partie['est_speciale']
-        REQUEST_VARS['taille'] = partie['taille']
-        REQUEST_VARS['joueur'] = REQUEST_VARS['partie'][f"""nomE{REQUEST_VARS['partie']['tour']}"""]
-        if partie['est_speciale']:
-            None
-            #REQUEST_VARS['morpions'] = recuperer_morpions(connexion, nomE)
+        grille = recompiler_partie(connexion,[idp])
+        SESSION[idp] = grille
 
-        if POST != {}:
-            print(POST['case'])
-            if verifier_action(POST['case'],REQUEST_VARS['joueur'], REQUEST_VARS['grille']):
-                inserer_action(connexion,partie['idP'],POST['case'])
-            #if verifier_action(POST['case'],REQUEST_VARS['jouer']):
+    REQUEST_VARS['grille'] = grille
+    REQUEST_VARS['avancee'] = partie['est_speciale']
+    REQUEST_VARS['taille'] = partie['taille']
+    REQUEST_VARS['joueur'] = REQUEST_VARS['partie'][f"""nomE{REQUEST_VARS['partie']['tour']}"""]
+    if partie['est_speciale']:
+        None
+        #REQUEST_VARS['morpions'] = recuperer_morpions(connexion, nomE)
+
+    if POST != {}:
+        print(POST['case'])
+        if verifier_action(POST['case'],REQUEST_VARS['joueur'], REQUEST_VARS['grille']):
+            inserer_action(connexion,partie['idP'],POST['case'])
+        #if verifier_action(POST['case'],REQUEST_VARS['jouer']):
 #lig=int(form.get("ligne"))    ->
 #col=int(form.get("colonne"))  -> avec le framework du prof, il faut utiliser le dictionnaire POST ;)
             #    inserer_action(connexion,idp, action)

@@ -1,4 +1,3 @@
-{% block title %} Partie {{REQUEST_VARS['partie']}}{% endblock %}
   {% if REQUEST_VARS['erreur'] == 'erreur'%}
   <p> Erreur...</p>
   <p> Aucune partie renseignée, veuillez en choisir une <a href="/parties/">ici</a></p>
@@ -8,7 +7,7 @@
 
     <p>
       <strong>{{REQUEST_VARS['partie'].nomE1}}</strong> VS <strong>{{REQUEST_VARS['partie'].nomE2}}</strong><br>
-      <em>à l'équipe  {{REQUEST_VARS['joueur']}}</em>
+      <em <!--style="background-color: {{REQUEST_VARS['partie'].couleur}};"-->>à l'équipe  {{REQUEST_VARS['joueur']}}</em>
     </p>
 
     <h3>Grille actuelle</h3>
@@ -18,16 +17,14 @@
     {% endif %}
     {% if REQUEST_VARS['avancee'] == False %}
 
-    {{REQUEST_VARS['taille']}}
-<form method="POST" action="/partie/{{ REQUEST_VARS['partie']['idP'] }}">-->
+<form method="POST" action="/partie/{{ REQUEST_VARS['partie']['idP'] }}" target="_self"'>
   <table border="1" cellspacing="0" cellpadding="10" style="text-align:center;">
-    {{REQUEST_VARS['taille']}}
     {% for i in range(REQUEST_VARS['taille']) %}
     <tr>
       {% for j in range(REQUEST_VARS['taille']) %}
       <td style="width:40px; height:40px; text-align:center;">
         {% if REQUEST_VARS['grille'][i][j]==0 %}
-            <input type="radio" name="case" value="{{j}},{{i}}">
+            <input type="radio" name="case" value="{{i}},{{j}}">
         {% else %}
           {% if REQUEST_VARS['grille'][i][j] == 1%}
             <strong>O</strong>
