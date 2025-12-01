@@ -24,9 +24,15 @@ controleur = "controleurs/partie/jouer.py"
 template = "templates/partie/jouer.html"
 
 [[routes]]
+url = "complique"
+controleur = "controleurs/partie/compliquer.py"
+template = "templates/partie/complexe.html"
+
+[[routes]]
 url = "partie/creer"
 controleur = "controleurs/partie/creer.py" # peut être utiliser deux fois le même
 template = "templates/partie/creer.html"
+
 
 [[routes]]
 url = "partie/resultat"
