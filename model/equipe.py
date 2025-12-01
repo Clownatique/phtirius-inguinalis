@@ -21,7 +21,7 @@ def couleur_prises(connexion):
     return select_query(connexion, requete)
 
 def liste_morpion(connexion):
-    requete = "SELECT idm, image,pv,atk,mana,reu from morpion"
+    requete = "SELECT idm, nomM, image,pv,atk,mana,reu from morpion"
     return select_query(connexion, requete)
 
 def insertion_equipe(connexion, nom, couleur):
