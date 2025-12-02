@@ -1,10 +1,24 @@
-from model.partie import recompiler_partie
-from model.partie import inserer_action, creer_partie, recompiler_partie, recuperer_partie
-from model.utils import select_query
+from model.partie import inserer_action, recuperer_partie
 
 #pyright: reportUndefinedVariable=false
 
 connexion = SESSION['CONNEXION']
+
+def verification_gagnee(grille):
+    taille = len(grille)
+
+    for i in range(taille):
+        if all(grille[i][j] == grille[i][0] and grille[i][j] != '' for j in range(taille)):
+            return True
+    for j in range(taille):
+        if all(grille[i][j] == grille[0][j] and grille[i][j] != '' for i in range(taille)):
+            return True
+    if all(grille[i][i] == grille[0][0] and grille[i][i] != '' for i in range(taille)):
+        return True
+    if all(grille[i][taille - 1 - i] == grille[0][taille - 1] and grille[i][taille - 1 - i] != '' for i in range(taille)):
+        return True
+
+    return False
 
 def verifier_action(action:str,jouer:str, partie:list):
     """
@@ -31,13 +45,7 @@ else:
     partie = recuperer_partie(connexion,idp)
     REQUEST_VARS['partie'] = partie
     print(partie)
-    if idp in SESSION:
-        grille = SESSION[idp]
-    else:
-        grille = recompiler_partie(connexion,[idp])
-        SESSION[idp] = grille
-
-    REQUEST_VARS['grille'] = grille
+    REQUEST_VARS['grille'] = partie['grille']
     REQUEST_VARS['avancee'] = partie['est_speciale']
     REQUEST_VARS['taille'] = partie['taille']
     REQUEST_VARS['joueur'] = REQUEST_VARS['partie'][f"""nomE{REQUEST_VARS['partie']['tour']}"""]
@@ -49,11 +57,3 @@ else:
         print(POST['case'])
         if verifier_action(POST['case'],REQUEST_VARS['joueur'], REQUEST_VARS['grille']):
             inserer_action(connexion,partie['idP'],POST['case'])
-        #if verifier_action(POST['case'],REQUEST_VARS['jouer']):
-#lig=int(form.get("ligne"))    ->
-#col=int(form.get("colonne"))  -> avec le framework du prof, il faut utiliser le dictionnaire POST ;)
-            #    inserer_action(connexion,idp, action)
-            #else:
-            # ici définir des REQUESTS_VARS['err'] # un tableau de message d'erreur
-        #lig=int(form.get("ligne"))
-        #col=int(form.get("colonne"))

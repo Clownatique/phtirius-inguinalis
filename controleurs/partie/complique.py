@@ -1,3 +1,7 @@
+from model.partie import recup_equipe
+
+connexion = SESSION['CONNEXION']
+
 grille = [[{
     'nom':'morpion_2',
     'image':'t1.png',
@@ -20,11 +24,13 @@ REQUEST_VARS['partie']={
     'nomE2': 'Dragons',
     'couleurE2': 'dadada',
     'idP': '903843bd-2f39-4a82-adb3-13bd99c1f932',
-    'grille':grille
-    'tour': 2,
+    'grille':grille,
+    'equipee1':recup_equipe(connexion, 'Tigers'),
+    'equipee2':recup_equipe(connexion, 'Dragons'),
+    'tour': 1,
     'taille': 3,
     'est_speciale': True
 }
 
 if POST != {}:
-    REQUEST_VARS['action_speciale'] = True
+    None

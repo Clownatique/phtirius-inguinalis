@@ -17,7 +17,8 @@
     {% endif %}
     {% if REQUEST_VARS['avancee'] == False %}
 
-<form method="POST" action="/partie/{{ REQUEST_VARS['partie']['idP'] }}" target="_self"'>
+<form method="POST" >
+<!-- target="/partie/{{ REQUEST_VARS['partie']['idP'] }}> -->
   <table border="1" cellspacing="0" cellpadding="10" style="text-align:center;">
     {% for i in range(REQUEST_VARS['taille']) %}
     <tr>

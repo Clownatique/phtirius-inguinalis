@@ -25,7 +25,7 @@ template = "templates/partie/jouer.html"
 
 [[routes]]
 url = "complique"
-controleur = "controleurs/partie/compliquer.py"
+controleur = "controleurs/partie/complique.py"
 template = "templates/partie/complexe.html"
 
 [[routes]]

@@ -1,0 +1,10 @@
+sort
+at:3,3->0,1/
+armagadon
+ag:3,3->8,8\
+boule de feu
+bf:x,y->x,y
+soin
+sn:x,y->x,y
+poser
+po:x,y<-(nomMorpion)
