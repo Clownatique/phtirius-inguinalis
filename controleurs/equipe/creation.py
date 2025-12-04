@@ -21,7 +21,7 @@ def verif_morpion(morpions:list) -> bool:
     nombre_morpion = len(morpions)
     morpion_nec = max(0, max(nombre_morpion - 8, 6 - nombre_morpion))
     if nombre_morpion < 6:
-        REQUEST_VARS['err_nombre_morpion'] = f"""{morpion_nec} morpion(s) en moins. Rajoutez-en dans votre équipe""" 
+        REQUEST_VARS['err_nombre_morpion'] = f"""{morpion_nec} morpion(s) en moins. Rajoutez-en dans votre équipe"""
     if nombre_morpion >8 :
         REQUEST_VARS['err_nombre_morpion'] = f"""{morpion_nec} morpion(s) en trop. Enlevez-en dans votre équipe"""
 
@@ -29,10 +29,6 @@ def verif_morpion(morpions:list) -> bool:
         REQUEST_VARS['succes'] = "Equipe créée !"
         return True
     return False
-
-
-
-
 
 def verif_nom_disponible(nom:str) -> bool:
     """
@@ -57,7 +53,7 @@ def verif_couleur_format(couleur:str) -> bool:
     if not(bool(re.search(regex, couleur))): # j'ai utilisé de l'ia ici
         REQUEST_VARS['err_format_couleur'] = f'''{couleur} ne respecte pas le format demandé.'''
         return False
-    return True 
+    return True
 
 def verif_complet(post:dict) -> list:
     champ_manquant = []
