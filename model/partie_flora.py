@@ -23,8 +23,7 @@ def recompiler_partie(connexion, idP):
   grille = [[0 for _ in range(taille_grille)] for _ in range(taille_grille)]
   # 0 : case vide
   # None : case détruite
-  # 'idM' : morpion avancé dessus
-  # 1/2 : equipe
+  # 1 = equipe 1, 2 = équipe 2
 
   #rejouer toutes les actions
   for a in actions:
@@ -43,19 +42,6 @@ def recompiler_partie(connexion, idP):
         grille[x][y] = equipe
     except Exception as e:
       print(f"Erreur parsing action {numa}: {texte} - {e}")
-
-
-
-  """for i in actions:
-    # une action dans le contexte d'une partie simple ça ressemble à ça:
-    # (0 ou 1): x,y
-    # pour l'instant les grilles ne peuvent pas aller au dessus de 9
-    print(f"action:{i}")
-    x = int(i[1][:1])
-    y = int(i[1][2:])
-    grille[x][y] = 1 if i[0] % 2 != 0 else 2
-    """
-
   return grille
 
 def recompiler_partie_avancee(connexion, idP):
@@ -287,3 +273,30 @@ def verifier_action(grille, action):
   except Exception as e:
     print(f"Erreur vérification action: {e}")
     return False
+
+def creer_texte_action(type_action, **params):
+  """
+  génère le texte_action formaté
+
+  exemples :
+  creer_texte_action('placement', idM=1, x=0, y=1)
+  creer_texte_action('attaque', attaquant=1, cible_x=2, cible_y=1)
+  creer_texte_action('sort_feu', lanceur=3, cible_x=1, cible_y=2)
+  """
+  if type_action == 'placement':
+    return f"idM:{params['idM']};x:{params['x']};y:{params['y']}"
+ 
+  elif type_action == 'attaque':
+    return f"attaque;attaquant:{params['attaquant']};cible_x:{params['cible_x']};cible_y:{params['cible_y']}"
+ 
+  elif type_action == 'sort_feu':
+    return f"sort:feu;lanceur:{params['lanceur']};cible_x:{params['cible_x']};cible_y:{params['cible_y']}"
+ 
+  elif type_action == 'sort_soin':
+    return f"sort:soin;lanceur:{params['lanceur']};cible:{params['cible']}"
+  
+  elif type_action == 'sort_armageddon':
+    return f"sort:armageddon;x:{params['x']};y:{params['y']}"
+
+  else :
+    return str(params)

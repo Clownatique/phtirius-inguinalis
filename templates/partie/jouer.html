@@ -82,6 +82,14 @@
     C'est à l'équipe <strong>{{REQUEST_VARS['joueur']}}</strong> de jouer
   </p>
   {% endif %}
+
+  <!--messages-->
+  {% if REQUEST_VARS.get('message_victoire') %}
+  <div class="success" style="font-size: 1.5em; text-align: center; padding: 20px">
+    {{ REQUEST_VARS['message_victoire'] }}
+  </div>
+  {% endif %}
+
   {% if REQUEST_VARS.get('message_succes') %}
   <div class="success">{{REQUEST_VARS['message_succes']}}</div>
   {% endif %}
@@ -119,7 +127,9 @@
 
     <!--Grille avancée-->
     <h3>Grille :</h3>
-    <form method="POST" action="/partie/jouer/{{REQUEST_VARS['partie']['idP']}}">
+    {% if not REQUEST_VARS.get('partie_terminee') %}
+    <form method="POST" action="/partie/jouer/{{REQUEST_VARS['partie']['idP'] }}">
+    {% endif %}
       <table>
         {% for i in range(REQUEST_VARS['taille']) %}
         <tr>
@@ -143,20 +153,29 @@
         </tr>
         {% endfor %}
       </table>
+      {% if not REQUEST_VARS.get('partie_terminee') %}
       <button type="submit">Jouer</button>
     </form>
+    {% else %}
+    <p>><a href="/parties/">Retour aux parties</a></p>
+    {% endif %}
+
   {% else %}
     <!--PARTIE NORMALE-->
     <h2>Partie normale</h2>
 
+    {% if not REQUEST_VARS.get('partie_terminee') %}
     <form method="POST" action="/partie/jouer/{{ REQUEST_VARS['partie']['idP'] }}">
+    {% endif %}
       <table>
         {% for i in range(REQUEST_VARS['taille']) %}
         <tr>
           {% for j in range(REQUEST_VARS['taille']) %}
           <td>
             {% if REQUEST_VARS['grille'][i][j]==0 %}
+              {% if not REQUEST_VARS.get('partie_terminee') %}
               <input type="radio" name="case" value="{{i}},{{j}}" required>
+              {% endif %}
             {% elif REQUEST_VARS['grille'][i][j] == 1 %}
               <strong style="color: {{ REQUEST_VARS['partie']['couleurE1'] }}; font-size: 2em;">O</strong>
             {% else %}
@@ -167,7 +186,13 @@
         </tr>
         {% endfor %}
       </table>
-      <button type="submit" style="width:10%; height:10%; font-size:10px;">Jouer</button>
+      {% if not REQUEST_VARS.get('partie_terminee') %}
+      <button type="submit">Jouer</button>
     </form>
+    {% else %}
+    <p><a href="/parties/">Retour aux parties</a></p>
+    {% endif %}
   {% endif %}
+
 </body>
+</html>
