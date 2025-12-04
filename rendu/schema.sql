@@ -52,7 +52,7 @@ CREATE TABLE Partie (
 
 CREATE TABLE Journal(
     numA INTEGER NOT NULL,
-    --type_action VARCHAR(20) CHECK (type_action IN ('placement', 'attaque', 'sort', 'fin_tour', 'victoire')),
+    type_action VARCHAR(20) CHECK (type_action IN ('placement', 'attaque', 'sort', 'fin_tour', 'victoire')),
     texte_action VARCHAR(100) NOT NULL,
     date_action TIMESTAMP DEFAULT NOW(), 
     -- c la date de l'action !
@@ -79,6 +79,7 @@ CREATE TABLE Journal(
     FOREIGN KEY (idP) REFERENCES Partie(idp) ON DELETE CASCADE
 );
 
+"""
 --!!faut qu'on conserve l'état des morpions pendant la partie!!
 --je sais plus si on voulait mettre l'etat dans la table posseder ou pas, j'ai fais une table sinon mais jsp
 CREATE TABLE Etat_Morpion(
@@ -104,3 +105,4 @@ CREATE TABLE Etat_Morpion(
 );
 
 -- INSERTION FICTIVE DE DONNEES DANS LES TABLES
+"""
