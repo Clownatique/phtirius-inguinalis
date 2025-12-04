@@ -37,7 +37,8 @@ def recuperer_partie(connexion, idp):
       "idP":idp,
       "tour":tour,
       "grille":grille,
-      "taille":partie[0][6],
-      "est_speciale":partie[0][7]
+      "taille":partie[0][7],
+      "max_tours":partie[0][6],
+      "est_speciale":partie[0][10]
     }
     return partie

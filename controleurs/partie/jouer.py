@@ -1,5 +1,4 @@
-from model.partie import recompiler_partie
-from model.partie import inserer_action, creer_partie, recompiler_partie, recuperer_partie
+from model.partie import (inserer_action, creer_partie, recompiler_partie, recuperer_partie, recompiler_partie_avancee, verifier_action)
 from model.utils import select_query
 
 #pyright: reportUndefinedVariable=false

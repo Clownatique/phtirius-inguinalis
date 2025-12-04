@@ -20,11 +20,12 @@ REQUEST_VARS['partie']={
     'nomE2': 'Dragons',
     'couleurE2': 'dadada',
     'idP': '903843bd-2f39-4a82-adb3-13bd99c1f932',
-    'grille':grille
+    'grille':grille,
     'tour': 2,
     'taille': 3,
     'est_speciale': True
 }
+
 
 if POST != {}:
     REQUEST_VARS['action_speciale'] = True

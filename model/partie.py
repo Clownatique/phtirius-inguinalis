@@ -6,15 +6,15 @@ from .partie_flora import recompiler_partie
 
 
 def inserer_action(connexion, idPartie:int, action):
-  requete_numa = "SELECT max(numa)+1 FROM Journal WHERE idp = %s"
+  requete_numa = "SELECT max(numa) FROM Journal WHERE idp = %s"
   numa = select_query(connexion,requete_numa,[idPartie])[0][0]
   if numa == None:
     numa = 1
   else:
-    numa = int(numa)
+    numa = int(numa)+1
   print(action)
-  requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action) VALUES (%s,%s,%s,NOW())"""
-  valeurs = [numa, idPartie,action[0]]
+  requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action, type_action) VALUES (%s,%s,%s,NOW(), 'placement')"""
+  valeurs = [numa, idPartie,action]
   return other_query(connexion, requete, valeurs)
 
 

@@ -52,10 +52,9 @@ CREATE TABLE Partie (
 
 CREATE TABLE Journal(
     numA INTEGER NOT NULL,
-    -- je sais pas c'est quoi la syntaxe
     --type_action VARCHAR(20) CHECK (type_action IN ('placement', 'attaque', 'sort', 'fin_tour', 'victoire')),
     texte_action VARCHAR(100) NOT NULL,
-    date_action TIMESTAMP DEFAULT NOW(), --c'est la date de quoi ça déjà ?
+    date_action TIMESTAMP DEFAULT NOW(), 
     -- c la date de l'action !
 
     --je pensais qu'on pouvait rajouter les id du morpion qui attaque et

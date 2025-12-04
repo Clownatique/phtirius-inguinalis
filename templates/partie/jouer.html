@@ -1,16 +1,71 @@
-  {% if REQUEST_VARS['erreur'] == 'erreur'%}
-  <p> Erreur...</p>
-  <p> Aucune partie renseignée, veuillez en choisir une <a href="/parties/">ici</a></p>
+<!DOCTYPE html>
+
+<body>
+  {% if REQUEST_VARS.get('erreur') == 'erreur'%}
+  <div class="error">
+    <h2>❌ Erreur</h2>
+    <p> Aucune partie renseignée, veuillez en choisir une <a href="/parties/">ici</a></p>
+  </div>
+
+
   {% else %}
-      {{REQUEST_VARS['erreur']}}
-    <h2>Partie</h2>
+  <!--en-tête de la partie-->
+  <h1>Partie en cours</h1>
+  <p>
+    <strong>{{REQUEST_VARS['partie']['nomE1]}}</strong>
+    ({{REQUEST_VARS['partie']['couleurE1']}})
+    VS
+    <strong>{{REQUEST_VARS['partie']['nomE2]}}</strong>
+    ({{REQUEST_VARS['partie']['couleurE2']}})
+  </p>
+  <p>
+    <strong>Tour {{ REQUEST_VARS['partie']['tour']}}</strong> - 
+    C'est à l'équipe <strong>{{REQUEST_VARS['joueur']}}</strong> de jouer
+  </p>
 
-    <p>
-      <strong>{{REQUEST_VARS['partie'].nomE1}}</strong> VS <strong>{{REQUEST_VARS['partie'].nomE2}}</strong><br>
-      <em <!--style="background-color: {{REQUEST_VARS['partie'].couleur}};"-->>à l'équipe  {{REQUEST_VARS['joueur']}}</em>
-    </p>
+  {% if REQUEST_VARS.get('message_succes') %}
+  <div class="success">{{REQUEST_VARS['message_succes']}}</div>
+  {% endif %}
 
-    <h3>Grille actuelle</h3>
+  {% if REQUEST_VARS.get('erreur_action') %}
+  <div class="error">{{REQUEST_VARS['erreur_action']}}</div>
+  {% endif %}
+
+  {% if REQUEST_VARS['avancee'] %}
+    <h2>Partie Avancée</h2>
+    <h3>Vos morpions :</h3>
+    <ul class="morpion-list"> 
+      {% if REQUEST_VARS.get('morpions_joueur') %}
+        {% for morpion in REQUEST_VARS['morpions_joueur'] %}
+        <li class="morpion-item {% if not morpion['est_vivant'] %}dead{% endif %}">
+          <img src="/static/img/img-morpions/{{morpion['image']}}"
+            alt="{{morpion['nomM']}}"
+            class="morpion-img">
+          <div>
+            <strong>{{morpion['nomM']}}</strong><br>
+            PV : {{morpion['PV_actuel']}}
+            ATK : {{morpion['ATK_actuel']}}
+            MANA : {{morpion['MANA_actuel']}}
+            REU : {{morpion['REU_actuel']}}
+            {% if morpion['position_x'] is not none %}
+            - Placé en ({{morpion['position_x']}},{{morpion['position_y']}})
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      {% else %}
+        <li>Aucun morpion disponible</li>
+      {% endif %}
+    </ul>
+
+    <!--Grille avancée-->
+    <h3>Grille :</h3>
+
+
+
+
+
+    
     {% if REQUEST_VARS['avancee']%}
       {% block complique %}
       {% endblock complique %}
@@ -33,7 +88,7 @@
           {% endif %}
         {% endif %}
       </td>
-      {% endfor %}
+      {% endfor %}  
     </tr>
     {% endfor %}
   </table>
