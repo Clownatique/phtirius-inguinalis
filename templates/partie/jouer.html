@@ -71,17 +71,17 @@
   <!--en-tête de la partie-->
   <h1>Partie en cours</h1>
   <p>
-    <strong>{{REQUEST_VARS['partie']['nomE1]}}</strong>
+    <strong>{{REQUEST_VARS['partie']['nomE1']}}</strong>
     ({{REQUEST_VARS['partie']['couleurE1']}})
     VS
-    <strong>{{REQUEST_VARS['partie']['nomE2]}}</strong>
+    <strong>{{REQUEST_VARS['partie']['nomE2']}}</strong>
     ({{REQUEST_VARS['partie']['couleurE2']}})
   </p>
   <p>
     <strong>Tour {{ REQUEST_VARS['partie']['tour']}}</strong> -
     C'est à l'équipe <strong>{{REQUEST_VARS['joueur']}}</strong> de jouer
   </p>
-
+  {% endif %}
   {% if REQUEST_VARS.get('message_succes') %}
   <div class="success">{{REQUEST_VARS['message_succes']}}</div>
   {% endif %}
@@ -160,7 +160,7 @@
             {% elif REQUEST_VARS['grille'][i][j] == 1 %}
               <strong style="color: {{ REQUEST_VARS['partie']['couleurE1'] }}; font-size: 2em;">O</strong>
             {% else %}
-              <strong style="color: {{ REQUEST_VARS['partie']['couleurE2']}}; font-size: 2em;">X</strong>
+              <strong style="color: {{ REQUEST_VARS['partie']['couleurE2'] }}; font-size: 2em;">X</strong>
             {% endif %}
           </td>
           {% endfor %}
