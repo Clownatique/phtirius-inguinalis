@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 from model.partie import inserer_action, recuperer_partie
+=======
+from model.partie import (inserer_action, creer_partie, recompiler_partie, recuperer_partie, recompiler_partie_avancee, verifier_action)
+from model.utils import select_query
+>>>>>>> 30aed9cc0c0e22bc03c24277b306f288f1b36817
 
 #pyright: reportUndefinedVariable=false
 

@@ -32,5 +32,6 @@ REQUEST_VARS['partie']={
     'est_speciale': True
 }
 
+
 if POST != {}:
     None
