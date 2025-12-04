@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 from model.partie import inserer_action, recuperer_partie
-=======
-from model.partie import (inserer_action, creer_partie, recompiler_partie, recuperer_partie, recompiler_partie_avancee, verifier_action)
+from model.partie_flora import recompiler_partie_avancee, verifier_action
 from model.utils import select_query
->>>>>>> 30aed9cc0c0e22bc03c24277b306f288f1b36817
 
 #pyright: reportUndefinedVariable=false
 
@@ -25,20 +22,20 @@ def verification_gagnee(grille):
 
     return False
 
-def verifier_action(action:str,jouer:str, partie:list):
-    """
-        PRENDS:- un tuple de 2 cases
-               - une manière d'identifier un jour (string ?)
-         RENDS:- un bool pour le contrôleur
-               - un str pour la bd si c bon/un message d'erreur
-    """
-    pos_sou = action[0].split(',')
-    print(partie)
-    print(pos_sou)
-    if partie[int(pos_sou[0])][int(pos_sou[1])] == 0:
-        return True
-    else:
-        return False
+# def verifier_action(action:str,jouer:str, partie:list):
+#     """
+#         PRENDS:- un tuple de 2 cases
+#                - une manière d'identifier un jour (string ?)
+#          RENDS:- un bool pour le contrôleur
+#                - un str pour la bd si c bon/un message d'erreur
+#     """
+#     pos_sou = action[0].split(',')
+#     print(partie)
+#     print(pos_sou)
+#     if partie[int(pos_sou[0])][int(pos_sou[1])] == 0:
+#         return True
+#     else:
+#         return False
         # REQUEST_VARS[""]= "j'en connais un qui bidouille et ça me plaît pas"
         # return False
 
