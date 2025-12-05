@@ -1,6 +1,17 @@
 from model import equipe
 from .utils import other_query, select_query
 
+def terminer_partie(connexion, idP,gagnant):
+    query = """UPDATE Partie SET est_terminee = TRUE, date_fin = NOW(),
+nomE_gagnant = %s WHERE idP = %s"""
+    other_query(connexion, query, [gagnant, idP])
+    # Ajouter une entrée dans le journal
+    query_journal ="""
+INSERT INTO Journal (numa, idP, texte_action, date_action, type_action)SELECT
+COALESCE(MAX(numa), 0) + 1, %s, %s, NOW(), 'victoire'FROM Journal WHERE idP = %s """
+    texte = f"Victoire de {gagnant}" if gagnant != 'egalite' else "Égalité"
+    other_query(connexion, query_journal, [idP, texte, idP])
+
 def recup_equipe(connexion, nome):
   query = 'SELECT nomm, image,PV,ATK,MANA,REU FROM Morpion m JOIN Equipe e USING WHERE e.nome = %s'
   equipe_morpions = select_query(connexion, query, [nome])
@@ -64,16 +75,32 @@ def inserer_action(connexion, idPartie:int, action):
     numa = 1
   else:
     numa = int(numa)+1
-  
+
   requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action, type_action) VALUES (%s,%s,%s,NOW(), 'placement')"""
   valeurs = [numa, idPartie,action]
   return other_query(connexion, requete, valeurs)
 
+def inserer_action(connexion, idPartie:int, action):
+  """
+  Insère une action dans le journal
+  action = texte de l'action
+  """
+  #récupère le prochain numéro d'action
+  requete_numa = "SELECT max(numa) FROM Journal WHERE idp = %s"
+  numa = select_query(connexion,requete_numa,[idPartie])[0][0]
+  if numa is None:
+    numa = 1
+  else:
+    numa = int(numa)+1
+
+  requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action, type_action) VALUES (%s,%s,%s,NOW(), 'placement')"""
+  valeurs = [numa, idPartie,action]
+  return other_query(connexion, requete, valeurs)
 
 def creer_partie(connexion, nomE1, nomE2, est_special,max_tours,taille_grille):
     sql = """INSERT INTO PARTIE (nomE1, nomE2, date_debut, est_speciale,max_tours,taille_grille)
           VALUES (%s, %s, NOW(), %s, %s, %s)"""
-    
+
     valeurs=[nomE1, nomE2, est_special,max_tours,taille_grille]
     idP = other_query(connexion, sql, valeurs)
     return idP

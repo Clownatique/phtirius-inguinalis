@@ -21,7 +21,7 @@ CREATE TABLE MORPION (
 );
 
 CREATE TABLE EQUIPE (
-    PRIMARY KEY 
+    PRIMARY KEY
     nom VARCHAR(255) NOT NULL,
     nombre_morpion INT DEFAULT 0
 );
@@ -69,3 +69,10 @@ INSERT INTO MORPION (nom, pv, mana, reussite) VALUES
 ('t14.png', 60, 30, 70),
 ('t15.png', 50, 20, 65),
 ('t16.png', 40, 10, 60);
+
+insert into posseder (idm, nome) values
+(1,'pommiers'),
+(2,'pommiers'),
+(3,'pommiers'),
+(4,'pommiers'),
+(5,'pommiers');

@@ -2,62 +2,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Partie en cours</title>
-  <style>
-    body {
-      margin:20px;
-    }
-    table {
-      border-collapse: collapse;
-      margin: 20px 0;
-    }
-    td {
-      width: 60px;
-      height: 60px;
-      border: 1px solid #333;
-      text-align: center;
-      vertical-align: middle;
-    }
-    input[type="radio"] {
-      width: 20px;
-      height:20px;
-      cursor: pointer;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .error {
-      color: red;
-      padding: 10px;
-      background: #fee;
-      border: 1px solid red;
-      margin: 10px 0;
-    }
-    .succes {
-      color: green;
-      padding: 10px;
-      background: #efe;
-      border: 1px solid green;
-      margin: 10px 0;
-    }
-    .morpion-list{
-      list-style: none;
-      padding:0;
-    }
-    .morpion-item {
-      padding: 10px;
-      margin: 5px 0;
-      border: 1px solid #ccc;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .morpion-img {
-      width: 40px;
-      height: 40px;
-    }
-  </style>
 </head>
 <body>
   {{REQUEST_VARS}}
@@ -72,8 +16,10 @@
   <!--en-tête de la partie-->
   <h1>Partie en cours</h1>
   <p>
+    <span style="background-color: #{{REQUEST_VARS['partie']['couleurE1']}}"
     <strong>{{REQUEST_VARS['partie']['nomE1']}}</strong>
     ({{REQUEST_VARS['partie']['couleurE1']}})
+    </span>
     VS
     <strong>{{REQUEST_VARS['partie']['nomE2']}}</strong>
     ({{REQUEST_VARS['partie']['couleurE2']}})
@@ -104,14 +50,12 @@
     <h3>Vos morpions :</h3>
 
     <form method="POST" action="/partie/{{REQUEST_VARS['partie']['idP'] }}">
-    <ul class="morpion-list">
-      {% if REQUEST_VARS.get('morpions_joueur') %}
-        {% for morpion in REQUEST_VARS['morpions_joueur'] %}
+    <ul class="morpion-list" style="display: flex;">
+      {% if REQUEST_VARS.get('morpions') %}
+        {% for morpion in REQUEST_VARS['morpions'] %}
         <input type="radio" value="{{morpion['idM']}}" name="morpion_choisi">
         <li class="morpion-item {% if not morpion['est_vivant'] %}dead{% endif %}">
-          <img src="/static/img/img-morpions/{{morpion['image']}}"
-            alt="{{morpion['nomM']}}"
-            class="morpion-img">
+          <img src="/static/img/img-morpions/{{morpion['image']}}" alt="{{morpion['nomM']}}" class="morpion-img" width="20">
           <div>
             <strong>{{morpion['nomM']}}</strong><br>
             PV : {{morpion['PV_actuel']}}
@@ -131,32 +75,30 @@
 
     <!--Grille avancée-->
     <h3>Grille :</h3>
-    {% if not REQUEST_VARS.get('partie_terminee') %}
+    {% if REQUEST_VARS['grille'] %}
+
+    <table>
+    {% for i in range(REQUEST_VARS['taille']) %}
+    <tr>
+      {% for j in range(REQUEST_VARS['taille']) %}
+      <td>
+        {% if REQUEST_VARS['grille'][i][j] %}
+          {% set cell= REQUEST_VARS['grille'][i][j] %}
+          <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
+          {% elif 'idM' in cell %}
+          <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
+            ❤️{{ cell['morpion']['PV_actuel'] }}
+          {% else %}
+          <input type="radio" name="case" value="{{i}},{{j}}">
+        {% endif %}
+      </td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    </table>
     {% endif %}
-      <table>
-        {% for i in range(REQUEST_VARS['taille']) %}
-        <tr>
-          {% for j in range(REQUEST_VARS['taille']) %}
-          <td>
-            {% if REQUEST_VARS['grille'][i][j] %}
-              {% set cell= REQUEST_VARS['grille'][i][j] %}
-              {% if cell.get('detruit') %}
-                💀
-              {% elif cell.get('morpion') %}
-                <img src="/static/img/img-morpions/{{cell['morpion']['image']}}"
-                  width="50"
-                  alt="{{cell['morpion']['nomM']}}"><br>
-                ❤️{{ cell['morpion']['PV_actuel'] }}
-              {% endif %}
-            {% else %}
-              <input type="radio" name="case" value="{{i}},{{j}}">
-            {% endif %}
-          </td>
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </table>
-      {% if not REQUEST_VARS.get('partie_terminee') %}
+
+    {% if not REQUEST_VARS.get('partie_terminee') %}
       <button type="submit">Jouer</button>
     </form>
     {% else %}
@@ -186,6 +128,7 @@
               <strong style="color: {{ REQUEST_VARS['partie']['couleurE2'] }}; font-size: 2em;">X</strong>
             {% endif %}
           </td>
+
           {% endfor %}
         </tr>
         {% endfor %}
