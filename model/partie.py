@@ -76,24 +76,8 @@ def inserer_action(connexion, idPartie:int, action):
   else:
     numa = int(numa)+1
 
-  requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action, type_action) VALUES (%s,%s,%s,NOW(), 'placement')"""
-  valeurs = [numa, idPartie,action]
-  return other_query(connexion, requete, valeurs)
-
-def inserer_action(connexion, idPartie:int, action):
-  """
-  Insère une action dans le journal
-  action = texte de l'action
-  """
-  #récupère le prochain numéro d'action
-  requete_numa = "SELECT max(numa) FROM Journal WHERE idp = %s"
-  numa = select_query(connexion,requete_numa,[idPartie])[0][0]
-  if numa is None:
-    numa = 1
-  else:
-    numa = int(numa)+1
-
-  requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action, type_action) VALUES (%s,%s,%s,NOW(), 'placement')"""
+  requete = """INSERT INTO JOURNAL (numa, idP, texte_action,date_action, type_action) 
+            VALUES (%s,%s,%s,NOW(), 'placement')"""
   valeurs = [numa, idPartie,action]
   return other_query(connexion, requete, valeurs)
 

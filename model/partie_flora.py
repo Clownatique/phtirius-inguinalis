@@ -98,11 +98,37 @@ def recompiler_partie_avancee(connexion, idP):
   actions=select_query(connexion, query_actions, [idP])
 
   #rejouer toutes les actions pour reconstruire l'état
-  print(f"morpions:{morpions_dict}")
+  
   for a in actions:
-    print(actions)
+    
     numa=a[0]
     texte=a[1]
+
+    try:
+      if '<-' in texte:
+        parties=texte.split('<-')
+        pos=parties[0]
+        idM=int(parties[1])
+        position=pos.split(',')
+        x=int(pos[0])
+        y=int(pos[1])
+        if idM in morpions_dict:
+          morpion_copie=morpions_dict[idM].copy()
+          grille[x][y]={
+            'morpion':morpion_copie,
+            'detruit':False
+          }
+      elif type_action=='placement' and ',' in texte:
+        pos=texte.split(',')
+        x=int(pos[0])
+        y=int(pos[1])
+        grille[x][y] = {
+          'morpion': None,
+          'detruit': False
+        }
+    except Exception as e:
+      print(f"Erreur recompilation action {numa} : {texte} - {e}")
+  """
     print(texte[:3])
     print(texte[:3].isalnum())
 
@@ -112,6 +138,7 @@ def recompiler_partie_avancee(connexion, idP):
       grille[int(texte[0])][int(texte[2])] = morpions_dict[int(morpion)]
     else:
       sort = texte[3:]
+    """
 
   print(grille)
 
@@ -148,6 +175,7 @@ def recuperer_morpions_joueur(connexion, idp, nom_equipe):
 
   return morpions_list
 
+"""
 def verifier_action(grille, action):
   # coup illégal : placer un pion alors qu'il y'en a déjà un
   try :
@@ -170,6 +198,7 @@ def verifier_action(grille, action):
   except Exception as e:
     print(f"Erreur vérification action: {e}")
     return False
+  """
 
 def creer_texte_action(type_action, **params):
   """
