@@ -8,6 +8,12 @@ def recompiler_partie(connexion, idP):
     Renvoie un tableau 2D correspondant à une partie normale
   """
   #récupère toutes les actions :
+  print("=======")
+  print("=======")
+  print("=======")
+  print("=======")
+  print("=======")
+  print("RECOMPILATION PARTIE")
   sel_partie="""WHERE idP = %s"""
   query = f"""SELECT numA, texte_action FROM journal {sel_partie} ORDER BY numA ASC"""
   actions = select_query(connexion,query, [idP])
@@ -27,8 +33,8 @@ def recompiler_partie(connexion, idP):
 
   #rejouer toutes les actions
   for a in actions:
-    numa=action[0]
-    texte=action[1]
+    numa=a[0]
+    texte=a[1]
     try:
       #on cherche un pattern "x,y"
       if ',' in texte:
@@ -91,7 +97,7 @@ def recompiler_partie_avancee(connexion, idP):
 
   #récupère toutes les actions du journal
   query_actions="""
-                SELECT numa, texte_action, type_action, idM_acteur, idM_cible
+                SELECT numa, texte_action, type_action
                 FROM Journal
                 WHERE idp=%s
                 ORDER BY numa ASC
@@ -229,7 +235,9 @@ def recuperer_morpions_joueur(connexion, idp, nom_equipe):
         FROM Morpion m JOIN Posseder p ON p.idM = m.idM
         WHERE p.nomE=%s
     """
+  print(nom_equipe)
   morpions = select_query(connexion, query, [nom_equipe])
+  print(morpions)
 
   morpions_list = []
   for m in morpions:
@@ -285,16 +293,16 @@ def creer_texte_action(type_action, **params):
   """
   if type_action == 'placement':
     return f"idM:{params['idM']};x:{params['x']};y:{params['y']}"
- 
+
   elif type_action == 'attaque':
     return f"attaque;attaquant:{params['attaquant']};cible_x:{params['cible_x']};cible_y:{params['cible_y']}"
- 
+
   elif type_action == 'sort_feu':
     return f"sort:feu;lanceur:{params['lanceur']};cible_x:{params['cible_x']};cible_y:{params['cible_y']}"
- 
+
   elif type_action == 'sort_soin':
     return f"sort:soin;lanceur:{params['lanceur']};cible:{params['cible']}"
-  
+
   elif type_action == 'sort_armageddon':
     return f"sort:armageddon;x:{params['x']};y:{params['y']}"
 

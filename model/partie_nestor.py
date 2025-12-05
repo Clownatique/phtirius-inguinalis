@@ -5,6 +5,7 @@ def recuperer_partie(connexion, idp):
   query = """SELECT * FROM Partie WHERE idP = %s"""
   partie = select_query(connexion,query,[idp])
 
+  print(idp)
   if len(partie) == 0:
     print("aucune partie trouvé")
     return 404

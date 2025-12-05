@@ -1,0 +1,31 @@
+
+    {% if not REQUEST_VARS.get('partie_terminee') %}
+    <form method="POST" action="/partie/jouer/">
+     {# REQUEST_VARS['partie']['idP'] #}">
+    {% endif %}
+      <table>
+        {% for i in range(REQUEST_VARS['taille']) %}
+        <tr>
+          {% for j in range(REQUEST_VARS['taille']) %}
+          <td>
+            {% if REQUEST_VARS['grille'][i][j]==0 %}
+              {% if not REQUEST_VARS.get('partie_terminee') %}
+              <input type="radio" name="case" value="{{i}},{{j}}" required>
+              {% endif %}
+            {% elif REQUEST_VARS['grille'][i][j] == 1 %}
+              <strong style="color: {{ REQUEST_VARS['partie']['couleurE1'] }}; font-size: 2em;">O</strong>
+            {% else %}
+              <strong style="color: {{ REQUEST_VARS['partie']['couleurE2'] }}; font-size: 2em;">X</strong>
+            {% endif %}
+          </td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </table>
+      {% if not REQUEST_VARS.get('partie_terminee') %}
+      <button type="submit">Jouer</button>
+    </form>
+    {% else %}
+    <p><a href="/parties/">Retour aux parties</a></p>
+    {% endif %}
+  {% endif %}

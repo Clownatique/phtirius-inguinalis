@@ -60,6 +60,7 @@
   </style>
 </head>
 <body>
+  {{REQUEST_VARS}}
   {% if REQUEST_VARS.get('erreur') == 'erreur'%}
   <div class="error">
     <h2>❌ Erreur</h2>
@@ -101,9 +102,12 @@
   {% if REQUEST_VARS['avancee'] %}
     <h2>Partie Avancée</h2>
     <h3>Vos morpions :</h3>
+
+    <form method="POST" action="/partie/{{REQUEST_VARS['partie']['idP'] }}">
     <ul class="morpion-list">
       {% if REQUEST_VARS.get('morpions_joueur') %}
         {% for morpion in REQUEST_VARS['morpions_joueur'] %}
+        <input type="radio" value="{{morpion['idM']}}" name="morpion_choisi">
         <li class="morpion-item {% if not morpion['est_vivant'] %}dead{% endif %}">
           <img src="/static/img/img-morpions/{{morpion['image']}}"
             alt="{{morpion['nomM']}}"
@@ -128,15 +132,14 @@
     <!--Grille avancée-->
     <h3>Grille :</h3>
     {% if not REQUEST_VARS.get('partie_terminee') %}
-    <form method="POST" action="/partie/jouer/{{REQUEST_VARS['partie']['idP'] }}">
     {% endif %}
       <table>
         {% for i in range(REQUEST_VARS['taille']) %}
         <tr>
           {% for j in range(REQUEST_VARS['taille']) %}
           <td>
-            {% if REQUEST_VARS['grille_avancee'][i][j] %}
-              {% set cell= REQUEST_VARS['grille_avancee'][i][j] %}
+            {% if REQUEST_VARS['grille'][i][j] %}
+              {% set cell= REQUEST_VARS['grille'][i][j] %}
               {% if cell.get('detruit') %}
                 💀
               {% elif cell.get('morpion') %}
@@ -165,7 +168,8 @@
     <h2>Partie normale</h2>
 
     {% if not REQUEST_VARS.get('partie_terminee') %}
-    <form method="POST" action="/partie/jouer/{{ REQUEST_VARS['partie']['idP'] }}">
+    {{REQUEST_VARS['partie']['idP']}}
+    <form method="POST" action="/partie/{{REQUEST_VARS['partie']['idP']}}">
     {% endif %}
       <table>
         {% for i in range(REQUEST_VARS['taille']) %}
@@ -192,7 +196,7 @@
     {% else %}
     <p><a href="/parties/">Retour aux parties</a></p>
     {% endif %}
-  {% endif %}
 
+  {% endif %}
 </body>
 </html>
