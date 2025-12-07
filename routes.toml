@@ -19,6 +19,16 @@ template = "templates/liste_partie.html"
 # PARTIE
 #
 [[routes]]
+url = "combat"
+controleur = "controleurs/partie/combat/jouer.py"
+template = "templates/partie/jouer.html"
+
+[[routes]]
+url = "combat/fin"
+controleur = "controleurs/partie/combat/resultat.py"
+template = "templates/partie/resultat.html"
+
+[[routes]]
 url = "partie"
 controleur = "controleurs/partie/jouer.py"
 template = "templates/partie/jouer.html"
@@ -27,11 +37,6 @@ template = "templates/partie/jouer.html"
 url = "partie/fin"
 controleur = "controleurs/partie/resultat.py"
 template = "templates/partie/resultat.html"
-
-[[routes]]
-url = "complique"
-controleur = "controleurs/partie/complique.py"
-template = "templates/partie/complexe.html"
 
 [[routes]]
 url = "partie/creer"

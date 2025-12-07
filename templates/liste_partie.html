@@ -2,10 +2,15 @@
 {% for partie in REQUEST_VARS['liste_partie']%}
   <fieldset>
   <li>
-  <a href="/partie/{{partie[0]}}">
-    Partie entre {{partie[1]}} contre {{partie[2]}}
+    {% if partie[7] %}
+      <a href="/combat/{{partie[0]}}">
+    {% else %}
+      <a href="/partie/{{partie[0]}}">
+    {% endif%}
+    <p>Partie entre {{partie[1]}} contre {{partie[2]}}
     {{partie}}
-  </a>
+    </p>
+      </a>
   <em>{{partie[3]}}</em>
   </li>
   </
