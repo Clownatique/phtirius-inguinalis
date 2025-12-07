@@ -1,5 +1,5 @@
 from model.partie import inserer_action, recuperer_partie, terminer_partie,recompiler_partie
-from time import sleep
+import re
 
 connexion = SESSION['CONNEXION']
 
@@ -12,10 +12,11 @@ if erreur_bool:
     REQUEST_VARS['erreur'] = "erreur"
 else:
 # donnée à fournir QUOI QU'IL EN SOIT
+
+    idp = REQUEST_VARS['url_components'][1]
     partie = recuperer_partie(connexion,idp)
 
-    REQUEST_VARS['partie'] = partie
-    REQUEST_VARS['partie']['grille'] = recompiler_partie(connexion,idp)
+    REQUEST_VARS['partie']= recompiler_partie(connexion,idp)
     if POST != {}:
         if 'case' in POST:
             action=POST['case'][0]

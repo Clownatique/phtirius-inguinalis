@@ -21,7 +21,7 @@ template = "templates/liste_partie.html"
 [[routes]]
 url = "combat"
 controleur = "controleurs/partie/combat/jouer.py"
-template = "templates/partie/jouer.html"
+template = "templates/partie/combat/jouer.html"
 
 [[routes]]
 url = "combat/fin"

@@ -217,17 +217,16 @@ def recompiler_partie_avancee(connexion, idp):
           cible = None
           # à revoir pcq c pas comme ça qu'on détruit une case proprement
           acteur['MANA'] =-5
-
-
-          if cible['PV'] <= 0:
-            cible = None
+        if cible['PV'] < 0:
+          cible = None
 
         # et on mets à jour la grille
-          grille[int(action[3])][int(action[5])] = acteur
-          grille[int(action[7])][int(action[9])] = cible
+        grille[int(action[3])][int(action[5])] = acteur
+        grille[int(action[7])][int(action[9])] = cible
 
     else:
       # placement classique
+      print(coup)
       id_morpion_a_placer = coup[4:]
       print(morpions_du_joueur)
       morpion = morpions_du_joueur[id_morpion_a_placer]

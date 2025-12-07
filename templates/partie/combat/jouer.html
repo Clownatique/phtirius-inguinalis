@@ -109,7 +109,7 @@ button[type="submit"]{
     <p>
       C'est à l'équipe <strong>{{ partie['joueur']}}</strong> de jouer
     </p>
-    <form method="POST" action="/partie/{{REQUEST_VARS['url_components'][1]}}">
+    <form method="POST" action="/combat/{{REQUEST_VARS['url_components'][1]}}">
     {% if partie['est_speciale'] %}
     {% set morpions = partie['morpions']%}
     <ul class="morpion-list" style="display: flex;">

@@ -19,10 +19,10 @@ else:
     REQUEST_VARS['nomEJ'] = partie[f"nomE{partie['joueur']}"]
     if POST != {}:
         if 'case' in POST:
-            action = POST['case'][0]
             #d'abord on vérifie si l'action c un placement
             if 'action' in POST:
                 case = POST['case'][0]
+                action = POST['action'][0]
                 if not(action[0].isalpha()):
                     # donc c un placement dans partie avancé
                     action = f"{case}<{action}"
@@ -36,7 +36,6 @@ else:
                 sort_ok = re.match(regexp_sort,action)
                 pos_ok  = re.match(regexp_pos,action)
                 if  pos_ok != None or sort_ok != None:
-
                     inserer_action(connexion,idp, action)
                 else:
                     print('que ça bidouille')
