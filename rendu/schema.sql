@@ -9,7 +9,7 @@ CREATE EXTENSION "uuid-ossp";
 CREATE TABLE Equipe(
     nomE VARCHAR(50) PRIMARY KEY,
     couleurE VARCHAR(7) UNIQUE NOT NULL,
-    date_creation TIMESTAMP DEFAULT NOW() 
+    date_creation TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE Morpion(
@@ -54,15 +54,11 @@ CREATE TABLE Journal(
     numA INTEGER NOT NULL,
     type_action VARCHAR(20) CHECK (type_action IN ('placement', 'attaque', 'sort', 'fin_tour', 'victoire')),
     texte_action VARCHAR(100) NOT NULL,
-    date_action TIMESTAMP DEFAULT NOW(), 
+    date_action TIMESTAMP DEFAULT NOW(),
     -- c la date de l'action !
 
     --je pensais qu'on pouvait rajouter les id du morpion qui attaque et
     -- celui qui est victime un truc comme ça :
-    --idM_acteur INTEGER,
-    --idM_cible INTEGER,
-    --FOREIGN KEY (idM_acteur) REFERENCES Morpion(idM),
-    --FOREIGN KEY (idM_cible) REFERENCES Morpion(idM),
     --
     -- de la même manière que tomuss, il est intéressant de
     -- voir les actions comme des évenement  qui sont recompilés.

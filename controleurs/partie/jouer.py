@@ -1,6 +1,7 @@
 from model.partie import inserer_action, recuperer_partie, terminer_partie
 from model.partie_flora import recompiler_partie, recompiler_partie_avancee, recuperer_morpions_joueur
 from model.utils import select_query, other_query
+from time import sleep
 
 connexion = SESSION['CONNEXION']
 
@@ -29,12 +30,6 @@ def verifier_action_simple(grille, action):
     except Exception as e:
         print(f"Erreur vérification action : {e}")
         return False
-
-def verifier_pos(pos, grille):
-    if grille[int(pos[0])][int(pos[1])] != None:
-        return False
-        REQUEST_VARS['erreur_action']="❌ Case déjà occupée"
-    return True
 
 def verifier_action_complexe(grille, action):
     return True
@@ -80,9 +75,9 @@ def verifier_victoire_avancee(connexion, partie, grille):
     Vérifie si une équipe a gagné (partie avancée).
     """
     # --- 1. Victoire par Élimination (Doit toujours être vérifié pour les deux équipes) ---
-    return None
     vivants_e1 = 0
     vivants_e2 = 0
+    taille = partie['taille']
     for i in range(taille):
         for j in range(taille):
             cell = grille[i][j]
@@ -151,34 +146,24 @@ else:
     if POST != {}:
     #il y'a toujours un champ case dans le post.
         if 'case' in POST:
-            pos = POST['case'][0].split(',')
-            # faire une bête vérif côté serveur pour éviter que le F mette des valeurs de cases bizzare...:w
-            verifier_pos(pos,grille)
-
+            #d'abord on vérifie si l'action c un placement
             if partie['est_speciale']:
-                if 'sort' in POST:
-                    if POST['sort'] == 'bf':
-                        None
-                        # action = f"bf{}->{}"
-                    elif POST['sort'] == 'at':
-                        None
-                    elif POST['sort'] == 'sn':
-                        None
-                    elif POST['sort'] == 'ag':
-                        None
-                        # action = f"ag:{}-"
-                    else:
-                        REQUEST_VARS['erreur_sort']
-                if 'morpion_choisi' in POST:
-                    action =f'''{POST['case'][0]}<-{POST['morpion_choisi'][0]}'''
-                    print(action)
-                    inserer_action(connexion,idp,action) #réutiliser ce qui marche déjà
-                    if verifier_victoire_avancee(connexion,partie,grille):
-                        None
-                else:
-                    REQUEST_VARS['erreur_action'] = "pas de morpion"
+                if 'action' in POST:
+                    action  = POST['action']
+                    action = f"{action}"
 
-            else:
+                    regexp_sort = r'(sn|bf|ag|at):([0-9],[0-9])(<|>)([0-9],[0-9]|[0,9]+)'
+                    regexp_pos = r'[0-9],[0-9]<[0,9]+'
+
+                    sort_ok = re.match(regexp_sort,action)
+                    pos_ok  = re.match(regexp_pos,action)
+                    if  pos_ok != None or sort_ok != None:
+                        inserer_action(connexion,idp, action)
+                    else:
+                        print('que ça bidouille')
+                else:
+                    print('que ça bidouille')
+
                 action = POST['case'][0]
                 inserer_action(connexion,idp,action)
         else:

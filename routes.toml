@@ -24,6 +24,11 @@ controleur = "controleurs/partie/jouer.py"
 template = "templates/partie/jouer.html"
 
 [[routes]]
+url = "partie/fin"
+controleur = "controleurs/partie/resultat.py"
+template = "templates/partie/resultat.html"
+
+[[routes]]
 url = "complique"
 controleur = "controleurs/partie/complique.py"
 template = "templates/partie/complexe.html"

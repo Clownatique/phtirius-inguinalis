@@ -1,19 +1,84 @@
 <!DOCTYPE html>
 <head>
+  <meta http-equiv="Cache-Control" content="no-cache">
   <meta charset="UTF-8">
   <title>Partie en cours</title>
+  <style>
+  table{
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid black;
+    table-layout: fixed;
+    border-collapse:collapse;
+  }
+  table, table td, table th {
+    border: 1px solid black; /* Bordure noire de 1px */
+  }
+  table > tr > td > ul{
+    margin:0;
+  }
+  table td{
+    width: 100px;
+    height: 100px;
+    text-align: center; /* Centrage horizontal */
+    vertical-align: middle; /* Centrage vertical */;
+    background-size: cover;
+  }
+  ul {
+
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* 2 colonnes égales */
+      marker: none;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+
+input[type="radio"].sort {
+    appearance: none;
+    cursor: pointer; /* Change le curseur au survol */
+}
+
+input[type="radio"].sort:hover {
+    cursor: pointer; /* Assure le changement de curseur */
+}
+
+input[type="radio"].sort::before {
+    content: attr(emoji-sort);
+    display: inline-block;
+    text-align: center;
+    border: 1px solid black;
+}
+input[type="radio"].sort:checked::before {
+    background-color: black; /* Couleur de fond quand coché */
+    color: white; /* Couleur du texte quand coché */
+}
+
+
+input[type="radio"].sort {
+    appearance: none;
+    position: relative;
+}
+button[type="submit"]{
+  margin-left: 50%;
+  margin-right: 50%;
+}
+
+.error{
+  background-color: red;
+}
+.succes{
+  background-color: greenyellow;
+}
+  </style>
 </head>
 <body>
-  {{REQUEST_VARS}}
   {% if REQUEST_VARS.get('erreur') == 'erreur'%}
   <div class="error">
     <h2>❌ Erreur</h2>
     <p> Aucune partie renseignée, veuillez en choisir une <a href="/parties/">ici</a></p>
   </div>
-
-
   {% else %}
-  <!--en-tête de la partie-->
   <h1>Partie en cours</h1>
   <p>
     <span style="background-color: #{{REQUEST_VARS['partie']['couleurE1']}}"
@@ -29,31 +94,25 @@
     C'est à l'équipe <strong>{{REQUEST_VARS['joueur']}}</strong> de jouer
   </p>
   {% endif %}
-
   <!--messages-->
   {% if REQUEST_VARS.get('message_victoire') %}
   <div class="success" style="font-size: 1.5em; text-align: center; padding: 20px">
     {{ REQUEST_VARS['message_victoire'] }}
   </div>
   {% endif %}
-
   {% if REQUEST_VARS.get('message_succes') %}
   <div class="success">{{REQUEST_VARS['message_succes']}}</div>
   {% endif %}
-
   {% if REQUEST_VARS.get('erreur_action') %}
   <div class="error">{{REQUEST_VARS['erreur_action']}}</div>
   {% endif %}
 
-  {% if REQUEST_VARS['avancee'] %}
-    <h2>Partie Avancée</h2>
-    <h3>Vos morpions :</h3>
 
     <form method="POST" action="/partie/{{REQUEST_VARS['partie']['idP'] }}">
     <ul class="morpion-list" style="display: flex;">
       {% if REQUEST_VARS.get('morpions') %}
         {% for morpion in REQUEST_VARS['morpions'] %}
-        <input type="radio" value="{{morpion['idM']}}" name="morpion_choisi">
+        <input type="radio" value="{{morpion['idM']}}" name="action">
         <li class="morpion-item {% if not morpion['est_vivant'] %}dead{% endif %}">
           <img src="/static/img/img-morpions/{{morpion['image']}}" alt="{{morpion['nomM']}}" class="morpion-img" width="20">
           <div>
@@ -73,73 +132,55 @@
       {% endif %}
     </ul>
 
-    <!--Grille avancée-->
     <h3>Grille :</h3>
-    {% if REQUEST_VARS['grille'] %}
-
     <table>
     {% for i in range(REQUEST_VARS['taille']) %}
     <tr>
       {% for j in range(REQUEST_VARS['taille']) %}
-      <td>
-        {% if REQUEST_VARS['grille'][i][j] %}
-          {% set cell= REQUEST_VARS['grille'][i][j] %}
-          <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
-          {% elif 'idM' in cell %}
-          <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
-            ❤️{{ cell['morpion']['PV_actuel'] }}
-          {% else %}
+      {% set cell= REQUEST_VARS['grille'][i][j] %}
+      <td style="background-image: url('/static/img/img-morpions/{% if REQUEST_VARS['avancee']%}{{cell['image']}}{% endif %}');">
+        {% if cell == None %}
           <input type="radio" name="case" value="{{i}},{{j}}">
+        {% else %}
+          {% if REQUEST_VARS['avancee'] %}
+            <input type="radio" name="case" value="{{i}},{{j}}">
+            <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
+            {{ cell['PV_actuel'] }}
+            {% set actions = [
+                {'value': f'at', 'emoji': '⚔️'},
+                {'value': f'bf', 'emoji': '❤️‍🔥'},
+                {'value': f'sn', 'emoji': '💚'},
+                {'value': f'ag', 'emoji': '🤯'}
+            ] %}
+            <ul>
+            {% for action in actions %}
+                <li><label>
+                    <input type="radio" class="sort" name="action" value="{{ action.value }}:{{i}},{{j}}>" emoji-sort="{{ action.emoji }}">
+                </label></li>
+            {% endfor %}
+            </ul>
+
+          {% else %}
+            {% if cell == 1 %}
+              <strong style="color: {{ REQUEST_VARS['partie']['couleurE1'] }}; font-size: 2em;">O</strong>
+            {% else %}
+              <strong style="color: {{ REQUEST_VARS['partie']['couleurE2'] }}; font-size: 2em;">X</strong>
+            {% endif %}
+          {% endif %}
         {% endif %}
       </td>
       {% endfor %}
     </tr>
     {% endfor %}
     </table>
-    {% endif %}
+    <button type="submit">Jouer</button>
+<br\>
+  {% for var in REQUEST_VARS%}
+    {{var}}:{{REQUEST_VARS[var]}}
+    <br>
+  {% endfor %}
+    <script>
 
-    {% if not REQUEST_VARS.get('partie_terminee') %}
-      <button type="submit">Jouer</button>
-    </form>
-    {% else %}
-    <p>><a href="/parties/">Retour aux parties</a></p>
-    {% endif %}
-
-  {% else %}
-    <!--PARTIE NORMALE-->
-    <h2>Partie normale</h2>
-
-    {% if not REQUEST_VARS.get('partie_terminee') %}
-    {{REQUEST_VARS['partie']['idP']}}
-    <form method="POST" action="/partie/{{REQUEST_VARS['partie']['idP']}}">
-    {% endif %}
-      <table>
-        {% for i in range(REQUEST_VARS['taille']) %}
-        <tr>
-          {% for j in range(REQUEST_VARS['taille']) %}
-          <td>
-            {% if REQUEST_VARS['grille'][i][j]==0 %}
-              {% if not REQUEST_VARS.get('partie_terminee') %}
-              <input type="radio" name="case" value="{{i}},{{j}}" required>
-              {% endif %}
-            {% elif REQUEST_VARS['grille'][i][j] == 1 %}
-              <strong style="color: {{ REQUEST_VARS['partie']['couleurE1'] }}; font-size: 2em;">O</strong>
-            {% else %}
-              <strong style="color: {{ REQUEST_VARS['partie']['couleurE2'] }}; font-size: 2em;">X</strong>
-            {% endif %}
-          </td>
-
-          {% endfor %}
-        </tr>
-        {% endfor %}
-      </table>
-      {% if not REQUEST_VARS.get('partie_terminee') %}
-      <button type="submit">Jouer</button>
-    </form>
-    {% else %}
-    <p><a href="/parties/">Retour aux parties</a></p>
-    {% endif %}
-
-  {% endif %}
+    </script>
 </body>
 </html>
