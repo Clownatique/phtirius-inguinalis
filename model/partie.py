@@ -232,21 +232,6 @@ def recompiler_partie_avancee(connexion, idp):
       morpion = morpions_du_joueur[id_morpion_a_placer]
       grille[int(coup[0])][int(coup[2])] = morpion
 
-#     grille_verif = []
-#     for ligne in grille:
-#         ligne_verif = []
-#         for dictionnaire in ligne:
-#             # Vérification avec conditions multiples
-#             if dictionnaire is None or dictionnaire['nomE'] != nomEs[partie['joueur']-1]:
-#                 ligne_verif.append(False)
-#             else:
-#                 ligne_verif.append(True)
-#         grille_verif.append(ligne_verif)
-# # il faut surtout vérif les morpions de l'autre
-#     gagne = verifier_gagne_elimination(morpions_du_joueur) or verifier_gagne_pos(grille_verif)
-#     if gagne:
-#       terminer_partie(connexion,idp,gagne)
-
   morpions_derniers = morpions[int(partie['joueur']-1)]
   partie['grille'] = grille
   partie['morpions'] = morpions_derniers
