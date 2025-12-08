@@ -2,75 +2,8 @@
 <head>
   <meta http-equiv="Cache-Control" content="no-cache">
   <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="/templates/styles/jouer_partie_simple.css" />
   <title>Partie en cours</title>
-  <style>
-  table{
-    margin-left: auto;
-    margin-right: auto;
-    border: 2px solid black;
-    table-layout: fixed;
-    border-collapse:collapse;
-  }
-  table, table td, table th {
-    border: 1px solid black; /* Bordure noire de 1px */
-  }
-  table > tr > td > ul{
-    margin:0;
-  }
-  table td{
-    width: 100px;
-    height: 100px;
-    text-align: center; /* Centrage horizontal */
-    vertical-align: middle; /* Centrage vertical */;
-    background-size: cover;
-  }
-  ul {
-
-      display: grid;
-      grid-template-columns: 1fr 1fr; /* 2 colonnes égales */
-      marker: none;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-  }
-
-input[type="radio"].sort {
-    appearance: none;
-    cursor: pointer; /* Change le curseur au survol */
-}
-
-input[type="radio"].sort:hover {
-    cursor: pointer; /* Assure le changement de curseur */
-}
-
-input[type="radio"].sort::before {
-    content: attr(emoji-sort);
-    display: inline-block;
-    text-align: center;
-    border: 1px solid black;
-}
-input[type="radio"].sort:checked::before {
-    background-color: black; /* Couleur de fond quand coché */
-    color: white; /* Couleur du texte quand coché */
-}
-
-
-input[type="radio"].sort {
-    appearance: none;
-    position: relative;
-}
-button[type="submit"]{
-  margin-left: 50%;
-  margin-right: 50%;
-}
-
-.error{
-  background-color: red;
-}
-.succes{
-  background-color: greenyellow;
-}
-  </style>
 </head>
 <body>
   {% if REQUEST_VARS.get('erreur') == 'erreur'%}
@@ -106,32 +39,40 @@ button[type="submit"]{
       ({{partie['couleurE2']}})
     </p>
     <p>
-      C'est à l'équipe <strong>{{ partie['joueur']}}</strong> de jouer
+      C'est à l'équipe 
+      {% if partie['joueur']==1 %}
+        <strong>{{ partie['nomE1']}}</strong> de jouer
+      {% else %}
+        <strong>{{ partie['nomE2']}}</strong> de jouer
+      {% endif %}
     </p>
     <form method="POST" action="/partie/{{REQUEST_VARS['url_components'][1]}}">
     <h3>Grille :</h3>
+    
     <table>
-    {% for i in range(partie['taille']) %}
-    <tr>
-      {% for j in range(partie['taille']) %}
-      {% set cell= partie['grille'][i][j] %}
-      <td style="background-image: url('/static/img/img-morpions/{% if REQUEST_VARS['avancee']%}{{cell['image']}}{% endif %}');">
-        {% if cell %}
-          {{cell}}
-        {% else %}
-          <input type="radio" name="case" value="{{i}},{{j}}">
-        {% endif %}
-      </td>
+      {% set termine = REQUEST_VARS.get('partie_terminee') %}
+      {% for i in range(partie['taille']) %}
+      <tr>
+        {% for j in range(partie['taille']) %}
+        {% set cell= partie['grille'][i][j] %}
+        <td>
+          {% if cell == 1%}
+            <span class="cell-symbol" style="color: #{{ partie['couleurE1'] }};">X</span>
+          {% elif cell== 2 %}
+            <span class="cell-symbol" style="color: #{{ partie['couleurE2'] }};">O</span>
+          {% else %}
+            {% if not termine %}
+            <input type="radio" name="case" value="{{i}},{{j}}">
+            {% endif %}
+          {% endif %}
+        </td>
+        {% endfor %}
+      </tr>
       {% endfor %}
-    </tr>
-    {% endfor %}
-    </table>
+      </table>
     <button type="submit">Jouer</button>
 <br>
-  {% for var in REQUEST_VARS%}
-    {{var}}:{{REQUEST_VARS[var]}}
-    <br>
-  {% endfor %}
+ 
     <script>
 
     </script>

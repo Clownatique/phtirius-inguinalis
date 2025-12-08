@@ -1,0 +1,66 @@
+table{
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid black;
+    table-layout: fixed;
+    border-collapse:collapse;
+  }
+  table, table td, table th {
+    border: 1px solid black; /* Bordure noire de 1px */
+  }
+  table > tr > td > ul{
+    margin:0;
+  }
+  table td{
+    width: 100px;
+    height: 100px;
+    text-align: center; /* Centrage horizontal */
+    vertical-align: middle; /* Centrage vertical */;
+    background-size: cover;
+  }
+  ul {
+
+      display: grid;
+      grid-template-columns: 1fr 1fr; /* 2 colonnes égales */
+      marker: none;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  }
+
+input[type="radio"].sort {
+    appearance: none;
+    cursor: pointer; /* Change le curseur au survol */
+}
+
+input[type="radio"].sort:hover {
+    cursor: pointer; /* Assure le changement de curseur */
+}
+
+input[type="radio"].sort::before {
+    content: attr(emoji-sort);
+    display: inline-block;
+    text-align: center;
+    border: 1px solid black;
+}
+input[type="radio"].sort:checked::before {
+    background-color: black; /* Couleur de fond quand coché */
+    color: white; /* Couleur du texte quand coché */
+}
+
+
+input[type="radio"].sort {
+    appearance: none;
+    position: relative;
+}
+button[type="submit"]{
+  margin-left: 50%;
+  margin-right: 50%;
+}
+
+.error{
+  background-color: red;
+}
+.succes{
+  background-color: greenyellow;
+}
