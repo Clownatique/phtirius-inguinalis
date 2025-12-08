@@ -36,7 +36,7 @@ CREATE TABLE Partie (
     nomE1 VARCHAR(16) NOT NULL,
     nomE2 VARCHAR(16) NOT NULL,
     nomE_gagnant VARCHAR(16), 
-    date_debut TIMESTAMP DEFAULT NOW(), -- mettre à defaut l'instant présent ?
+    date_debut TIMESTAMP DEFAULT NOW(), 
     date_fin TIMESTAMP DEFAULT NOW(),
     max_tours INTEGER NOT NULL DEFAULT 9,-- CHECK (max_tours>0),
     taille_grille INTEGER NOT NULL DEFAULT 3,-- CHECK (taille_grille IN (3, 16)),
@@ -45,7 +45,7 @@ CREATE TABLE Partie (
     est_speciale BOOLEAN,
     FOREIGN KEY (nomE1) REFERENCES Equipe(nomE) ON DELETE CASCADE,
     FOREIGN KEY (nomE2) REFERENCES Equipe(nomE) ON DELETE CASCADE,
-    -- FOREIGN KEY (nomE_gagnant) REFERENCES Equipe(nomE) ON DELETE CASCADE,
+    FOREIGN KEY (nomE_gagnant) REFERENCES Equipe(nomE) ON DELETE CASCADE,
 
     CHECK (date_fin IS NULL OR date_fin >= date_debut)
 );
@@ -55,50 +55,12 @@ CREATE TABLE Journal(
     type_action VARCHAR(20) CHECK (type_action IN ('placement', 'attaque', 'sort', 'fin_tour', 'victoire')),
     texte_action VARCHAR(100) NOT NULL,
     date_action TIMESTAMP DEFAULT NOW(),
-    -- c la date de l'action !
-
-    --je pensais qu'on pouvait rajouter les id du morpion qui attaque et
-    -- celui qui est victime un truc comme ça :
-    --
     -- de la même manière que tomuss, il est intéressant de
     -- voir les actions comme des évenement  qui sont recompilés.
     -- tout les attributs rajoutés vont ainsi dans texte_action
     --
-    -- jte rassure on peut tout à fait conserver toutes les infos:
-    --
-    -- il suffit d'établir une manière de coder les évenements sans ambiguités
-    --
-    -- je te propose qu'on le voit comme ça parce que j'ai l'impression que
-    -- c'est à ça que ça sert
+    -- on peut tout à fait conserver toutes les infos:
     idp UUID NOT NULL,
     PRIMARY KEY (numA,idp),
     FOREIGN KEY (idP) REFERENCES Partie(idp) ON DELETE CASCADE
 );
-
-/*
---!!faut qu'on conserve l'état des morpions pendant la partie!!
---je sais plus si on voulait mettre l'etat dans la table posseder ou pas, j'ai fais une table sinon mais jsp
-CREATE TABLE Etat_Morpion(
-    idEtat Serial PRIMARY KEY,
-    idP UUID NOT NULL,
-    idM INTEGER NOT NULL,
-    nomE VARCHAR(16) NOT NULL,
-
-    position_x INTEGER CHECK (position_x BETWEEN 0 AND 4),
-    position_y INTEGER CHECK (position_y BETWEEN 0 AND 4),
-
-    PV_actuel INTEGER NOT NULL CHECK (PV_actuel >=0),
-    MANA_actuel INTEGER NOT NULL CHECK (MANA_actuel >=0),
-    REU_actuel INTEGER NOT NULL CHECK (REU_actuel >=0),
-    est_vivant BOOLEAN DEFAULT TRUE,
-
-    FOREIGN KEY (idP) REFERENCES Partie(idP) ON DELETE CASCADE,
-    FOREIGN KEY (idM) REFERENCES Morpion(idM),
-    FOREIGN KEY (nomE) REFERENCES Equipe(nomE),
-
-    UNIQUE (idP, position_x, position_y),
-    CHECK ((position_x IS NULL AND position_y IS NULL) OR (position_x IS NOT NULL AND position_y IS NOT NULL))
-);
-
--- INSERTION FICTIVE DE DONNEES DANS LES TABLES
-*/
