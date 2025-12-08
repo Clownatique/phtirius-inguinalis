@@ -64,8 +64,9 @@ def verif_complet(post:dict) -> list:
             REQUEST_VARS[champ] = post[champ]
     return champ_manquant
 
-if POST != {}: # Si l'utilisateur a rentré des trucs
+if POST != {}: 
     REQUEST_VARS['tentative_creation_equipe'] = True
+    # vérifier les champs
     champ_manquant = verif_complet(POST)
 
     if len(champ_manquant) == 0:

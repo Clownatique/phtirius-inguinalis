@@ -97,13 +97,12 @@ def jouer_coup(partie, action):
     # placement classique attendu: 'x,y<id' (ex: '1,2<3') ou déjà 'x,y'
     print("placement détecté")
     if '<' in coup:
-      coords, id_part = coup.split('<', 1)
-      x_str, y_str = coords.split(',', 1)
+      coords, id_part = coup.split('<')
+      x_str, y_str = coords.split(',')
       x = int(x_str.strip())
       y = int(y_str.strip())
       for morpion in morpions:
         if morpion['id'] == int(id_part):
-          print(morpion)
           morpion = morpions.pop(morpions.index(morpion))
           grille[x][y] = morpion
           partie[f"""E{joueur_actuel}"""]['morpions'] = morpions
@@ -137,7 +136,6 @@ else:
     REQUEST_VARS['partie'] = SESSION['partie']
     partie = REQUEST_VARS['partie']
     print(partie)
-
     # REQUEST_VARS['partie'] = partie
     # REQUEST_VARS['nomEJ'] = partie[f"nomE{partie['joueur']}"]
     # nom de l'équipe qui joue nécessaire
@@ -149,13 +147,13 @@ else:
                 case = POST['case'][0]
                 action = POST['action'][0]
                 if not(action[0].isalpha()):
-                    # donc c un placement dans partie avancé
+                    # donc c un placement dans partie avancé car pas de sorts
                     action = f"{case}<{action}"
                 else:
                     action = f"{action}>{case}"
 
 
-                regexp_sort = r'(sn|bf|ag|at):([0-9],[0-9])(<|>)([0-9],[0-9])'
+                regexp_sort = r'(sn|bf|ag|at):([0-9],[0-9])<([0-9],[0-9])'
                 regexp_pos = r'[0-9],[0-9]<[0-9]+'
 
                 sort_ok = re.match(regexp_sort,action)

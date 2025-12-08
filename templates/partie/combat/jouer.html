@@ -25,7 +25,6 @@
     background-size: cover;
   }
   ul {
-
       display: grid;
       grid-template-columns: 1fr 1fr; /* 2 colonnes égales */
       marker: none;
@@ -130,7 +129,7 @@ button[type="submit"]{
     <ul class="morpion-list" style="display: flex;">
         {% for morpion in morpions %}
         <input type="radio" value="{{morpion['id']}}" name="action">
-        <li class="morpion-item {% if not morpion['est_vivant'] %}dead{% endif %}">
+        <li class="morpion-item">
           <img src="/static/img/img-morpions/{{morpion['image']}}" alt="{{morpion['nomM']}}" class="morpion-img" width="20">
           <div>
             <strong>{{morpion['nomM']}}</strong><br>
@@ -152,7 +151,7 @@ button[type="submit"]{
         {% if cell == None %}
           <input type="radio" name="case" value="{{i}},{{j}}">
         {% elif cell == "détruit" %}
-          "non"
+          "case détruite"
         {% else %}
             <input type="radio" name="case" value="{{i}},{{j}}">
             <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
@@ -174,13 +173,7 @@ button[type="submit"]{
     {% endfor %}
     </table>
     <button type="submit">Jouer</button>
+    </form>
 <br>
-  {% for var in REQUEST_VARS['partie']%}
-    {{var}}:{{REQUEST_VARS['partie'][var]}}
-    <br>
-  {% endfor %}
-    <script>
-
-    </script>
 </body>
 </html>
