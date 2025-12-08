@@ -1,7 +1,170 @@
 {% extends "base.html" %}
 {% block title %} Accueil {% endblock %}
+
 {% block main %}
-  <h1>
-    Un super site pour jouer au morpion !!
-  </h1>
+<link rel="stylesheet" type="text/css" href="/templates/styles/accueil.css" />
+<div class="hero">
+  <img src="/static/img/logo.png" alt="logo morpion avancé" class="hero-logo">
+  <h1>Phtirius-Inguinalis</h1>
+  <p>
+    Le morpion classique vous ennuie ? Préparez-vous à une version épique où vos morpions 
+    s'affrontent en combat ! Placez, attaquez, lancez des sorts et dominez vos adversaires !
+  </p>
+
+  <div class="cta-buttons">
+    <a href="partie/creer">🎮 Lancer une partie</a>
+    <a href="equipe/creer">⭐ Créer mon équipe</a>
+  </div>
+</div>
+
+<!-- Statistiques générales -->
+<section class="stats-section">
+  <h2 class="section-title">📊 Statistiques du site</h2>
+  <div class="stats-grid">
+
+    <div class="stat-card">
+      <h3>👥 Équipes</h3>
+      <div class="stat-number">{{ REQUEST_VARS['stats_instances']['equipes'] }}</div>
+      <div class="stat-label">équipes créées</div>
+    </div>
+
+    <div class="stat-card">
+      <h3>🎮 Morpions</h3>
+      <div class="stat-number">{{ REQUEST_VARS['stats_instances']['morpions'] }}</div>
+      <div class="stat-label">morpions disponibles</div>
+    </div>
+
+    <div class="stat-card">
+      <h3>🏆 Parties</h3>
+      <div class="stat-number">{{ REQUEST_VARS['stats_instances']['parties'] }}</div>
+      <div class="stat-label">parties jouées</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Top 3 des équipes -->
+<section class="stats-section">
+  <h2 class="section-title">🏅 Top 3 des équipes</h2>
+
+  {% if REQUEST_VARS['top_equipes'] and REQUEST_VARS['top_equipes']|length > 0 %}
+  <div class="podium">
+    {% for equipe in REQUEST_VARS['top_equipes'] %}
+    <div class="podium-place {% if loop.index == 1 %}first{% elif loop.index == 2 %}second{% else %}third{% endif %}">
+      <div class="podium-medal">
+        {% if loop.index == 1 %}🥇
+        {% elif loop.index == 2 %}🥈
+        {% else %}🥉{% endif %}
+      </div>
+
+      <div class="podium-equipe" style="background-color: #{{ equipe[2] }};">
+        {{ equipe[0] }}
+      </div>
+
+      <div class="podium-score">
+        {{ equipe[1] }} victoire{{ 's' if equipe[1] > 1 else '' }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="stat-card">
+    <p class="no-data">Aucune victoire enregistrée pour le moment. Soyez le premier à gagner !</p>
+  </div>
+  {% endif %}
+</section>
+
+<!-- Parties extrêmes -->
+<section class="stats-section">
+  <h2 class="section-title">⏱️ Records de durée</h2>
+  <div class="extremes-grid">
+
+    <!-- Partie la plus rapide -->
+    <div class="extreme-card">
+      <div class="extreme-icon">🚀</div>
+      <h3 style="text-align: center; color: #8566a3; margin-bottom: 15px;">Partie la plus rapide</h3>
+            
+      {% if REQUEST_VARS['partie_rapide'] %}
+      <div class="extreme-duree">
+        {{ REQUEST_VARS['formater_duree'](REQUEST_VARS['partie_rapide']['duree']) }}
+      </div>
+      <div class="extreme-info">
+        <strong>{{ REQUEST_VARS['partie_rapide']['nomE1'] }}</strong> 
+        VS 
+        <strong>{{ REQUEST_VARS['partie_rapide']['nomE2'] }}</strong>
+      </div>
+      <div class="extreme-info" style="text-align: center; background: #e8f5e9;">
+        🏆 Gagnant : <strong>{{ REQUEST_VARS['partie_rapide']['gagnant'] }}</strong>
+      </div>
+      {% else %}
+      <p class="no-data">Aucune partie terminée</p>
+      {% endif %}
+    </div>
+
+    <!-- Partie la plus longue -->
+    <div class="extreme-card">
+      <div class="extreme-icon">🐢</div>
+      <h3 style="text-align: center; color: #8566a3; margin-bottom: 15px;">Partie la plus longue</h3>
+            
+      {% if REQUEST_VARS['partie_longue'] %}
+      <div class="extreme-duree">
+        {{ REQUEST_VARS['formater_duree'](REQUEST_VARS['partie_longue']['duree']) }}
+      </div>
+      <div class="extreme-info">
+        <strong>{{ REQUEST_VARS['partie_longue']['nomE1'] }}</strong> 
+        VS 
+        <strong>{{ REQUEST_VARS['partie_longue']['nomE2'] }}</strong>
+      </div>
+      <div class="extreme-info" style="text-align: center; background: #e8f5e9;">
+        🏆 Gagnant : <strong>{{ REQUEST_VARS['partie_longue']['gagnant'] }}</strong>
+      </div>
+      {% else %}
+      <p class="no-data">Aucune partie terminée</p>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- Statistiques journal -->
+<section class="stats-section">
+  <h2 class="section-title">📝 Activité mensuelle (Journal)</h2>
+    
+  <div class="journal-table">
+    {% if REQUEST_VARS['journal_mois'] and REQUEST_VARS['journal_mois']|length > 0 %}
+    <table>
+      <thead>
+        <tr>
+          <th>Mois</th>
+          <th>Année</th>
+          <th>Moyenne d'actions par partie</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for stat in REQUEST_VARS['journal_mois'] %}
+        <tr>
+          <td>
+            {% if stat[0] == 1 %}Janvier
+            {% elif stat[0] == 2 %}Février
+            {% elif stat[0] == 3 %}Mars
+            {% elif stat[0] == 4 %}Avril
+            {% elif stat[0] == 5 %}Mai
+            {% elif stat[0] == 6 %}Juin
+            {% elif stat[0] == 7 %}Juillet
+            {% elif stat[0] == 8 %}Août
+            {% elif stat[0] == 9 %}Septembre
+            {% elif stat[0] == 10 %}Octobre
+            {% elif stat[0] == 11 %}Novembre
+            {% else %}Décembre{% endif %}
+          </td>
+          <td>{{ stat[1]|int }}</td>
+          <td><strong>{{ "%.1f"|format(stat[2]) }}</strong> actions/partie</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="no-data">Aucune action enregistrée pour le moment</p>
+    {% endif %}
+  </div>
+</section>
 {% endblock %}

@@ -35,7 +35,7 @@ CREATE TABLE Partie (
     idp UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     nomE1 VARCHAR(16) NOT NULL,
     nomE2 VARCHAR(16) NOT NULL,
-    -- nomE_gagnant VARCHAR(16), on peut le retrouver (qui a fait la dernière action de la partie)
+    nomE_gagnant VARCHAR(16), 
     date_debut TIMESTAMP DEFAULT NOW(), -- mettre à defaut l'instant présent ?
     date_fin TIMESTAMP DEFAULT NOW(),
     max_tours INTEGER NOT NULL DEFAULT 9,-- CHECK (max_tours>0),

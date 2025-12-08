@@ -1,20 +1,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-  <title>phtirius-inguinalis - {% block title %}Index{% endblock %}</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>phtirius-inguinalis - {% block title %}Accueil{% endblock %}</title>
+  <link rel="stylesheet" type="text/css" href="/templates/styles/base.css" />
 </head>
-<body>
-  <nav>
-    <a href="parties">Liste des parties</a>
-    <a href="partie/creer">Nouvelle Partie</a>
-    <a href="equipes">Liste des équipes</a>
-    <a href="equipe/creer">Nouvelle équipe</a>
-  </nav>
-  {% block main %}
 
-  {% endblock %}
+<body>
+
+  <header>
+    <div class="header-content">
+      <a href="/" class="logo"></a>  <!--mettre mascotte-->
+      <div>
+        <div class="site-title">Phtirius-Inguinalis</div>
+        <div class="site-subtitle">Un super site pour jouer au morpion !</div>
+      </div>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="/">🏠 Accueil</a></li>
+      <li><a href="parties">📋 Liste des parties</a></li>
+      <li>><a href="partie/creer">➕ Nouvelle Partie</a></li>
+      <li><a href="equipes">👥 Liste des équipes</a></li>
+      <li><a href="equipe/creer">⭐ Nouvelle équipe</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    {% block main %}
+    {% endblock %}   <!--mettre logo-->
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>A propos</h3>
+        <p>
+          Projet réalisé dans le cadre du cours de Base de Données Web (BDW).
+          Un morpion pas comme les autres où stratégie et combat se mélangent !
+        </p>
+      </div>
+
+      <div class="footer-section">
+        <h3>Remerciements</h3>
+        <p>
+          Image du logo : Inna Berdyev <br>
+          Framework BDW : <a href="https://perso.liris.cnrs.fr/fabien.duchateau/BDW/" target="_blank">page web</a><br>
+          Projet L2 Informatique 2025-2026
+        </p>
+      </div>
+
+      <div class="footer-section">
+        <h3>Règles du jeu</h3>
+        <p>
+          <strong>Normal : </strong>Alignez 3 ou 4 morpions<br>
+          <strong>Avancée :</strong> Combattez avec attaques et sorts ! <br>
+        </p>
+      </div>
+
+    </div>
+  </footer>
 </body>
 </html>
