@@ -69,6 +69,7 @@ else:
             if pos_ok and verifier_action_simple(partie['grille'], action):
                 SESSION[idp]['joueur'] = 2 if SESSION[idp]['joueur'] == 1 else 1
                 SESSION[idp]['grille'][int(action[0])][int(action[2])] = SESSION[idp]['joueur']
+                SESSION[idp]['gagne'] = True
                 inserer_action(connexion,idp,action)
         else:
             REQUEST_VARS['erreur_action']="❌ Aucune case sélectionnée"

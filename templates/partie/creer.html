@@ -83,7 +83,7 @@
         <label for="nb_tour_max">Nombre de tours maximum <span class="help-text">(50-100 recommandé)</span></label>
         <input id="nb_tour_max" name="nb_tour_max" type="number"
                value="{{ REQUEST_VARS.get('max_tour_soumis', '') }}"
-               placeholder="50" min="10" max="200" required>
+               placeholder="9" min="9" max="200" required>
       </div>
 
       <div class="checkbox-field">
@@ -97,5 +97,3 @@
   </form>
 </div>
 {% endblock %}
-
-  

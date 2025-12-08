@@ -7,10 +7,10 @@ import random
 def verifier_gagne_elimination(morpions: list):
   """Vérifie si la liste/dict de morpions d'une équipe est vide."""
   # Accepte une liste ou un dict
-  try:
-    return len(morpions) == 0
-  except Exception:
-    return not morpions
+  for morpion in morpions:
+    if morpion['PV'] > 0:
+      return False
+  return True
 
 
 def recuperer_partie_complexe(connexion, idp):

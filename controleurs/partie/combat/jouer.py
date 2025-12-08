@@ -8,68 +8,64 @@ connexion = SESSION['CONNEXION']
 
 #pyright: reportUndefinedVariable=false
 
+def verifier_gagne_elimination(morpions: list):
+  """Vérifie si la liste/dict de morpions d'une équipe est vide."""
+  # Accepte une liste ou un dict
+  test = [True if morpion['PV']<0 else False for morpion in morpions]
+  return all(test)
+
 def jouer_coup(partie, action):
-  """Applique une action simple à la partie en mémoire (placements et sorts basiques).
-  Ne persiste pas la partie. Retourne la partie modifiée."""
-  coup = action
-  grille = partie.get('grille', [])
-  morpions = partie.get('morpions', [])
-  joueur_actuel = partie['numjoueur']
-  indice = 0 if joueur_actuel == 1 else 1
-  morpions_du_joueur = morpions[indice] if morpions and len(morpions) > indice else {}
+    grille = partie.get('grille', [])
+    morpions = partie.get('morpions', [])
+    joueur_actuel = partie['numjoueur']
+    num_adversaire = 1 if partie['numjoueur'] == 2 else 2
+    indice = 0 if joueur_actuel == 1 else 1
+    morpions_du_joueur = morpions[indice] if morpions and len(morpions) > indice else {}
 
-  if coup[0].isalpha():
-    # sorts (format attendu ex: 'at:1,2>2,2' ou 'bf:1,2>2,2')
-    if coup[1:] == '-':
-      # échec du sort
-      return partie
+    # Vérification si l'action est un sort ou un placement
+    if ':' in action:
+        # Sort
+        coup = action
+        acteur = grille[int(coup[3])][int(coup[5])]
+        cible = grille[int(coup[7])][int(coup[9])]
+        sort = coup[:2]
 
-    # extraire nombres
-    acteur = grille[ax][ay]
-    cible = grille[ax][ay]
+        if sort == 'at' and acteur and cible:
+            # Attaque
+            cible['PV'] -= 1
+            acteur['MANA'] -= 1
+            cible['MANA'] += 1
+        elif sort == 'ag' and acteur:
+            # Agression
+            cible = "détruit"
+            acteur['MANA'] -= 5
 
-    sort = coup[:2]
-    if sort == 'at' and acteur and cible:
-      cible['PV'] -= acteur.get('ATK', 0)
-    elif sort == 'bf' and cible:
-      cible['PV'] -= 3
-      cible['MANA'] -= 2
-    elif sort == 'sn' and cible:
-      cible['PV'] += 1
-      cible['MANA'] += 1
-    elif sort == 'ag' and acteur:
-      # ag détruit la cible si présente
-      if cible:
-        grille[cx][cy] = None
-        acteur['MANA'] -= 5
+        # Suppression de la cible si plus de PV
+        if type(cible) == dict and cible['PV'] < 0:
+            cx, cy = int(coup[7]), int(coup[9])
+            grille[cx][cy] = None
 
-      # supprimer la cible si plus de PV
-      if cible['PV'] <= 0:
-        grille[cx][cy] = None
+        grille[int(coup[3])][int(coup[5])] = acteur
+        grille[int(coup[7])][int(coup[9])] = cible
 
+    else:
+        # Placement classique
+        print("placement détecté")
+        if '<' in action:
+            coords, id_part = action.split('<')
+            x_str, y_str = coords.split(',')
+            x, y = int(x_str.strip()), int(y_str.strip())
+            for morpion in morpions:
+                if morpion['id'] == int(id_part):
+                    morpion = morpions.pop(morpions.index(morpion))
+                    grille[x][y] = morpion
+                    partie[f"E{joueur_actuel}"]['morpions'] = morpions
+                    break
 
-  else:
-    # placement classique attendu: 'x,y<id' (ex: '1,2<3') ou déjà 'x,y'
-    print("placement détecté")
-    if '<' in coup:
-      coords, id_part = coup.split('<', 1)
-      x_str, y_str = coords.split(',', 1)
-      x = int(x_str.strip())
-      y = int(y_str.strip())
-      for morpion in morpions:
-        if morpion['id'] == int(id_part):
-          print(morpion)
-          grille[x][y] = morpions.pop(morpions.index(morpion))
-          partie[f"""E{joueur_actuel}"""]['morpions'] = morpions
-          break #pcq va pas
-
-  print(f"""fin fonction jouer coup:{coup}""")
-  partie['grille'] = grille
-  partie['numjoueur'] = 1 if partie['nomjoueur'] == 2 else 2
-  # partie['nomjoueur'] = partie[f"""E{partie['numjoueur']}"""]['nomE']
-  print(partie[f"""E{partie['numjoueur']}"""])
-  partie['morpions'] =partie[f"""E{partie['numjoueur']}"""]['morpions']
-  return partie
+    # Mise à jour de la partie
+    partie['numjoueur'] = 1 if partie['numjoueur'] == 2 else 2
+    partie['morpions'] = partie[f"E{num_adversaire}"]['morpions']
+    return partie
 
 
 erreur_bool = not REQUEST_VARS.get('url_components')
@@ -120,7 +116,15 @@ else:
                 if  pos_ok != None or sort_ok != None:
                     SESSION[idp] = jouer_coup(partie, action)
                     REQUEST_VARS['partie'] = SESSION[idp]
+                    adverse = 1 if SESSION[idp]['numjoueur'] == 2 else 2
+                    pour_verif = init_grille(connexion,idp)
+                    SESSION[idp]['gagne'] = verifier_gagne_elimination(SESSION[idp][f"E{adverse}"]['morpions'])
+
+                    grille_pour_verif = [[True if morpion['nomE'] == SESSION[idp][f"E{adverse}"]['nomE'] else False for morpion in ligne] for ligne in SESSION['grille']]
+                    print(grille_pour_verif)
+                    print(f"gagne:{verifier_gagne_pos(grille_pour_verif)}")
                     inserer_action(connexion,idp, action)
+
                 else:
                     print('que ça bidouille')
         else:

@@ -64,12 +64,13 @@ def verif_complet(post:dict) -> list:
             REQUEST_VARS[champ] = post[champ]
     return champ_manquant
 
-if POST != {}: 
+if POST != {}:
     REQUEST_VARS['tentative_creation_equipe'] = True
     # vérifier les champs
     champ_manquant = verif_complet(POST)
-
+    print(champ_manquant)
     if len(champ_manquant) == 0:
+        print("ok la demande est là !!")
 
         couleur = POST['couleur'][0]
         nom = POST['nom'][0]
@@ -83,6 +84,7 @@ if POST != {}:
                 print(e)
 
     else:
+        print("ok la demande est là !!")
         champ_existant = [champ for champ in champ_manquant if champ not in ['nom', 'couleur', 'morpions']]
         for champ in champ_existant:
             # pour quand même traiter l'équipe de l'utilisateur qui à oublié des champs
@@ -101,4 +103,3 @@ if POST != {}:
 
 REQUEST_VARS["liste_morpion"] = liste_morpion(connexion)
 print(liste_morpion(connexion))
-

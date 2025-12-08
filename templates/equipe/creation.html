@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block title %}Créer une équipe{% endblock %}
-
 {% block main %}
 <link rel="stylesheet" type="text/css" href="/templates/styles/equipe_creer.css" />
 <body>
@@ -14,8 +13,7 @@
       <div class="alert alert-success">✅ {{ REQUEST_VARS['success'] }}</div>
     {% endif %}
 
-    {% for key in ['err_format_couleur', 'err_nombre_morpion', 'err_nom_indisponible',
-                   'err_format_nom', 'err_insertion'] %}
+    {% for key in ['err_format_couleur', 'err_nombre_morpion', 'err_nom_indisponible','err_format_nom', 'err_insertion'] %}
       {% if REQUEST_VARS.get(key) %}
         <div class="alert alert-error">❌ {{ REQUEST_VARS[key] }}</div>
       {% endif %}
@@ -48,28 +46,20 @@
     </fieldset>
 
     <!-- Morpions : cases carrées avec images -->
-    <fieldset>
+    <fieldset margin="auto">
       <legend>Sélection des morpions * (6 à 8)</legend>
-
-      <div class="morpion-grid">
-        {% for morpion in REQUEST_VARS.get('liste_morpion', []) %}
-          {# on suppose morpion[2] = url image, morpion[1] = nom, morpion[0] = id #}
-          {% set img_url = morpion[2] if (morpion|length > 2 and morpion[2]) else '/static/placeholder.png' %}
-          {% set submitted = REQUEST_VARS.get('morpions') %}
-          {% set checked = False %}
-          {% if submitted %}
-            {# comparer en string car REQUEST_VARS contient souvent des strings #}
-            {% if morpion[0]|string in submitted %}{% set checked = True %}{% endif %}
-          {% endif %}
-          <label class="morpion-card {% if checked %}selected{% endif %}">
-            <input type="checkbox" name="morpions[]" value="{{ morpion[0] }}"
-                   {% if checked %}checked{% endif %}>
-            <img src="{{ img_url }}" alt="{{ morpion[1] }}">
-            <div class="morpion-name">{{ morpion[1] }}</div>
-          </label>
+        {% for morpion in REQUEST_VARS['liste_morpion'] %}
+          <div sytle="display:flex;">
+            <input type="checkbox" value="{{ morpion[0] }}"{% if checked %}checked{% endif %}>
+            <img src="/static/img/img-morpions/{{ morpion[2] }}" alt="{{ morpion[1] }}" width="50">
+            <ul style="display: flex;list-style: none;">
+              <li>(💊:{{morpion[3]}})</li>
+              <li>(🗡️:{{morpion[4]}})</li>
+              <li>(🎲:{{morpion[5]}})</li>
+              <li>(🏁:{{morpion[6]}})</li>
+            </ul>
+          </div>
         {% endfor %}
-      </div>
-
       <div class="help-text">Cliquez sur les cases pour sélectionner. Sélection requise : 6 à 8.</div>
       <div id="client-error" class="client-error" style="display:none;"></div>
     </fieldset>

@@ -9,9 +9,6 @@ connexion = SESSION['CONNEXION']
 REQUEST_VARS["equipes"] = liste_equipes(connexion)
 
 def verif_formulaire(post:dict) -> bool:
-    """
-
-    """
     #renvoie permets d'afficher toutes les erreurs avant le refus du form
     renvoie = True
     if not('nome1'in post and 'nome2' in post):
@@ -28,7 +25,6 @@ def verif_formulaire(post:dict) -> bool:
     else:
         if int(post['nb_tour_max'][0]) > int(post['taille_grille'][0])**2:
             REQUEST_VARS['att_nb_tour_absurde'] = "! vous avez mis un nombre d'action bien trop grand (et c ok)"
-            renvoie = False
         if int(post['nb_tour_max'][0]) < 0 or int(post['nb_tour_max'][0]) == 0:
             REQUEST_VARS['err_nb_tour'] = "vous devez rentrer un nombre de tour (positif) on fait un morpion et toi tu testes des valeurs absurdes"
             renvoie = False
@@ -44,12 +40,11 @@ def verif_formulaire(post:dict) -> bool:
 
 if POST != {}:
     REQUEST_VARS['partie_soumise'] = True
-
+    print(POST)
     est_speciale = True if 'est_speciale' in POST else False
     # pour l'instant je n'arrive pas à récupérer l'input "radio" du champ "est_speciale"
 
-    if verif_formulaire(POST):
-        try:
-            creer_partie(connexion,POST["nome1"][0], POST["nome2"][0],est_speciale,int(POST['nb_tour_max'][0]),int(POST['taille_grille'][0]))
-        except psycopg.Error as e:
-            print({e})
+    try:
+        creer_partie(connexion,POST["nome1"][0], POST["nome2"][0],est_speciale,int(POST['nb_tour_max'][0]),int(POST['taille_grille'][0]))
+    except psycopg.Error as e:
+        print({e})

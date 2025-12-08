@@ -50,12 +50,8 @@ def verifier_gagne_pos(grille:list):
         verifier_diagonales()
     )
 
-def init_grille(connexion, idp) -> tuple:
-  query_taille = """SELECT taille_grille FROM partie WHERE idP = %s"""
-  info_partie = select_query(connexion, query_taille,[idp])
-  taille_grille = info_partie[0][0] if info_partie else 3 # par défault grille=3
-  #initialisation de la grille vide
-  grille = [[None for _ in range(taille_grille)] for _ in range(taille_grille)]
+def init_grille(grille:int) -> tuple:
+  grille = [[None for _ in range(grille)] for _ in range(grille)]
   return grille
 
 
