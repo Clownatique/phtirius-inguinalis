@@ -13,9 +13,9 @@ for infoE in REQUEST_VARS['equipes_seul']:
     equipe_morpions['morpions'] = morpions
     liste_equipe_morpion.append(equipe_morpions)
 
-print(liste_equipe_morpion)
 REQUEST_VARS['liste_equipes'] = liste_equipe_morpion
 
 if POST != {}:
-    for nomequipe in POST.keys(): #dans templates, seulement les attributs noms qui sont set
+    print(f"""POST:{POST}""")
+    for nomequipe in POST['nom']: #dans templates, seulement les attributs noms qui sont set
         supprimer_equipe(connexion, nom=nomequipe)
