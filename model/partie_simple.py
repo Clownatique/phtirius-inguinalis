@@ -1,3 +1,4 @@
+from model.utils import select_query
 
 def recuperer_partie_simple(connexion,idp):
 

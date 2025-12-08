@@ -1,5 +1,6 @@
-from model.partie_utils import inserer_action, verifier_gagne_pos, recuperer_partie_simple
-from model.partie_simple import recompiler_partie, 
+from model.partie import terminer_partie, verifier_gagne_elimination, verifier_gagne_pos, recuperer_partie, inserer_action, creer_partie, init_grille, recompiler_partie
+from model.partie_simple import recompiler_partie, recuperer_partie_simple, verifier_action
+from model.utils import select_query
 import re
 
 connexion = SESSION['CONNEXION']
