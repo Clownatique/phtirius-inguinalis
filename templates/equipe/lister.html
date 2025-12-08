@@ -1,11 +1,11 @@
 <p>{{ REQUEST_VARS['tentative_creation_equipe'] }}</p>
-<form action="." method="POST">
+<form action="" method="POST">
   <ul>
     {% for equipe in REQUEST_VARS['liste_equipes'] %}
       <fieldset>
       <li>
         <label style="background-color: {{equipe['info'][1]}};">{{equipe['info'][0]}}
-        <input type="checkbox" name="{{equipe['info'][0]}}">
+        <input type="checkbox" name="nom" value="{{equipe['info'][0]}}">
         </label>
         <ul>
           {% for morpion in equipe['morpions']%}

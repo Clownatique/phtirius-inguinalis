@@ -1,8 +1,9 @@
 <ul>
 {% for partie in REQUEST_VARS['liste_partie']%}
-  <fieldset>
+  
+<fieldset>
   <li>
-    {% if partie[7] %}
+    {% if partie[8] %}
       <a href="/combat/{{partie[0]}}">
     {% else %}
       <a href="/partie/{{partie[0]}}">
@@ -13,6 +14,6 @@
       </a>
   <em>{{partie[3]}}</em>
   </li>
-  </
+</fieldset>
 {% endfor %}
 </ul>
