@@ -1,3 +1,4 @@
+from model.utils import select_query
 from model.partie import inserer_action, terminer_partie, verifier_gagne_pos, recuperer_partie, inserer_action_complexe, creer_partie, init_grille, recompiler_partie, verifier_action
 from model.partie_complique import recompiler_partie_avancee, recuperer_morpions_joueur, recuperer_partie_complexe, verifier_gagne_elimination
 import re

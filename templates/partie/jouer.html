@@ -140,8 +140,7 @@ button[type="submit"]{
       <td style="background-image: url('/static/img/img-morpions/{% if REQUEST_VARS['avancee']%}{{cell['image']}}{% endif %}');">
         {% if cell == None %}
           <input type="radio" name="case" value="{{i}},{{j}}">
-        {% else %}
-          {% if partie['est_speciale'] %}
+        {% if cell['PV'] %}
             <input type="radio" name="case" value="{{i}},{{j}}">
             <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
             {{ cell['PV'] }}
@@ -155,14 +154,9 @@ button[type="submit"]{
               {% endfor %}
               </ul>
             {% endif %}
-
-          {% else %}
-            {% if cell == 1 %}
-              <strong style="color: {{ partie['couleurE1'] }}; font-size: 2em;">O</strong>
-            {% else %}
-              <strong style="color: {{ partie['couleurE2'] }}; font-size: 2em;">X</strong>
-            {% endif %}
-          {% endif %}
+        {% endif %}
+        {% else %}
+          détruit
         {% endif %}
       </td>
       {% endfor %}
