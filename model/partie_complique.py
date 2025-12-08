@@ -84,6 +84,8 @@ def recuperer_morpions_joueur(connexion, nom_equipe):
                 'ATK': m[4],
                 'MANA': m[5],
                 'REU': m[6],
-                'nomE':m[7]}for m in morpions]
+                'nomE':m[7],
+                'couleurE':select_query(connexion,'SELECT couleurE from Equipe WHERE nome = %s', [m[7]])[0][0]
+              }for m in morpions]
 
   return liste_morpions

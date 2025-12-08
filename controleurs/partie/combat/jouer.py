@@ -111,16 +111,12 @@ else:
 
                 sort_ok = re.match(regexp_sort,action)
                 pos_ok  = re.match(regexp_pos,action)
-                print(f"""les tests:{sort_ok} {pos_ok}""")
-                print(f"action:{action}")
                 if  pos_ok != None or sort_ok != None:
                     SESSION[idp] = jouer_coup(partie, action)
                     REQUEST_VARS['partie'] = SESSION[idp]
                     adverse = 1 if SESSION[idp]['numjoueur'] == 2 else 2
                     pour_verif = init_grille(connexion,idp)
-                    SESSION[idp]['gagne'] = verifier_gagne_elimination(SESSION[idp][f"E{adverse}"]['morpions'])
 
-                    print(SESSION[idp])
 
                     for ligne in SESSION[idp]['grille']:
                         print(ligne)
@@ -135,9 +131,9 @@ else:
                             else:
                                 ligne_verif.append(morpion['nomE'] == SESSION[idp][f"E{adverse}"]['nom'])
                         grille_pour_verif.append(ligne_verif)
-
                     print(grille_pour_verif)
                     print(f"gagne:{verifier_gagne_pos(grille_pour_verif)}")
+                    SESSION[idp]['gagne'] = verifier_gagne_pos(grille_pour_verif) or verifier_gagne_elimination(SESSION[idp]['morpions'])
                     inserer_action(connexion,idp, action)
 
                 else:

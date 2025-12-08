@@ -50,9 +50,8 @@ input[type="radio"].sort::before {
 }
 input[type="radio"].sort:checked::before {
     background-color: black; /* Couleur de fond quand coché */
-    color: white; /* Couleur du texte quand coché */
+    color: white;
 }
-
 input[type="radio"].sort {
     appearance: none;
     position: relative;
@@ -61,7 +60,6 @@ button[type="submit"]{
   margin-left: 50%;
   margin-right: 50%;
 }
-
 .error{
   background-color: red;
 }
@@ -98,16 +96,16 @@ button[type="submit"]{
   {% else %}
     <h1>Partie en cours</h1>
     <p>
-      <span style="background-color: #{{partie['couleurE1']}}">
-      <strong>{{partie['E1']['nom']</strong>
-      ({{partie['couleurE1']}})
-      </span>
+      <span style="background-color: #{{partie['E2']['couleur'][0]}}">
+      <strong>{{partie['E1']['nom']}}</strong>
       VS
-      <strong>{{partie['nomE2']}}</strong>
-      ({{partie['couleurE2']}})
+      <span style="background-color: #{{partie['E2']['couleur'][0]}}">
+      <strong>{{partie['E2']['nom']}}</strong>
+      </span>
     </p>
+    {{ partie['nomjoueur']}}
     <p>
-      C'est à l'équipe <strong>{{ partie['joueur']}}</strong> de jouer
+      C'est à l'équipe <strong>{{ partie['nomjoueur']}}</strong> de jouer
     </p>
     <form method="POST" action="/combat/{{REQUEST_VARS['url_components'][1]}}">
     {% set morpions = partie['morpions']%}
@@ -132,12 +130,15 @@ button[type="submit"]{
     <tr>
       {% for j in range(partie['taille']) %}
       {% set cell= partie['grille'][i][j] %}
-      <td style="background-image: url('/static/img/img-morpions/{{cell['image']}}');">
         {% if cell == None %}
+
+        <td>
           <input type="radio" name="case" value="{{i}},{{j}}">
+        </td>
         {% elif cell == "détruit" %}
           "case détruite"
         {% else %}
+            <td style="border:10px ridge #{{cell['couleurE']}}">
             <input type="radio" name="case" value="{{i}},{{j}}">
             <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
             {{ cell['PV'] }}
@@ -151,8 +152,8 @@ button[type="submit"]{
               {% endfor %}
               </ul>
             {% endif %}
+            </td>
         {% endif %}
-      </td>
       {% endfor %}
     </tr>
     {% endfor %}
