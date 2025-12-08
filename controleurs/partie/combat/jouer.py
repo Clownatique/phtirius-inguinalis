@@ -120,7 +120,22 @@ else:
                     pour_verif = init_grille(connexion,idp)
                     SESSION[idp]['gagne'] = verifier_gagne_elimination(SESSION[idp][f"E{adverse}"]['morpions'])
 
-                    grille_pour_verif = [[True if morpion['nomE'] == SESSION[idp][f"E{adverse}"]['nomE'] else False for morpion in ligne] for ligne in SESSION['grille']]
+                    print(SESSION[idp])
+
+                    for ligne in SESSION[idp]['grille']:
+                        print(ligne)
+
+                    grille_pour_verif = []
+
+                    for ligne in SESSION[idp]['grille']:
+                        ligne_verif = []
+                        for morpion in ligne:
+                            if morpion is None or SESSION[idp][f"E{adverse}"]['nom'] is None:
+                                ligne_verif.append(False)
+                            else:
+                                ligne_verif.append(morpion['nomE'] == SESSION[idp][f"E{adverse}"]['nom'])
+                        grille_pour_verif.append(ligne_verif)
+
                     print(grille_pour_verif)
                     print(f"gagne:{verifier_gagne_pos(grille_pour_verif)}")
                     inserer_action(connexion,idp, action)

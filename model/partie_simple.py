@@ -44,7 +44,7 @@ def recuperer_partie_simple(connexion,idp):
   }
 
   # Fournir une grille par défaut (vide) pour éviter les erreurs côté template
-  partie_dict['grille'] = init_grille(connexion,idp)
+  partie_dict['grille'] = init_grille(row[7])
   joueur_actuel = partie_dict['nomE1'] if partie_dict['joueur'] == 1 else partie_dict['nomE2']
   return partie_dict
 

@@ -56,7 +56,7 @@ def recuperer_partie_complexe(connexion, idp):
       "tour": tour_val,
       "taille": row[7] if len(row) > 6 else 3,
       "numjoueur": joueur,
-      "grille":init_grille(connexion,idp)
+      "grille":init_grille(row[7])
   }
   nom_joueur_actuel = partie_dict[f"""E{partie_dict['numjoueur']}"""]['nom']
   partie_dict['morpions']= recuperer_morpions_joueur(connexion,nom_joueur_actuel)

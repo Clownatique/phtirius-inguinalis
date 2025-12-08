@@ -31,17 +31,14 @@ def verification_victoire_normale(grille, taille, equipe_joueuse):
     verif_cellule_joueuse = lambda cell: cell == equipe_joueuse
 
     # Vérification du placement UNIQUEMENT pour l'équipe joueuse
-    if verifier_gagne_pos(grille, taille, verif_cellule_joueuse):
+    if verifier_gagne_pos(grille):
         return equipe_joueuse # Renvoie 1 ou 2
 
     # Verifier si grille pleine
-    cases_libres = sum(
-        1 for i in range(taille) for j in range(taille) if grille[i][j] == 0
-    )
+    cases_libres = sum(1 for i in range(taille) for j in range(taille) if grille[i][j] == None)
     if cases_libres == 0:
         return 'egalite'
-
-    return None
+    retur None
 
 # Note: L'appel à select_querverifier_gagne_par_placement_equipey nécessite l'objet connexion
 
@@ -69,7 +66,8 @@ else:
             if pos_ok and verifier_action_simple(partie['grille'], action):
                 SESSION[idp]['joueur'] = 2 if SESSION[idp]['joueur'] == 1 else 1
                 SESSION[idp]['grille'][int(action[0])][int(action[2])] = SESSION[idp]['joueur']
-                SESSION[idp]['gagne'] = True
+                SESSION[idp]['gagne'] = verification_victoire_normale(SESSION[idp]['grille'],SESSION[idp]['taille'],SESSION[idp]['joueur'])
+                print(SESSION[idp]['gagne'])
                 inserer_action(connexion,idp,action)
         else:
             REQUEST_VARS['erreur_action']="❌ Aucune case sélectionnée"
