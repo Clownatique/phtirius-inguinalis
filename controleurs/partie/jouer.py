@@ -1,9 +1,6 @@
-from model.partie import inserer_action, recuperer_partie, terminer_partie,recompiler_partie
+from model.partie_utils import inserer_action, verifier_gagne_pos, recuperer_partie_simple
+from model.partie_simple import recompiler_partie, 
 import re
-from model.partie import inserer_action, recuperer_partie, terminer_partie
-from model.partie_flora import recompiler_partie, recompiler_partie_avancee, recuperer_morpions_joueur
-from model.utils import select_query, other_query
-import random
 
 connexion = SESSION['CONNEXION']
 
@@ -36,38 +33,6 @@ def verifier_action_simple(grille, action):
         REQUEST_VARS['erreur_action']="❌ Action invalide"
         return False
 
-def verifier_adjacence(x1, y1, x2, y2):
-    """
-    vérifie si 2 cases sont adjacentes (horizontalement ou verticalement)
-    renvoie true si oui sinon false
-    """
-    return (abs(x1-x2)==1 and y1==y2) or (abs(y1-y2)==1 and x1 == x2)
-
-def calculer_reussite(reu_actuel):
-    """
-    calcule si une action réussit selon la proba et retourne true or false selon
-    """
-    proba=reu_actuel*10
-    tirage=random.randint(0,100)
-    return tirage<proba
-
-def gagne_par_placement_equipe(grille, taille, verif_cellule):
-    #verification des lignes
-    for ligne in grille:
-        if all(verif_cellule(cell) for cell in ligne):
-            return True
-
-    #vérification des colonnes
-    for j in range(taille):
-        if all(verif_cellule(grille[i][j]) for i in range(taille)):
-            return True
-    #verification des diagonales
-    if all(verif_cellule(grille[i][i]) for i in range(taille)):
-        return True
-    if all(verif_cellule(grille[i][taille - 1 - i]) for i in range(taille)):
-        return True
-
-    return False
 
 def verification_victoire_normale(grille, taille, equipe_joueuse):
     """
@@ -77,7 +42,7 @@ def verification_victoire_normale(grille, taille, equipe_joueuse):
     verif_cellule_joueuse = lambda cell: cell == equipe_joueuse
 
     # Vérification du placement UNIQUEMENT pour l'équipe joueuse
-    if gagne_par_placement_equipe(grille, taille, verif_cellule_joueuse):
+    if verifier_gagne_pos(grille, taille, verif_cellule_joueuse):
         return equipe_joueuse # Renvoie 1 ou 2
 
     # Verifier si grille pleine
@@ -89,7 +54,7 @@ def verification_victoire_normale(grille, taille, equipe_joueuse):
 
     return None
 
-# Note: L'appel à select_query nécessite l'objet connexion
+# Note: L'appel à select_querverifier_gagne_par_placement_equipey nécessite l'objet connexion
 def verifier_victoire_avancee(connexion, partie, grille):
     """
     Vérifie si une équipe a gagné (partie avancée).
@@ -139,21 +104,21 @@ def verifier_victoire_avancee(connexion, partie, grille):
 
 erreur_bool = not REQUEST_VARS.get('url_components')
 erreur_bool = erreur_bool or(REQUEST_VARS['url_components'][1] == '')
-erreur_bool = erreur_bool or recuperer_partie(connexion, REQUEST_VARS['url_components'][1]) == None
+# safe pour idp (il existe)
+idp = REQUEST_VARS['url_components'][1]
+partie = recuperer_partie_simple(connexion,idp)
+erreur_bool = erreur_bool or partie == None
+# à ce moment là c bizzare mais
 if erreur_bool:
     REQUEST_VARS['erreur_url'] = "erreur"
 else:
-
-    idp = REQUEST_VARS['url_components'][1]
-    partie = recuperer_partie(connexion,idp)
-
     REQUEST_VARS['partie']= recompiler_partie(connexion,idp)
     if POST != {}:
         if 'case' in POST:
             action=POST['case'][0]
             regexp_pos = r'[0-9],[0-9]'
             pos_ok  = re.match(regexp_pos,action)
-            if pos_ok:
+            if pos_ok and verifier_action_simple(partie, action):
                 inserer_action(connexion,idp,action)
         else:
             REQUEST_VARS['erreur_action']="❌ Aucune case sélectionnée"
