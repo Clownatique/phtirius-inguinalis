@@ -95,7 +95,6 @@ button[type="submit"]{
   <div class="error">{{REQUEST_VARS['erreur_action']}}</div>
   {% endif %}
 
-    {% if partie %}
     <h1>Partie en cours</h1>
     <p>
       <span style="background-color: #{{partie['couleurE1']}}">
@@ -110,27 +109,6 @@ button[type="submit"]{
       C'est à l'équipe <strong>{{ partie['joueur']}}</strong> de jouer
     </p>
     <form method="POST" action="/partie/{{REQUEST_VARS['url_components'][1]}}">
-    {% if partie['est_speciale'] %}
-    {% set morpions = partie['morpions']%}
-    <ul class="morpion-list" style="display: flex;">
-        {% for morpion in morpions %}
-        <input type="radio" value="{{morpions[morpion]['id']}}" name="action">
-        <li class="morpion-item {% if not morpions[morpion]['est_vivant'] %}dead{% endif %}">
-          <img src="/static/img/img-morpions/{{morpions[morpion]['image']}}" alt="{{morpions[morpion]['nomM']}}" class="morpion-img" width="20">
-          <div>
-            <strong>{{morpions[morpion]['nomM']}}</strong><br>
-            PV : {{morpions[morpion]['PV']}}
-            ATK : {{morpions[morpion]['ATK']}}
-            MANA : {{morpions[morpion]['MANA']}}
-            REU : {{morpions[morpion]['REU']}}
-          </div>
-        </li>
-        {% endfor %}
-      {% else %}
-        <li>Aucun morpion disponible</li>
-      {% endif %}
-    </ul>
-    {% endif %}
     <h3>Grille :</h3>
     <table>
     {% for i in range(partie['taille']) %}
@@ -138,25 +116,10 @@ button[type="submit"]{
       {% for j in range(partie['taille']) %}
       {% set cell= partie['grille'][i][j] %}
       <td style="background-image: url('/static/img/img-morpions/{% if REQUEST_VARS['avancee']%}{{cell['image']}}{% endif %}');">
-        {% if cell == None %}
-          <input type="radio" name="case" value="{{i}},{{j}}">
-        {% if cell['PV'] %}
-            <input type="radio" name="case" value="{{i}},{{j}}">
-            <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
-            {{ cell['PV'] }}
-            {% if cell['nomE']%}
-              {% set actions = [{'value': 'at', 'emoji': '⚔️'},{'value': 'bf', 'emoji': '❤️‍🔥'},{'value': 'sn', 'emoji': '💚'},{'value': 'ag', 'emoji': '🤯'}] %}
-              <ul>
-              {% for action in actions %}
-                  <li><label>
-                      <input type="radio" class="sort" name="action" value="{{ action.value }}:{{i}},{{j}}" emoji-sort="{{ action.emoji }}">
-                  </label></li>
-              {% endfor %}
-              </ul>
-            {% endif %}
-        {% endif %}
+        {% if cell %}
+          {{cell}}
         {% else %}
-          détruit
+          <input type="radio" name="case" value="{{i}},{{j}}">
         {% endif %}
       </td>
       {% endfor %}
