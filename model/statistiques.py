@@ -122,7 +122,7 @@ def formater_duree(secondes):
     """
     if secondes<60:
         return f"{secondes}s"
-    elif secondes>3600:
+    elif secondes<3600:
         minutes=secondes//60
         secondes_rest=secondes%60
         return f"{minutes}m {secondes_rest}s"
