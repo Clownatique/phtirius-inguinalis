@@ -14,6 +14,7 @@ COALESCE(MAX(numa), 0) + 1, %s, %s, NOW(), 'victoire'FROM Journal WHERE idP = %s
 
 def verifier_gagne_pos(grille:list):
     # Dimensions de la grille
+    print(grille)
     lignes = len(grille)
     colonnes = len(grille[0])
     # Vérification des lignes horizontales

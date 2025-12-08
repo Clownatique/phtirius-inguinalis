@@ -1,11 +1,52 @@
 from model.partie import inserer_action, terminer_partie
 from model.partie_complique import recompiler_partie_avancee, recuperer_morpions_joueur, recuperer_partie_complexe
+from model.partie_utils import verifier_gagne_pos
 import re
 
 connexion = SESSION['CONNEXION']
 
 #pyright: reportUndefinedVariable=false
 #
+
+def gagne(partie):
+    grille = partie['grille']
+    nom_joueur = partie['nomjoueur']
+    num_adversaire = 1 if partie['numjoueur'] == 2 else 2
+    nom_adversaire = partie[f"""E{num_adversaire}"""]
+    morpions = partie['morpions']
+
+    if len(morpions) == 0:
+        return partie[f"""E{num_adversaire}"""]['nom']#autre joueur
+
+    print(grille)
+
+    grille_pr_verif = []
+    for lignes in grille:
+        ligne = []
+        for mor in lignes:
+            if mor == None:
+                ligne.append(False)
+            elif 'nomE' in mor and mor['nomE'] == nom_joueur:
+                ligne.append(True)
+            else:
+                ligne.append(False)
+            #pas d'autre exceptions en vue
+        grille_pr_verif.append(ligne)
+    print(grille_pr_verif)
+
+    if verifier_gagne_pos(grille_pr_verif):
+        return nom_joueur
+
+    case_restante = bool()
+
+    for ligne in grille:
+        for mor in ligne:
+            if mor == None:
+                case_restante = False
+                break
+    # if partie['tour'] > partie['maxtour'] or case_restante:
+        # return 'égalité'
+
 
 def jouer_coup(partie, action):
   """Applique une action simple à la partie en mémoire (placements et sorts basiques).
@@ -14,6 +55,7 @@ def jouer_coup(partie, action):
   grille = partie.get('grille', [])
   morpions = partie.get('morpions', [])
   joueur_actuel = partie['numjoueur']
+  num_adversaire = 1 if partie['numjoueur'] == 2 else 2
   indice = 0 if joueur_actuel == 1 else 1
   morpions_du_joueur = morpions[indice] if morpions and len(morpions) > indice else {}
 
@@ -24,8 +66,8 @@ def jouer_coup(partie, action):
       return partie
 
     # extraire nombres
-    acteur = grille[ax][ay]
-    cible = grille[ax][ay]
+    acteur = grille[int(action[3])][int(action[5])]
+    cible = grille[int(action[7])][int(action[9])]
 
     sort = coup[:2]
     if sort == 'at' and acteur and cible:
@@ -38,14 +80,18 @@ def jouer_coup(partie, action):
       cible['MANA'] += 1
     elif sort == 'ag' and acteur:
       # ag détruit la cible si présente
-      if cible:
-        grille[cx][cy] = None
-        acteur['MANA'] -= 5
+      cible = "détruit"
+      acteur['MANA'] -= 5
+
+    print(f"cible:{cible}")
 
       # supprimer la cible si plus de PV
-      if cible['PV'] <= 0:
+    if type(cible) == dict:
+      if cible['PV']<0:
         grille[cx][cy] = None
 
+    grille[int(action[3])][int(action[5])] = acteur
+    grille[int(action[7])][int(action[9])] = cible
 
   else:
     # placement classique attendu: 'x,y<id' (ex: '1,2<3') ou déjà 'x,y'
@@ -58,7 +104,8 @@ def jouer_coup(partie, action):
       for morpion in morpions:
         if morpion['id'] == int(id_part):
           print(morpion)
-          grille[x][y] = morpions.pop(morpions.index(morpion))
+          morpion = morpions.pop(morpions.index(morpion))
+          grille[x][y] = morpion
           partie[f"""E{joueur_actuel}"""]['morpions'] = morpions
           break #pcq va pas
 
@@ -67,7 +114,7 @@ def jouer_coup(partie, action):
   partie['numjoueur'] = 1 if partie['nomjoueur'] == 2 else 2
   # partie['nomjoueur'] = partie[f"""E{partie['numjoueur']}"""]['nomE']
   print(partie[f"""E{partie['numjoueur']}"""])
-  partie['morpions'] =partie[f"""E{partie['numjoueur']}"""]['morpions']
+  partie['morpions'] =partie[f"""E{num_adversaire}"""]['morpions']
   return partie
 
 
@@ -76,7 +123,6 @@ erreur_bool = erreur_bool or(REQUEST_VARS['url_components'][0] == '')
 if erreur_bool:
     REQUEST_VARS['erreur'] = "erreur"
 else:
-
     # SAUVEGARDE PARTIE => SESSION
     idp = REQUEST_VARS['url_components'][1]
     if idp == None:
@@ -119,7 +165,11 @@ else:
                 if  pos_ok != None or sort_ok != None:
                     SESSION[idp] = jouer_coup(partie, action)
                     REQUEST_VARS['partie'] = SESSION[idp]
-                    inserer_action(connexion,idp, action)
+                    if gagne(partie):
+                        inserer_action(connexion,idp, action)
+                        terminer_partie(connexion,idp,gagne(partie))
+                        SESSION[idp]["gagne"] = True
+
                 else:
                     print('que ça bidouille')
         else:
