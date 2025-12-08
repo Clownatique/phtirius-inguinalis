@@ -1,0 +1,69 @@
+body { font-family: Arial, sans-serif; background: #f5f7fb; padding: 20px; }
+.container { max-width: 900px; margin: 0 auto; background: white; padding: 18px; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+
+.team-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+
+.team-card {
+  border: 1px solid #e6e9ef;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #fff;
+}
+
+.team-badge {
+  min-width: 140px;
+  padding: 8px;
+  border-radius: 6px;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.team-badge input[type="checkbox"] { margin-left: 8px; transform: scale(1.1); }
+
+.morpions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+}
+
+.morpion {
+  width: 80px;
+  height: 80px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fafafa;
+  padding: 6px;
+  font-size: 11px;
+  text-align: center;
+}
+
+.morpion img {
+  width: 100%;
+  height: 56%;
+  object-fit: cover; 
+  border-radius: 4px;
+  margin-bottom: 4px;
+}
+
+.form-actions { margin-top: 14px; }
+input[type="submit"] {
+  padding: 10px 14px;
+  background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}

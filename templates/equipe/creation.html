@@ -1,202 +1,81 @@
-<!DOCTYPE html>
-<head>
-  <meta charset="UTF-8"> <!--pour afficher les accents et caractères spéciaux-->
-  <title>Créer une équipe - Morpion Avancé</title>
-  <style>
-    body {
-      margin : 0;
-      background-color: #c0c9eb;
-      padding: 20px;
-      color: #1b065b;
-    }
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #fff;
-      border-radius:10px;
-      padding:30px;
-      border:1px solid #e0e0e0;
-    }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 1.6rem;
-    }
-    .messages {
-      margin-bottom: 20px;
-    }
-    .alert{
-      padding:12px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      font-size:0.95rem;
-    }
-    .alert-error{
-      background-color: #fff0f0;
-      border: 1px solid #f1a0a0;
-      color: #a94442;
-    }
-    .alert-succes{
-      background-color: #f0fff5;
-      border: 1px solid #a0d7a0;
-      color: #2d7a2d;
-    }
-    fieldset{
-      border:1px solid #ddd;
-      border-radius: 8px;
-      padding:16px;
-      margin-bottom: 18px;
-      background: #fbfbfb;
-    }
-    legend{
-      font-weight: bold;
-      padding:0 6px;
-      font-size: 1rem;
-      color: #7b57c3;
-    }
-    .required{
-      color:#d9534f;
-      margin-left: 6px;
-    }
-    label{
-      display: block;
-      margin-bottom: 6px;
-      color: #454545;
-    }
-    .help-text {
-      display: block;
-      margin-top: 8px;
-      font-size: 0.9rem;
-      color: #666;
-    }
-    kbd {
-      background: #eee;
-      padding: 2px 6px;
-      border-radius: 3px;
-      border: 1px solid #ccc;
-      font-family: monospace;
-    }
-    button[type="submit"] {
-      width:100%;
-      padding: 12px;
-      background-color: #8370cd;
-      color:white;
-      border:none;
-      border-radius:8px;
-      font-size: 1rem;
-      cursor:pointer;
-    }
+{% extends "base.html %"}
+{% block title %}Créer une équipe{% endblock %}
 
-
-  </style>
-</head>
-
+{% block main %}
+<link rel="stylesheet" type="text/css" href="/templates/styles/equipe_creer.css" />
 <body>
   <div class="container">
-    <h1>Créer une nouvelle équipe</h1>
+  <h1>Créer une nouvelle équipe</h1>
 
-    {% if REQUEST_VARS.get('tentative_creation_equipe')%}
-    <div class="messages">
-      <!--Message de succès-->
-      {% if REQUEST_VARS.get('succes')%}
-      <div class="alert alert-succes">
-        <span style="font-size: 1.5em;">✅</span>
-        <span>{{ REQUEST_VARS['succes'] }}</span>
-      </div>
-      {% endif %}
-      
-
-      <!--Messages d'erreur-->
-      <!--Erreur : format couleur-->
-      {% if REQUEST_VARS.get('err_couleur_format') %}
-      <div class="alert alert-error">
-        <span style="font-size: 1.5em;">❌</span>
-        <span>{{ REQUEST_VARS['err_format_couleur'] }}</span>
-      </div>
-      {% endif %}
-
-      <!--Erreur : nombre de morpions-->
-      {% if REQUEST_VARS.get('err_nombre_morpion') %}
-      <div class="alert alert-error">
-        <span style="font-size: 1.5em;">❌</span>
-        <span>{{ REQUEST_VARS['err_nombre_morpion'] }}</span>
-      </div>
-      {% endif %}
-
-      <!--Erreur : nom indisponible-->
-      {% if REQUEST_VARS.get('err_nom_indisponible')%}
-      <div class="alert alert-error">
-        <span style="font-size: 1.5em;">❌</span>
-        <span>{{REQUEST_VARS['err_nom_indisponible']}} </span> 
-      </div>
-      {% endif %}
-
-      <!--Erreur : format nom-->
-      {% if REQUEST_VARS.get('err_format_nom') %}
-      <div class="alert alert-error">
-        <span style="font-size: 1.5em;">❌</span>
-        <span>{{ REQUEST_VARS['err_format_nom'] }}</span>
-      </div>
-      {% endif %}
-
-      <!--Erreur : insertion-->
-      {% if REQUEST_VARS.get('err_insertion') %}
-      <div class="alert alert-error">
-        <span style="font-size: 1.5em;">❌</span>
-        <span>{{ REQUEST_VARS['err_insertion'] }}</span>
-      </div>
-      {% endif %}
-
-      <!-- Champs manquants -->
-      {% if REQUEST_VARS.get('champ_manquant') %}
-      <div class="alert alert-error">
-        <span style="font-size: 1.5em;">❌</span>
-        <span>Champs manquants : {{ REQUEST_VARS['champ_manquant']|join(', ') }}</span>
-      </div>
-      {% endif %}
-    </div>
+  <!-- Messages renvoyés par le serveur -->
+  {% if REQUEST_VARS.get('tentative_creation_equipe') %}
+  <div class="messages">
+    {% if REQUEST_VARS.get('success') %}
+      <div class="alert alert-success">✅ {{ REQUEST_VARS['success'] }}</div>
     {% endif %}
 
-    <form method="post" action="">
-      <!--nom-->
-      <fieldset>
-        <legend>Choisissez le nom de votre équipe<span class="required">*</span></legend>
-        <label for="nom"></label>
-        <input type="text" name="nom" id="nom" value="{{REQUEST_VARS.get('nom', [''])[0] if REQUEST_VARS.get('nom') else '' }}" placeholder="Ex : Dragons Rouges" maxlength="50" required >
-      </fieldset>
+    {% for key in ['err_format_couleur', 'err_nombre_morpion', 'err_nom_indisponible',
+                   'err_format_nom', 'err_insertion'] %}
+      {% if REQUEST_VARS.get(key) %}
+        <div class="alert alert-error">❌ {{ REQUEST_VARS[key] }}</div>
+      {% endif %}
+    {% endfor %}
 
-      <!--couleur-->
-      <fieldset>
-        <legend>Choisissez la couleur de votre équipe<span class="required">*</span></legend>
-        <label for="couleur"></label>
-        <input type="color" name="couleur" id="couleur" value="{{REQUEST_VARS.get('couleur',['#FF0000'])[0] if REQUEST_VARS.get('couleur') else '#FF0000' }}" required >
-      </fieldset>
-  
-      <!--morpions-->
-      <fieldset>
-        <legend>Choisissez vos morpions <span class="required">*</span> (6 à 8)</legend>
-        <select size=10 name="morpions" id="morpions" multiple required>
-          {% for morpion in REQUEST_VARS.get("liste_morpion",[]) %}
-          <option value="{{morpion[0]}}" id="morpion" style="background-image:url(/static/img/img-morpions/{{morpion[2]}})" >
-            <!--mettre l'idM dans value-->
-            <!--Donc le rajouter dans contrôleur-->
-            {{morpion[1]}} -
-            PV:{{morpion[3]}}
-            ATK:{{morpion[4]}}
-            MANA:{{morpion[5]}}
-            REU:{{morpion[6]}}
-          </option>
-          {% endfor %}
-        </select>
-        <span class="help-text">
-          Maintenez <kbd>Ctrl</kbd> (Windows) ou <kbd>Cmd</kbd> (Mac) pour sélectionner plusieurs morpions
-        </span>
-      </fieldset>
-
-      <button type="submit">Créer l'équipe</button>
-    </form>
+    {% if REQUEST_VARS.get('champ_manquant') %}
+      <div class="alert alert-error">❌ Champs manquants : {{ REQUEST_VARS['champ_manquant']|join(', ') }}</div>
+    {% endif %}
   </div>
+  {% endif %}
+
+  <!-- Formulaire -->
+  <form method="post" action="" id="team-form">
+    <!-- Nom -->
+    <fieldset>
+      <label for="nom">Nom de l'équipe *</label>
+      <input type="text" id="nom" name="nom"
+             value="{{ REQUEST_VARS.get('nom', [''])[0] if REQUEST_VARS.get('nom') else '' }}"
+             maxlength="50" required>
+      <div class="help-text">Maximum 50 caractères</div>
+    </fieldset>
+
+    <!-- Couleur -->
+    <fieldset>
+      <label for="couleur">Couleur *</label>
+      <input type="color" id="couleur" name="couleur"
+             value="{{ REQUEST_VARS.get('couleur', ['#FF0000'])[0] if REQUEST_VARS.get('couleur') else '#FF0000' }}"
+             required>
+      <div class="help-text">Choisissez une couleur unique</div>
+    </fieldset>
+
+    <!-- Morpions : cases carrées avec images -->
+    <fieldset>
+      <legend>Sélection des morpions * (6 à 8)</legend>
+
+      <div class="morpion-grid">
+        {% for morpion in REQUEST_VARS.get('liste_morpion', []) %}
+          {# on suppose morpion[2] = url image, morpion[1] = nom, morpion[0] = id #}
+          {% set img_url = morpion[2] if (morpion|length > 2 and morpion[2]) else '/static/placeholder.png' %}
+          {% set submitted = REQUEST_VARS.get('morpions') %}
+          {% set checked = False %}
+          {% if submitted %}
+            {# comparer en string car REQUEST_VARS contient souvent des strings #}
+            {% if morpion[0]|string in submitted %}{% set checked = True %}{% endif %}
+          {% endif %}
+          <label class="morpion-card {% if checked %}selected{% endif %}">
+            <input type="checkbox" name="morpions[]" value="{{ morpion[0] }}"
+                   {% if checked %}checked{% endif %}>
+            <img src="{{ img_url }}" alt="{{ morpion[1] }}">
+            <div class="morpion-name">{{ morpion[1] }}</div>
+          </label>
+        {% endfor %}
+      </div>
+
+      <div class="help-text">Cliquez sur les cases pour sélectionner. Sélection requise : 6 à 8.</div>
+      <div id="client-error" class="client-error" style="display:none;"></div>
+    </fieldset>
+
+    <button type="submit">🚀 Créer l'équipe</button>
+  </form>
+</div>
 </body>
+{% endblock %}
