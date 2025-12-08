@@ -38,7 +38,7 @@ def verification_victoire_normale(grille, taille, equipe_joueuse):
     cases_libres = sum(1 for i in range(taille) for j in range(taille) if grille[i][j] == None)
     if cases_libres == 0:
         return 'egalite'
-    retur None
+    return None
 
 # Note: L'appel à select_querverifier_gagne_par_placement_equipey nécessite l'objet connexion
 
