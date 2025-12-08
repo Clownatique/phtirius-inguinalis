@@ -90,3 +90,108 @@
     flex: 1;
     max-width: 250px;
 }
+
+.podium-place.first {
+    padding-top: 28px;
+    background: #ffd700; 
+    color: #333;
+}
+
+.podium-place.second {
+    background: #c0c0c0; 
+    color: #333;
+}
+
+.podium-place.third {
+    background: #cd7f32;
+    color: #fff;
+}
+
+.podium-medal {
+    font-size: 36px;
+    margin-bottom: 8px;
+}
+
+.podium-equipe {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 8px 0;
+    padding: 6px;
+    border-radius: 6px;
+    display: inline-block;
+    color: white;
+    background: #8566a3;
+}
+
+.podium-score {
+    font-size: 18px;
+    color: #333;
+    font-weight: 700;
+}
+
+.extremes-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.extreme-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    flex: 1 1 320px;
+    box-sizing: border-box;
+}
+
+.extreme-icon {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.extreme-info {
+    margin: 10px 0;
+    padding: 8px;
+    background: #f7f7f7;
+    border-radius: 6px;
+}
+
+.extreme-duree {
+    font-size: 22px;
+    color: #9b7ab8;
+    font-weight: 700;
+    text-align: center;
+    margin: 12px 0;
+}
+
+.journal-table {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    border: 1px solid #eee;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th {
+    background: #8e73a8;
+    color: white;
+    padding: 10px;
+    text-align: left;
+    font-weight: 600;
+}
+
+td {
+    padding: 10px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+tr:hover {
+    background: #fafafa;
+}

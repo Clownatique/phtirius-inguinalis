@@ -17,6 +17,5 @@ print(liste_equipe_morpion)
 REQUEST_VARS['liste_equipes'] = liste_equipe_morpion
 
 if POST != {}:
-    for nomequipe in POST.keys():
+    for nomequipe in POST.keys(): #dans templates, seulement les attributs noms qui sont set
         supprimer_equipe(connexion, nom=nomequipe)
-# peut être faire une page de recherche ?

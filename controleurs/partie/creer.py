@@ -3,6 +3,7 @@ from model.equipe import liste_equipes
 from model.partie import creer_partie
 
 #pyright: reportUndefinedVariable=false
+#pour ne pas prendre les erreurs des variables non déclarées
 
 connexion = SESSION['CONNEXION']
 REQUEST_VARS["equipes"] = liste_equipes(connexion)

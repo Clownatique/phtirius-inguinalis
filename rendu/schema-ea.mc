@@ -1,13 +1,11 @@
-wl-paste
-
 INSCRITE, 1n PARTIE, _11 JOURNAL
-PARTIE : idP, date_debut, date_fin, id_equipe_gagnante, taille_grille, nb_max_tours, date_config
-:
+PARTIE : idP, nomE1, nomE2, nomE_gagnant, date_debut, date_fin, max_tours, taille_grille, est_speciale
 
-JOURNAL : num_action,_idP, date_action, texte_action
-JOUER, 0n EQUIPE, 22 PARTIE : nom1, couleur1, nom2, couleur2
-MORPION : idM, nomM, image, pv, attaque, mana, reussite
+JOURNAL : numA,_idP, type_action, texte_action, date_action
+JOUER, 0n EQUIPE, 22 PARTIE : nom1, nom2
+MORPION : idM, nomM, image, PV, ATK, MANA, REU
 
 :
-EQUIPE : nom, _couleur, date_creation
-POSSEDER, 0n MORPION, 68 EQUIPE : ATK, MANA, REU, PV
+EQUIPE : nom, couleur, date_creation
+POSSEDER, 0n MORPION, 68 EQUIPE : idM, nomE
+

@@ -85,7 +85,7 @@ if POST != {}:
     else:
         champ_existant = [champ for champ in champ_manquant if champ not in ['nom', 'couleur', 'morpions']]
         for champ in champ_existant:
-            # pour quand même traiter les erreurs d'un utilisateur qui a oublié un champ
+            # pour quand même traiter l'équipe de l'utilisateur qui à oublié des champs
             if champ == 'couleur':
                 couleur = POST['couleur'][0]
                 verif_couleur_format(couleur)
@@ -101,3 +101,4 @@ if POST != {}:
 
 REQUEST_VARS["liste_morpion"] = liste_morpion(connexion)
 print(liste_morpion(connexion))
+

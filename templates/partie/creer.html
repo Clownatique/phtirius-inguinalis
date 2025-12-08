@@ -1,74 +1,101 @@
+{% extends "base.html" %}
+{% block title %}Créer une partie{% endblock %}
+
+{% block main %}
+<link rel="stylesheet" type="text/css" href="/templates/styles/partie_creer.css" />
+<div class="nav-buttons">
+    <a href="/" class="btn-nav">🏠 Accueil</a>
+    <a href="/parties/" class="btn-nav">📋 Mes parties</a>
+</div>
+<div class="page-header">
+    <h1>🎮 Créer une nouvelle partie</h1>
+    <p>Choisissez vos équipes et configurez votre partie</p>
+</div>
 
 {% if REQUEST_VARS['partie_soumise'] == True%}
-  <p>Nous traitons votre demande</p>
+<div class="messages">
+  {% if REQUEST_VARS.get('err_nb_equipes') %}
+  <div class="alert alert-error">
+    ❌ {{ REQUEST_VARS['err_nb_equipes'] }}
+  </div>
+  {% endif %}
 
+  {% if REQUEST_VARS.get('err_meme_equipe') %}
+  <div class="alert alert-error">
+    ❌ {{ REQUEST_VARS['err_meme_equipe'] }}
+  </div>
+  {% endif %}
 
-  {% if REQUEST_VARS['err_nb_equipes']  %}
-    <p>
-    {{REQUEST_VARS['err_nb_equipes']}}
-    </p>
+  {% if REQUEST_VARS.get('att_nb_tour_absurde') %}
+  <div class="alert alert-warning">
+    ⚠️ {{ REQUEST_VARS['att_nb_tour_absurde'] }}
+  </div>
   {% endif %}
-  {% if REQUEST_VARS['err_meme_equipe']  %}
-    <p>
-    {{REQUEST_VARS['err_meme_equipe']}}
-    </p>
-  {% endif %}
-  {% if REQUEST_VARS['err_max_tours'] == True %}
-    <p>
-    </p>
-  {% endif %}
-  {% if REQUEST_VARS['err_taille_grille'] == True %}
-    <p>
-    </p>
-  {% endif %}
-  {% if REQUEST_VARS['err_nb_tour'] == True %}
-    <p>
-    </p>
-  {% endif %}
-  {% if REQUEST_VARS['att_nb_tour_absurde'] %}
-    <p>
-    {{REQUEST_VARS['att_nb_tour_absurde']}}
-    </p>
-  {% endif %}
+
+</div>
 {% endif %}
 
+<div class="form-container">
+  <form method="post" action="">
+    {% set equipes = REQUEST_VARS.get('equipes', []) %}
+    <!-- Équipe 1 -->
+    <fieldset>
+      <legend>👥 Première équipe</legend>
+      {% if equipes %}
+        {% for equipe in equipes %}
+          <label class="equipe-option">
+            <input type="radio" name="nome1" value="{{ equipe[0] }}" required>
+            <span class="equipe-label" style="background-color:#{{ equipe[1] }}">{{ equipe[0] }}</span>
+          </label>
+        {% endfor %}
+      {% else %}
+        <p class="help-text">
+          Aucune équipe disponible. <a href="/equipe/creer/">Créez-en une !</a>
+        </p>
+      {% endif %}
+    </fieldset>
 
-<form method="post" action="">
-  <fieldset max=1 min=1>
-    <legend>Choix de la première équipe</legend>
-      {% for equipe in REQUEST_VARS['equipes'] %}
-        <label>
-          {{equipe[0]}}
-        </label>
-        <input type="radio" name="nome1" value="{{equipe[0]}}" >
-        <br>
-      {% endfor %}
-  </fieldset>
+    <!-- Équipe 2 -->
+    <fieldset>
+      <legend>👥 Deuxième équipe</legend>
+      {% if equipes %}
+        {% for equipe in equipes %}
+          <label class="equipe-option">
+            <input type="radio" name="nome2" value="{{ equipe[0] }}" required>
+            <span class="equipe-label" style="background-color:#{{ equipe[1] }}">{{ equipe[0] }}</span>
+          </label>
+        {% endfor %}
+      {% endif %}
+    </fieldset>
 
-  <fieldset max=1 min=1>
-    <legend>Choix de la deuxième équipe</legend>
-      {% for equipe in REQUEST_VARS['equipes'] %}
-        <label>
-          {{equipe[0]}}
-        </label>
-        <input type="radio" name="nome2" value="{{equipe[0]}}" >
-        <br>
-       {% endfor %}
-  </fieldset>
+    <!-- Configuration -->
+    <fieldset>
+      <legend>⚙️ Configuration de la partie</legend>
 
-  <fieldset>
-    <legend> Configuration de la partie</legend>
+      <div class="config-field">
+        <label for="taille_grille">Taille de la grille <span class="help-text">(3 ou 4)</span></label>
+        <input id="taille_grille" name="taille_grille" type="number"
+               value="{{ REQUEST_VARS.get('taille_grille_soumise', '') }}"
+               placeholder="3" min="3" max="4" required>
+      </div>
 
-      <label for="taille_grille" name="taille_grille">Taille de la
-        grille:</label>
-      <input id="taille_grille" name="taille_grille" type="number" value="{{REQUEST_VARS['taille_grille_soumise']}}" placeholder="3" min="0" max="9" required>
-      <br>
-      <label for="nb_tour_max" name="nb_tour_max">Nombre de tour maximum</label>
-      <input id="nb_tour_max" name="nb_tour_max" type="number" value="{{REQUEST_VARS["max_tour_soumis"]}}" text placeholder="32" max="64">
-      <br>
-      <label for="est_special" name="est_speciale">Partie Spéciale ?</label>
-      <input type="radio" id="est_special" name="est_speciale"  value="{{REQUEST_VARS["est_special_soumis"]}}">
+      <div class="config-field">
+        <label for="nb_tour_max">Nombre de tours maximum <span class="help-text">(50-100 recommandé)</span></label>
+        <input id="nb_tour_max" name="nb_tour_max" type="number"
+               value="{{ REQUEST_VARS.get('max_tour_soumis', '') }}"
+               placeholder="50" min="10" max="200" required>
+      </div>
 
-  </fieldset>
-  <input value="créer la partie" type="submit">
-</form>
+      <div class="checkbox-field">
+        <input type="checkbox" id="est_special" name="est_speciale" value="true"
+               {% if REQUEST_VARS.get('est_special_soumis') %}checked{% endif %}>
+        <label for="est_special">🔥 Partie avancée (avec attaques et sorts)</label>
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn-submit">🚀 Créer la partie</button>
+  </form>
+</div>
+{% endblock %}
+
+  
