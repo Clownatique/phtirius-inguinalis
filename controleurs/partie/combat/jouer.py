@@ -29,24 +29,32 @@ def jouer_coup(partie, action):
         acteur = grille[int(coup[3])][int(coup[5])]
         cible = grille[int(coup[7])][int(coup[9])]
         sort = coup[:2]
+        # reussite
+        #
 
         if sort == 'at' and acteur and cible:
-            # Attaque
-            cible['PV'] -= 1
-            acteur['MANA'] -= 1
-            cible['MANA'] += 1
+            cible['PV'] -= acteur['ATK']
+
+        elif sort == 'bf':
+            cible['PV'] =- 3
+            acteur['MANA'] =- 2
+
         elif sort == 'ag' and acteur:
-            # Agression
             cible = "détruit"
             acteur['MANA'] -= 5
 
-        # Suppression de la cible si plus de PV
-        if type(cible) == dict and cible['PV'] < 0:
-            cx, cy = int(coup[7]), int(coup[9])
-            grille[cx][cy] = None
+        elif sort == 'sn' and acteur and cible:
+            cible['PV'] =+1
+            acteur['MANA'] =-1
+        else:
+            pass
 
-        grille[int(coup[3])][int(coup[5])] = acteur
-        grille[int(coup[7])][int(coup[9])] = cible
+        # Suppression de la cible si plus de PV
+            if type(cible) == dict and cible['PV'] < 0:
+                cible = None
+
+            grille[int(coup[3])][int(coup[5])] = acteur
+            grille[int(coup[7])][int(coup[9])] = cible
 
     else:
         # Placement classique
@@ -67,6 +75,25 @@ def jouer_coup(partie, action):
     partie['morpions'] = partie[f"E{num_adversaire}"]['morpions']
     return partie
 
+def verifier_action(action:str, grille:list) -> bool|str:
+    """
+        renvoie True quand c bon
+    """
+    regexp_sort = r'(sn|bf|ag|at):([0-9],[0-9])>([0-9],[0-9])'
+    regexp_pos = r'[0-9],[0-9]<[0-9]+'
+    sort_ok = re.match(regexp_sort,action)
+    pos_ok  = re.match(regexp_pos,action)
+
+    if pos_ok:
+        case = grille[int(action[0])][int(action[0])]
+        return (case == None or case != "détruit","vous devez mettre le morpion sur une case qui vide!")
+    if sort_ok:
+        morpion = grille[int(action[3])][int(action[5])]
+        morpion_acteur = grille[int(action[7])][int(action[9])]
+        if action[-2:] == 'ag':
+            return (action[3] != action[7] and action[5] != action[9],"pas de kamikaze dans ce jeu ! cf sujet")
+        return (not(morpion == None or morpion == "détruit" or morpion_acteur == None or morpion['nomE'] == morpion_acteur['nomE']), "vous devez viser un morpion, et un morpion de l'équipe adverse !")
+    return (True,"")
 
 erreur_bool = not REQUEST_VARS.get('url_components')
 erreur_bool = erreur_bool or(REQUEST_VARS['url_components'][0] == '')
@@ -81,64 +108,53 @@ else:
     if idp in SESSION:
         partie = SESSION[idp]
     else:
-        # SESSION[idp]= recompiler_partie_avancee(connexion,idp)
-        # partie=SESSION[idp]
-        SESSION['partie'] = recuperer_partie_complexe(connexion,idp)
+        partie = recuperer_partie_complexe(connexion,idp)
+        SESSION[idp] = partie
     # + recompilation si nécessaire
-    REQUEST_VARS['partie'] = SESSION['partie']
-    partie = REQUEST_VARS['partie']
-    print(partie)
+    REQUEST_VARS['partie'] = partie
 
+    #
     # REQUEST_VARS['partie'] = partie
     # REQUEST_VARS['nomEJ'] = partie[f"nomE{partie['joueur']}"]
     # nom de l'équipe qui joue nécessaire
 
     if POST != {}:
-        if 'case' in POST:
-            #d'abord on vérifie si l'action c un placement
-            if 'action' in POST:
-                case = POST['case'][0]
-                action = POST['action'][0]
-                if not(action[0].isalpha()):
-                    # donc c un placement dans partie avancé
-                    action = f"{case}<{action}"
-                else:
-                    action = f"{action}>{case}"
 
+        partie = REQUEST_VARS['partie']
+        if 'case' in POST and 'action' in POST:
+            case = POST['case'][0]
+            action = POST['action'][0]
+            if not(action[0].isalpha()):
+                # donc c un placement dans partie avancé
+                action = f"{case}<{action}"
+            else:
+                action = f"{action}>{case}"
 
-                regexp_sort = r'(sn|bf|ag|at):([0-9],[0-9])(<|>)([0-9],[0-9])'
-                regexp_pos = r'[0-9],[0-9]<[0-9]+'
+            grille = SESSION[idp]
 
-                sort_ok = re.match(regexp_sort,action)
-                pos_ok  = re.match(regexp_pos,action)
-                if  pos_ok != None or sort_ok != None:
-                    SESSION[idp] = jouer_coup(partie, action)
-                    REQUEST_VARS['partie'] = SESSION[idp]
-                    adverse = 1 if SESSION[idp]['numjoueur'] == 2 else 2
-                    pour_verif = init_grille(connexion,idp)
+            verif= verifier_action(action, SESSION[idp]['grille'])
 
+            if verif[0] == True:
+                SESSION[idp] = jouer_coup(partie, action)
+                REQUEST_VARS['partie'] = SESSION[idp]
+                adverse = 1 if SESSION[idp]['numjoueur'] == 2 else 2
+                pour_verif = init_grille(connexion,idp)
 
-                    for ligne in SESSION[idp]['grille']:
-                        print(ligne)
+                grille_pour_verif = []
+                for ligne in SESSION[idp]['grille']:
+                    ligne_verif = []
+                    for morpion in ligne:
+                        if morpion is None or SESSION[idp][f"E{adverse}"]['nom'] is None:
+                            ligne_verif.append(False)
+                        else:
+                            ligne_verif.append(morpion['nomE'] == SESSION[idp][f"E{adverse}"]['nom'])
+                    grille_pour_verif.append(ligne_verif)
 
-                    grille_pour_verif = []
+                SESSION[idp]['gagne'] = verifier_gagne_pos(grille_pour_verif) or verifier_gagne_elimination(SESSION[idp]['morpions'])
 
-                    for ligne in SESSION[idp]['grille']:
-                        ligne_verif = []
-                        for morpion in ligne:
-                            if morpion is None or SESSION[idp][f"E{adverse}"]['nom'] is None:
-                                ligne_verif.append(False)
-                            else:
-                                ligne_verif.append(morpion['nomE'] == SESSION[idp][f"E{adverse}"]['nom'])
-                        grille_pour_verif.append(ligne_verif)
-                    print(grille_pour_verif)
-                    print(f"gagne:{verifier_gagne_pos(grille_pour_verif)}")
-                    SESSION[idp]['gagne'] = verifier_gagne_pos(grille_pour_verif) or verifier_gagne_elimination(SESSION[idp]['morpions'])
-                    inserer_action(connexion,idp, action)
+                inserer_action(connexion,idp, action)
 
-                else:
-                    print('que ça bidouille')
+            else:
+                REQUEST_VARS['erreur'] = verif[1]
         else:
             REQUEST_VARS['erreur_action']="❌ Aucune case sélectionnée"
-    else:
-        REQUEST_VARS['erreur_action'] = "aucune action"

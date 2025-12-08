@@ -129,7 +129,8 @@ button[type="submit"]{
     {% for i in range(partie['taille']) %}
     <tr>
       {% for j in range(partie['taille']) %}
-      {% set cell= partie['grille'][i][j] %}
+      {% set cell = partie['grille'][i][j] %}
+
         {% if cell == None %}
 
         <td>
@@ -142,7 +143,7 @@ button[type="submit"]{
             <input type="radio" name="case" value="{{i}},{{j}}">
             <img src="/static/img/img-morpions/{{cell['image']}}" width="15">
             {{ cell['PV'] }}
-            {% if cell['nomE']%}
+            {% if cell['nomE'] == partie['nomjoueur'] %}
               {% set actions = [{'value': 'at', 'emoji': '⚔️'},{'value': 'bf', 'emoji': '❤️‍🔥'},{'value': 'sn', 'emoji': '💚'},{'value': 'ag', 'emoji': '🤯'}] %}
               <ul>
               {% for action in actions %}
